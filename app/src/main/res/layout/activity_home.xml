@@ -1,53 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    >
+    tools:context=".activity.HomeActivity"
+    tools:openDrawer="start">
 
-    <!--  Content  -->
-    <LinearLayout
-        android:id="@+id/linear_layout_home"
+    <!-- Main Content -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/toolbar_user"
-            android:background="@color/material_dynamic_secondary60"
-            app:subtitle="@string/app_name"
-            />
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/frame_layout_home"
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_user"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:hapticFeedbackEnabled="true"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:title="@string/app_name"
+                app:titleTextColor="@color/white"
+                />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerViewHome"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerViewHome"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                >
-            </androidx.fragment.app.FragmentContainerView>
-        </FrameLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    </LinearLayout>
-    <!--  Content  -->
+        <!-- Bottom Navigation -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_view_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/user_bottom_nav_menu" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="112dp"
+            android:contentDescription="@string/app_name"
+            app:layout_anchor="@id/fragmentContainerViewHome"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view_user"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/user_navigation_menu"
-        />
-<!--        app:headerLayout="@layout/nav_header_main"-->
+        android:fitsSystemWindows="true"
+        app:menu="@menu/user_navigation_menu" />
+    <!--        app:headerLayout="@layout/nav_header_main"-->
 
 </androidx.drawerlayout.widget.DrawerLayout>
