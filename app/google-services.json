@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "278501316055",
+    "project_id": "mymeds-3bc37",
+    "storage_bucket": "mymeds-3bc37.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278501316055:android:39e022248e0be5ad252792",
+        "android_client_info": {
+          "package_name": "com.sahansachintha.meds"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3WNcbdT9bivzX23B57TCvednbOirWcnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
