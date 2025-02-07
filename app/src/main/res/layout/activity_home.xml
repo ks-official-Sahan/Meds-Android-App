@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
     android:fitsSystemWindows="true"
     tools:context=".activity.HomeActivity"
     tools:openDrawer="start">
@@ -18,17 +19,18 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="30dp"
+            android:background="@drawable/top_nav_background">
+
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar_user"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
                 android:hapticFeedbackEnabled="true"
+                android:paddingVertical="6dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:title="@string/app_name"
-                app:titleTextColor="@color/white"
-                />
+                app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
@@ -44,7 +46,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
+            android:background="@drawable/bottom_nav_background"
+            android:paddingTop="5dp"
+            android:paddingBottom="3dp"
+            app:labelVisibilityMode="auto"
+            android:foregroundTint="?attr/colorNeutral500"
+            app:itemIconTint="?attr/colorNeutral500"
+            app:itemActiveIndicatorStyle="@drawable/menu_item_background"
             app:menu="@menu/user_bottom_nav_menu" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,11 +60,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="112dp"
+            android:layout_marginBottom="128dp"
+            android:backgroundTint="@color/secondary_light"
             android:contentDescription="@string/app_name"
             app:layout_anchor="@id/fragmentContainerViewHome"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:srcCompat="@android:drawable/ic_input_add"
+            tools:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -66,8 +76,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="?attr/colorNeutral50"
         android:fitsSystemWindows="true"
-        app:menu="@menu/user_navigation_menu" />
+        app:menu="@menu/user_navigation_menu"
+        app:itemBackground="@drawable/menu_item_background"
+        tools:visibility="visible" />
     <!--        app:headerLayout="@layout/nav_header_main"-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -9,16 +9,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -32,12 +28,11 @@
         android:theme="@style/Theme.Meds"
         tools:targetApi="31">
         <activity
-            android:name=".activity.auth.LoginActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login" />
-        <activity
             android:name=".activity.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/Theme.Meds.Launcher"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,11 +40,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.HomeActivity"
+            android:name=".activity.auth.AuthActivity"
+            android:label="@string/title_activity_auth"
             android:exported="false" />
         <activity
+            android:name=".activity.HomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home" />
+        <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_main" />
 
         <service
             android:name=".service.MessagingService"

@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color> <!-- Pure White -->
+    <color name="black">#000000</color> <!-- Pure Black -->
+
+    <!-- Light Mode Colors -->
+    <!-- Primary Colors (Light) -->
+    <color name="primary_light">#1D3557</color> <!-- Deep Navy Blue -->
+    <color name="primary_variant_light">#457B9D</color> <!-- Lighter Navy Blue -->
+    <color name="primary_50">#F1FAFF</color>
+    <color name="primary_100">#D6E6FF</color>
+    <color name="primary_200">#AFCFFF</color>
+    <color name="primary_300">#7EB7FF</color>
+    <color name="primary_400">#4998FF</color>
+    <color name="primary_500">#1E7BFF</color> <!-- Base Primary -->
+    <color name="primary_600">#0065E0</color>
+    <color name="primary_700">#004AAD</color>
+    <color name="primary_800">#00327A</color>
+    <color name="primary_900">#001A4D</color>
+    <color name="primary_950">#000C26</color>
+
+    <!-- Secondary Colors (Light) -->
+    <color name="secondary_light">#2C7BE5</color> <!-- Medical Blue -->
+    <color name="secondary_50">#EBF5FF</color>
+    <color name="secondary_100">#CCE8FF</color>
+    <color name="secondary_200">#99D1FF</color>
+    <color name="secondary_300">#66BBFF</color>
+    <color name="secondary_400">#33A3FF</color>
+    <color name="secondary_500">#008CFF</color> <!-- Base Secondary -->
+    <color name="secondary_600">#0075E0</color>
+    <color name="secondary_700">#005BBB</color>
+    <color name="secondary_800">#004191</color>
+    <color name="secondary_900">#002966</color>
+    <color name="secondary_950">#001433</color>
+
+    <color name="accent_light">#FD5E26</color> <!-- Bright Orange for Accent -->
+
+    <!-- Neutral/Gray Colors (Light) -->
+    <color name="neutral_50">#F9FAFB</color>
+    <color name="neutral_100">#F3F4F6</color>
+    <color name="neutral_200">#E5E7EB</color>
+    <color name="neutral_300">#D1D5DB</color>
+    <color name="neutral_400">#9CA3AF</color>
+    <color name="neutral_500">#6B7280</color>
+    <color name="neutral_600">#4B5563</color>
+    <color name="neutral_700">#374151</color>
+    <color name="neutral_800">#1F2937</color>
+    <color name="neutral_900">#111827</color>
+
+    <!-- Background & Surface (Light) -->
+    <color name="background_light">#F8FAFC</color> <!-- Soft Cool White -->
+    <color name="surface_light">#E7F0FF</color> <!-- Light Blue Surface -->
+    <color name="card_light">#FFFFFF</color> <!-- Card Background -->
+
+    <!-- Text Colors (Light) -->
+    <color name="on_primary_light">#FFFFFF</color> <!-- Text on Primary -->
+    <color name="on_secondary_light">#F8FAFC</color> <!-- Text on Secondary -->
+    <color name="on_background_light">#1E293B</color> <!-- Text on Background -->
+    <color name="on_surface_light">#334155</color> <!-- Text on Surface -->
+
+    <!-- Feedback Colors (Light) -->
+    <color name="success_light">#22C55E</color> <!-- Healthy Green -->
+    <color name="warning_light">#F59E0B</color>
+    <color name="error_light">#E63946</color> <!-- Refined Red for Better Readability -->
+    <color name="info_light">#3B82F6</color>
+
+    <!-- Dark Mode Colors -->
+    <!-- Primary Colors (Dark) -->
+    <color name="primary_dark">#0B1120</color> <!-- Deep Navy Dark -->
+    <color name="primary_variant_dark">#1E293B</color> <!-- Darker Blue Shade -->
+    <color name="primary_50_dark">#172554</color>
+    <color name="primary_100_dark">#1E3A8A</color>
+    <color name="primary_200_dark">#1E40AF</color>
+    <color name="primary_300_dark">#1D4ED8</color>
+    <color name="primary_400_dark">#2563EB</color>
+    <color name="primary_500_dark">#3B82F6</color> <!-- Base Primary Dark -->
+    <color name="primary_600_dark">#60A5FA</color>
+    <color name="primary_700_dark">#93C5FD</color>
+    <color name="primary_800_dark">#BFDBFE</color>
+    <color name="primary_900_dark">#DBEAFE</color>
+    <color name="primary_950_dark">#EFF6FF</color>
+
+    <!-- Secondary Colors (Dark) -->
+    <color name="secondary_dark">#2563EB</color> <!-- Vibrant Blue -->
+    <color name="secondary_50_dark">#082F49</color>
+    <color name="secondary_100_dark">#0C4A6E</color>
+    <color name="secondary_200_dark">#075985</color>
+    <color name="secondary_300_dark">#0369A1</color>
+    <color name="secondary_400_dark">#0284C7</color>
+    <color name="secondary_500_dark">#0EA5E9</color> <!-- Base Secondary Dark -->
+    <color name="secondary_600_dark">#38BDF8</color>
+    <color name="secondary_700_dark">#7DD3FC</color>
+    <color name="secondary_800_dark">#BAE6FD</color>
+    <color name="secondary_900_dark">#E0F2FE</color>
+    <color name="secondary_950_dark">#F0F9FF</color>
+
+    <color name="accent_dark">#FD5E26</color> <!-- Bright Orange for Accent -->
+
+    <!-- Neutral/Gray Colors (Dark) -->
+    <color name="neutral_50_dark">#0F172A</color>
+    <color name="neutral_100_dark">#111827</color>
+    <color name="neutral_200_dark">#1F2937</color>
+    <color name="neutral_300_dark">#374151</color>
+    <color name="neutral_400_dark">#4B5563</color>
+    <color name="neutral_500_dark">#6B7280</color>
+    <color name="neutral_600_dark">#9CA3AF</color>
+    <color name="neutral_700_dark">#D1D5DB</color>
+    <color name="neutral_800_dark">#E5E7EB</color>
+    <color name="neutral_900_dark">#F3F4F6</color>
+
+    <!-- Background & Surface (Dark) -->
+    <color name="background_dark">#020617</color> <!-- Near Black Background -->
+    <color name="surface_dark">#1E293B</color> <!-- Dark Blue Surface -->
+    <color name="card_dark">#111827</color>
+
+    <!-- Text Colors (Dark) -->
+    <color name="on_primary_dark">#F8FAFC</color>
+    <color name="on_background_dark">#F8FAFC</color>
+    <color name="on_secondary_dark">#F8FAFC</color>
+    <color name="on_surface_dark">#F1F5F9</color>
+
+    <!-- Feedback Colors (Dark) -->
+    <color name="success_dark">#22C55E</color>
+    <color name="warning_dark">#FACC15</color>
+    <color name="error_dark">#DC2626</color>
+    <color name="info_dark">#2563EB</color>
+
+    <color name="bottom_nav_item_icon_tint">#A0A0A0</color> <!-- Unselected icon color -->
+    <color name="bottom_nav_item_icon_selected">#FF5733</color> <!-- Selected icon color -->
+
+    <color name="bottom_nav_item_text_color">#A0A0A0</color> <!-- Unselected text color -->
+    <color name="bottom_nav_item_text_selected">#FF5733</color> <!-- Selected text color -->
 </resources>
