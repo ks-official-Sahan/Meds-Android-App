@@ -1,7 +1,71 @@
+<!-- res/values-night/theme.xml -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Meds" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+    <style name="Base.Theme.Meds" parent="Base.Theme.Meds.Advanced">
+        <!-- Dark Theme Configurations -->
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryVariant">@color/primary_variant_dark</item>
+        <item name="colorSecondary">@color/secondary_dark</item>
+        <item name="colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorError">@color/error_dark</item>
+        <item name="colorOnPrimary">@color/on_primary_dark</item>
+        <item name="colorOnSecondary">@color/on_secondary_dark</item>
+        <item name="colorOnBackground">@color/on_background_dark</item>
+        <item name="colorOnSurface">@color/on_surface_dark</item>
+        <item name="colorSuccess">@color/success_dark</item>
+        <item name="colorAccent">@color/accent_dark</item>
+
+        <item name="backgroundImage">@drawable/launcher_background_dark</item>
+        <item name="backgroundShape">@drawable/background_dark</item>
+        <item name="logo">@drawable/logo_light</item>
+
+        <item name="android:windowBackground">@drawable/background_dark</item>
+    </style>
+
+    <!-- Dark Mode Theme -->
+    <style name="Theme.Meds.Dark" parent="Theme.Meds.Colors"></style>
+
+    <!-- Launcher -->
+    <style name="Theme.Meds.Launcher" parent="Theme.Meds.Dark">
+        <item name="android:windowBackground">@drawable/launcher_background_dark</item>
+    </style>
+
+    <style name="Theme.Meds.Colors" parent="Base.Theme.Meds">
+        <item name="colorPrimaryVariant">@color/primary_variant_dark</item>
+        <item name="colorPrimary50">@color/primary_50_dark</item>
+        <item name="colorPrimary100">@color/primary_100_dark</item>
+        <item name="colorPrimary200">@color/primary_200_dark</item>
+        <item name="colorPrimary300">@color/primary_300_dark</item>
+        <item name="colorPrimary400">@color/primary_400_dark</item>
+        <item name="colorPrimary500">@color/primary_500_dark</item>
+        <item name="colorPrimary600">@color/primary_600_dark</item>
+        <item name="colorPrimary700">@color/primary_700_dark</item>
+        <item name="colorPrimary800">@color/primary_800_dark</item>
+        <item name="colorPrimary900">@color/primary_900_dark</item>
+        <item name="colorPrimary950">@color/primary_950_dark</item>
+
+        <item name="colorSecondary50">@color/secondary_50_dark</item>
+        <item name="colorSecondary100">@color/secondary_100_dark</item>
+        <item name="colorSecondary200">@color/secondary_200_dark</item>
+        <item name="colorSecondary300">@color/secondary_300_dark</item>
+        <item name="colorSecondary400">@color/secondary_400_dark</item>
+        <item name="colorSecondary500">@color/secondary_500_dark</item>
+        <item name="colorSecondary600">@color/secondary_600_dark</item>
+        <item name="colorSecondary700">@color/secondary_700_dark</item>
+        <item name="colorSecondary800">@color/secondary_800_dark</item>
+        <item name="colorSecondary900">@color/secondary_900_dark</item>
+        <item name="colorSecondary950">@color/secondary_950_dark</item>
+
+        <item name="colorNeutral50">@color/neutral_50_dark</item>
+        <item name="colorNeutral100">@color/neutral_100_dark</item>
+        <item name="colorNeutral200">@color/neutral_200_dark</item>
+        <item name="colorNeutral300">@color/neutral_300_dark</item>
+        <item name="colorNeutral400">@color/neutral_400_dark</item>
+        <item name="colorNeutral500">@color/neutral_500_dark</item>
+        <item name="colorNeutral600">@color/neutral_600_dark</item>
+        <item name="colorNeutral700">@color/neutral_700_dark</item>
+        <item name="colorNeutral800">@color/neutral_800_dark</item>
+        <item name="colorNeutral900">@color/neutral_900_dark</item>
     </style>
 </resources>

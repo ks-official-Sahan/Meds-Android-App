@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Base.Theme.Meds">
+        <attr name="colorBackground" format="color" />
+        <attr name="colorSuccess" format="color" />
+<!--        <attr name="colorSurface" format="color" />-->
+<!--        <attr name="colorError" format="color" />-->
+<!--        <attr name="colorOnPrimary" format="color" />-->
+<!--        <attr name="colorOnSecondary" format="color" />-->
+<!--        <attr name="colorOnBackground" format="color" />-->
+<!--        <attr name="colorOnSurface" format="color" />-->
+<!--        <attr name="colorAccent" format="color" />-->
+
+        <!--  Images  -->
+        <attr name="backgroundImage" format="reference" />
+        <attr name="backgroundShape" format="reference" />
+        <attr name="logo" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="Theme.Meds.Colors">
+        <attr name="colorPrimary" format="color" />
+        <attr name="colorPrimaryVariant" format="color" />
+        <attr name="colorPrimary50" format="color" />
+        <attr name="colorPrimary100" format="color" />
+        <attr name="colorPrimary200" format="color" />
+        <attr name="colorPrimary300" format="color" />
+        <attr name="colorPrimary400" format="color" />
+        <attr name="colorPrimary500" format="color" />
+        <attr name="colorPrimary600" format="color" />
+        <attr name="colorPrimary700" format="color" />
+        <attr name="colorPrimary800" format="color" />
+        <attr name="colorPrimary900" format="color" />
+        <attr name="colorPrimary950" format="color" />
+
+        <attr name="colorSecondary" format="color" />
+        <attr name="colorSecondary50" format="color" />
+        <attr name="colorSecondary100" format="color" />
+        <attr name="colorSecondary200" format="color" />
+        <attr name="colorSecondary300" format="color" />
+        <attr name="colorSecondary400" format="color" />
+        <attr name="colorSecondary500" format="color" />
+        <attr name="colorSecondary600" format="color" />
+        <attr name="colorSecondary700" format="color" />
+        <attr name="colorSecondary800" format="color" />
+        <attr name="colorSecondary900" format="color" />
+        <attr name="colorSecondary950" format="color" />
+
+        <attr name="colorNeutral50" format="color" />
+        <attr name="colorNeutral100" format="color" />
+        <attr name="colorNeutral200" format="color" />
+        <attr name="colorNeutral300" format="color" />
+        <attr name="colorNeutral400" format="color" />
+        <attr name="colorNeutral500" format="color" />
+        <attr name="colorNeutral600" format="color" />
+        <attr name="colorNeutral700" format="color" />
+        <attr name="colorNeutral800" format="color" />
+        <attr name="colorNeutral900" format="color" />
+    </declare-styleable>
+
+</resources>

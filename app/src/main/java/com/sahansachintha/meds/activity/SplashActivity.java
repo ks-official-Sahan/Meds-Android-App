@@ -1,7 +1,6 @@
 package com.sahansachintha.meds.activity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,19 +13,17 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,14 +41,13 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
 
 import java.io.File;
@@ -68,6 +64,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
+        //setTheme(R.style.Theme_Meds);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -78,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     /* Activity Open */
-    private void openItent(Class<?> activity) {
+    private void openIntent(Class<?> activity) {
         Intent intent = new Intent(SplashActivity.this, activity);
         startActivity(intent);
     }
@@ -293,13 +290,14 @@ public class SplashActivity extends AppCompatActivity {
         //WebView webView1 = findViewById(R.id.webView);
         //webView1.getSettings().setJavaScriptEnabled(true);
         //webView1.loadUrl("https://www.thewitcher.com/us/en/");
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         new Handler().postDelayed(() -> {
-            //Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-            //startActivity(intent);
-            openItent(HomeActivity.class);
+            progressBar.setVisibility(View.GONE);
+            openIntent(AuthActivity.class);
             finish();
-        }, 3000);
+        }, 2000);
     }
 
     private void runFlingAnimation(View view) {

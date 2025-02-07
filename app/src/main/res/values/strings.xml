@@ -1,17 +1,40 @@
 <resources>
-    <string name="app_name">Meds</string>
+    <!--  App  -->
+    <string name="app_name">MyMeds</string>
+    <string name="logo">App Logo</string>
 
+    <!--  Menu  -->
     <string name="menu_home">Home</string>
+    <string name="menu_reminders">Reminders</string>
+    <string name="menu_profile">Profile</string>
 
+    <!--  Navigation Drawer  -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+
+    <!--  Major Activities  -->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_auth">AuthActivity</string>
+
+    <!--  Auth Activity  -->
+    <string name="title_login">Login</string>
+    <string name="title_signup">Sign Up</string>
+
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="prompt_forgot_password">Forgot Password?</string>
+
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!--  Splash Activity  -->
+    <string name="welcome">"Welcome !"</string>
+
 </resources>

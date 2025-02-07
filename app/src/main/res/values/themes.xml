@@ -1,9 +1,92 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Meds" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Base.Theme.Meds.Basic" parent="Theme.Material3.DayNight.NoActionBar"></style>
+
+    <style name="Base.Theme.Meds.Advanced" parent="Base.Theme.Meds.Basic">
+        <!-- Edge-to-Edge UI -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- UI Enhancements -->
+        <item name="android:windowBackground">?android:attr/colorBackgroundFloating</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- Fullscreen -->
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:fitsSystemWindows">false</item>
     </style>
 
-    <style name="Theme.Meds" parent="Base.Theme.Meds" />
+    <style name="Base.Theme.Meds" parent="Base.Theme.Meds.Advanced">
+        <!-- Light Theme Configurations -->
+        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorPrimaryVariant">@color/primary_variant_light</item>
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="colorBackground">@color/background_light</item>
+        <item name="colorSurface">@color/surface_light</item>
+        <item name="colorError">@color/error_light</item>
+        <item name="colorOnPrimary">@color/on_primary_light</item>
+        <item name="colorOnSecondary">@color/on_secondary_light</item>
+        <item name="colorOnBackground">@color/on_background_light</item>
+        <item name="colorOnSurface">@color/on_surface_light</item>
+        <item name="colorSuccess">@color/success_light</item>
+        <item name="colorAccent">@color/accent_light</item>
+
+        <item name="backgroundImage">@drawable/launcher_background_light</item>
+        <item name="backgroundShape">@drawable/background_light</item>
+        <item name="logo">@drawable/logo</item>
+
+        <item name="android:windowBackground">@drawable/background_light</item>
+    </style>
+
+    <!-- Light Mode Theme -->
+    <style name="Theme.Meds" parent="Theme.Meds.Colors"></style>
+
+    <style name="Theme.Meds.Form" parent="Theme.AppCompat.DayNight.NoActionBar"></style>
+
+    <!-- Laucher -->
+    <style name="Theme.Meds.Launcher" parent="Theme.Meds">
+        <item name="android:windowBackground">@drawable/launcher_background_light</item>
+    </style>
+
+    <!-- Light Mode Theme -->
+    <style name="Theme.Meds.Colors" parent="Base.Theme.Meds">
+        <item name="colorPrimaryVariant">@color/primary_variant_light</item>
+        <item name="colorPrimary50">@color/primary_50</item>
+        <item name="colorPrimary100">@color/primary_100</item>
+        <item name="colorPrimary200">@color/primary_200</item>
+        <item name="colorPrimary300">@color/primary_300</item>
+        <item name="colorPrimary400">@color/primary_400</item>
+        <item name="colorPrimary500">@color/primary_500</item>
+        <item name="colorPrimary600">@color/primary_600</item>
+        <item name="colorPrimary700">@color/primary_700</item>
+        <item name="colorPrimary800">@color/primary_800</item>
+        <item name="colorPrimary900">@color/primary_900</item>
+        <item name="colorPrimary950">@color/primary_950</item>
+
+        <item name="colorSecondary50">@color/secondary_50</item>
+        <item name="colorSecondary100">@color/secondary_100</item>
+        <item name="colorSecondary200">@color/secondary_200</item>
+        <item name="colorSecondary300">@color/secondary_300</item>
+        <item name="colorSecondary400">@color/secondary_400</item>
+        <item name="colorSecondary500">@color/secondary_500</item>
+        <item name="colorSecondary600">@color/secondary_600</item>
+        <item name="colorSecondary700">@color/secondary_700</item>
+        <item name="colorSecondary800">@color/secondary_800</item>
+        <item name="colorSecondary900">@color/secondary_900</item>
+        <item name="colorSecondary950">@color/secondary_950</item>
+
+        <item name="colorNeutral50">@color/neutral_50</item>
+        <item name="colorNeutral100">@color/neutral_100</item>
+        <item name="colorNeutral200">@color/neutral_200</item>
+        <item name="colorNeutral300">@color/neutral_300</item>
+        <item name="colorNeutral400">@color/neutral_400</item>
+        <item name="colorNeutral500">@color/neutral_500</item>
+        <item name="colorNeutral600">@color/neutral_600</item>
+        <item name="colorNeutral700">@color/neutral_700</item>
+        <item name="colorNeutral800">@color/neutral_800</item>
+        <item name="colorNeutral900">@color/neutral_900</item>
+    </style>
 </resources>
