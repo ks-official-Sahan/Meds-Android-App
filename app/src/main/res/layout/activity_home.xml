@@ -17,30 +17,86 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <!--    Default Toolbar    -->
+        <!--        <com.google.android.material.appbar.AppBarLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@drawable/background_nav_top"-->
+        <!--            android:clipToPadding="false">-->
+
+        <!--            <com.google.android.material.appbar.MaterialToolbar-->
+        <!--                android:id="@+id/toolbar_user"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="?attr/actionBarSize"-->
+        <!--                android:hapticFeedbackEnabled="true"-->
+        <!--                android:paddingVertical="6dp"-->
+        <!--                app:layout_scrollFlags="scroll|enterAlways|snap"-->
+        <!--                app:title="@string/app_name"-->
+        <!--                app:titleTextColor="@color/white" />-->
+        <!--        </com.google.android.material.appbar.AppBarLayout>-->
+        <!--    Default Toolbar    -->
+
+        <!--    Custom Toolbar    -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/top_nav_background"
+            android:layout_height="55dp"
+            android:layout_gravity="top|center_horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/background_nav_top"
+            android:paddingBottom="5dp"
+            android:elevation="5dp"
             android:clipToPadding="false">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar_user"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:hapticFeedbackEnabled="true"
-                android:paddingVertical="6dp"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:title="@string/app_name"
-                app:titleTextColor="@color/white" />
-        </com.google.android.material.appbar.AppBarLayout>
+            <ImageView
+                android:id="@+id/action_menu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|start"
+                android:contentDescription="@string/menu"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_menu"
+                app:tint="?attr/colorNeutral500" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="3dp"
+                android:contentDescription="@string/logo"
+                android:importantForAccessibility="no"
+                android:paddingTop="3dp"
+                android:src="?attr/logo" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center|end"
+                app:cardCornerRadius="35dp"
+                app:strokeColor="?attr/colorNeutral300"
+                app:strokeWidth="3dp">
+
+                <ImageView
+                    android:id="@+id/action_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:contentDescription="@string/menu_profile"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_profile" />
+
+            </com.google.android.material.card.MaterialCardView>
+        </FrameLayout>
+        <!--    Custom Toolbar    -->
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerViewHome"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="56dp"
+            android:paddingBottom="85dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -60,17 +116,15 @@
             android:id="@+id/bottom_navigation_view_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:layout_marginBottom="-20dp"
+            android:background="@drawable/background_nav_bottom"
             android:paddingBottom="0dp"
-            android:background="@drawable/bottom_nav_background"
-            android:foregroundTint="?attr/colorNeutral500"
-            app:itemActiveIndicatorStyle="@drawable/menu_item_background"
+            app:itemActiveIndicatorStyle="@drawable/background_menu_item"
             app:itemIconTint="?attr/colorNeutral500"
             app:labelVisibilityMode="auto"
-            app:menu="@menu/user_bottom_nav_menu"
-            android:layout_alignParentBottom="true"
-            />
+            app:menu="@menu/user_bottom_nav_menu" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -82,9 +136,9 @@
         android:layout_gravity="start"
         android:background="?attr/colorNeutral50"
         android:fitsSystemWindows="true"
-        app:itemBackground="@drawable/menu_item_background"
+        app:headerLayout="@layout/user_nav_header"
+        app:itemBackground="@drawable/background_menu_item"
         app:menu="@menu/user_navigation_menu"
-        tools:visibility="visible" />
-    <!--        app:headerLayout="@layout/nav_header_main"-->
+        tools:visibility="gone" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -2,11 +2,14 @@
     <!--  App  -->
     <string name="app_name">MyMeds</string>
     <string name="logo">App Logo</string>
+    <string name="menu">Menu</string>
 
     <!--  Menu  -->
     <string name="menu_home">Home</string>
     <string name="menu_reminders">Reminders</string>
     <string name="menu_profile">Profile</string>
+    <string name="menu_setting">Settings</string>
+    <string name="menu_logout">Logout</string>
 
     <!--  Navigation Drawer  -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -36,5 +39,6 @@
 
     <!--  Splash Activity  -->
     <string name="welcome">"Welcome !"</string>
+    <string name="welcome_to">"Welcome to"</string>
 
 </resources>

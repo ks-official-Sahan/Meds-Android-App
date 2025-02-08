@@ -15,6 +15,11 @@
         <attr name="backgroundImage" format="reference" />
         <attr name="backgroundShape" format="reference" />
         <attr name="logo" format="reference" />
+
+        <attr name="colorTint" format="color" />
+        <attr name="colorTintLow" format="color" />
+        <attr name="colorTintMid" format="color" />
+        <attr name="colorTintHigh" format="color" />
     </declare-styleable>
 
     <declare-styleable name="Theme.Meds.Colors">

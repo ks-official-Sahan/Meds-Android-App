@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -30,6 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
+import com.sahansachintha.meds.fragment.navigation.HomeFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -54,24 +56,39 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigation_view_user);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view_user);
 
-        MaterialToolbar toolbar = findViewById(R.id.toolbar_user);
-        //toolbar.setNavigationOnClickListener(v -> drawerLayout.open());
-        setSupportActionBar(toolbar);
-        drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        /* Default Toolbar Configuration */
+        //MaterialToolbar toolbar = findViewById(R.id.toolbar_user);
+        // //toolbar.setNavigationOnClickListener(v -> drawerLayout.open());
+        //setSupportActionBar(toolbar);
+        //drawerToggle = new ActionBarDrawerToggle(
+        //        this,
+        //        drawerLayout,
+        //        toolbar,
+        //        R.string.navigation_drawer_open,
+        //        R.string.navigation_drawer_close
+        //);
+        //drawerLayout.addDrawerListener(drawerToggle);
+        //drawerToggle.syncState();
+        /* Default Toolbar Configuration */
 
+        /* Custom Toolbar */
+        ImageView menuIcon = findViewById(R.id.action_menu);
+        ImageView profileIcon = findViewById(R.id.action_profile);
+
+        menuIcon.setOnClickListener(v -> drawerLayout.openDrawer(navigationView));
+
+        profileIcon.setOnClickListener(v -> openIntent(AuthActivity.class));
+        /* Custom Toolbar */
+
+        /* Floating Button */
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> drawerLayout.openDrawer(navigationView));
+        /* Floating Button */
 
+        /* Fragment Management */
         fragmentManager = getSupportFragmentManager();
-//        showFragment(ProductFragment.class);
+        showFragment(HomeFragment.class);
+        /* Fragment Management */
 
         /* Handle Drawer Navigation */
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -79,37 +96,44 @@ public class HomeActivity extends AppCompatActivity {
             drawerLayout.closeDrawers();
             return runNavigation(item.getItemId());
         });
+        /* Handle Drawer Navigation */
 
         /* Handle Bottom Navigation */
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Log.i("MyMedsLog", item.toString());
             return runNavigation(item.getItemId());
         });
+        /* Handle Bottom Navigation */
 
-        // Set item icon color (default and selected)
+        /* Navigation View Item Color (default and selected) */
         navigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.nav_item_icon_tint));
         bottomNavigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.nav_item_icon_tint));
-        // Set item text color (default and selected)
+
         navigationView.setItemTextColor(ContextCompat.getColorStateList(this, R.color.nav_item_text_color));
         bottomNavigationView.setItemTextColor(ContextCompat.getColorStateList(this, R.color.nav_item_text_color));
-        /* Navigations */
+        /* Navigation View Item Color */
 
-        getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
+        /* Default Toolbar Back-press Configuration */
+        // getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
+        /* Navigations */
     }
 
+    /* Manage Navigation Logic */
     private boolean runNavigation(int itemID) {
-        if (itemID == R.id.nav_home || itemID == R.id.menu_item_home) {
-            //showFragment(HomeFragment.class);
-        } else if (itemID == R.id.menu_item_product) {
+        if (itemID == R.id.nav_item_home || itemID == R.id.menu_item_home) {
+            showFragment(HomeFragment.class);
+        } else if (itemID == R.id.nav_item_profile || itemID == R.id.menu_item_profile) {
             //showFragment(ProductFragment.class);
-        } else if (itemID == R.id.menu_item_test) {
+        } else if (itemID == R.id.nav_item_setting || itemID == R.id.menu_item_setting) {
             //showFragment(TestFragment.class);
         } else {
             return false;
         }
         return true;
     }
+    /* Manage Navigation Logic */
 
+    /* Fragment Management */
     private void showFragment(Class<? extends Fragment> fragmentClass) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         try {
@@ -122,6 +146,7 @@ public class HomeActivity extends AppCompatActivity {
             Log.e("HomeActivity", "Error creating fragment", e);
         }
     }
+    /* Fragment Management */
 
     /* Activity Open */
     private void openIntent(Class<?> activity) {
@@ -131,41 +156,48 @@ public class HomeActivity extends AppCompatActivity {
     /* Activity Open */
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.user_toolbar_menu, menu);  // Inflate the menu
-        return true;
-    }
+    /* Default Toolbar additional Menu Inflation */
+    //@Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+    //    getMenuInflater().inflate(R.menu.user_toolbar_menu, menu);  // Inflate the menu
+    //    return true;
+    //}
+    /* Default Toolbar additional Menu Inflation */
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        } else {
-            if (item.getItemId() == R.id.action_home) {
-                // showFragment(HomeFragment.class);
-                openIntent(AuthActivity.class);
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
 
-    private class HomeOnBackPressedCallback extends OnBackPressedCallback {
-        public HomeOnBackPressedCallback() {
-            super(true);
-        }
+    /* Default Toolbar Drawer Toggle */
+    //@Override
+    //public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    //    if (drawerToggle.onOptionsItemSelected(item)) {
+    //        return true;
+    //    } else {
+            /* Default Toolbar additional Menu Logic */
+            //if (item.getItemId() == R.id.action_home) {
+            //    // showFragment(HomeFragment.class);
+            //    openIntent(AuthActivity.class);
+            //    return true;
+            //}
+            /* Default Toolbar additional Menu Logic */
+    //        return super.onOptionsItemSelected(item);
+    //    }
+    //}
+    /* Default Toolbar Drawer Toggle */
 
-        @Override
-        public void handleOnBackPressed() {
-            if (drawerLayout.isDrawerOpen(navigationView)) {
-                drawerLayout.closeDrawers();
-            } else if (fragmentManager.getBackStackEntryCount() > 1) {
-                fragmentManager.popBackStack();
-            } else {
-                finish(); // Default behavior to exit the activity
-            }
-        }
-    }
+    /* Default Toolbar Back-press Configuration */
+    //private class HomeOnBackPressedCallback extends OnBackPressedCallback {
+    //    public HomeOnBackPressedCallback() {
+    //        super(true);
+    //    }
+    //    @Override
+    //    public void handleOnBackPressed() {
+    //        if (drawerLayout.isDrawerOpen(navigationView)) {
+    //            drawerLayout.closeDrawers();
+    //        } else if (fragmentManager.getBackStackEntryCount() > 1) {
+    //            fragmentManager.popBackStack();
+    //        } else {
+    //            finish(); // Default behavior to exit the activity
+    //        }
+    //    }
+    //}
+    /* Default Toolbar Back-press Configuration */
 }
