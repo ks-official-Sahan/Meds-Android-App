@@ -2,20 +2,35 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--  Camera  -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
+    <!--  Phone  -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!--  Location  -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!--  Internet  -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--  Notification  -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--  Bluetooth  -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:allowBackup="true"
@@ -27,12 +42,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Meds"
         tools:targetApi="31">
+
+        <!--    Activities    -->
         <activity
             android:name=".activity.SplashActivity"
             android:exported="true"
             android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.Meds.Launcher"
-            >
+            android:theme="@style/Theme.Meds.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,8 +57,8 @@
         </activity>
         <activity
             android:name=".activity.auth.AuthActivity"
-            android:label="@string/title_activity_auth"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_auth" />
         <activity
             android:name=".activity.HomeActivity"
             android:exported="false"
@@ -51,7 +67,9 @@
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/title_activity_main" />
+        <!--    Activities    -->
 
+        <!--    Services    -->
         <service
             android:name=".service.MessagingService"
             android:exported="false">
@@ -59,6 +77,21 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <!--    Services    -->
+
+        <!--    Receivers    -->
+<!--        <receiver-->
+<!--            android:name=".receiver.BroadcastReceiverIMPL"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--&lt;!&ndash;                <action android:name="android.intent.action.AIRPLANE_MODE_CHANGED" />&ndash;&gt;-->
+<!--&lt;!&ndash;                <action android:name="android.intent.action.AIRPLANE_MODE" />&ndash;&gt;-->
+<!--&lt;!&ndash;                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />&ndash;&gt;-->
+<!--&lt;!&ndash;                <action android:name="android.intent.action.BOOT_COMPLETED" />&ndash;&gt;-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+        <!--    Receivers    -->
+
     </application>
 
 </manifest>

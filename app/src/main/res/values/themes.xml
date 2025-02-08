@@ -17,6 +17,7 @@
         <!-- Fullscreen -->
         <item name="android:windowFullscreen">false</item>
         <item name="android:fitsSystemWindows">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Base.Theme.Meds" parent="Base.Theme.Meds.Advanced">
@@ -34,8 +35,13 @@
         <item name="colorSuccess">@color/success_light</item>
         <item name="colorAccent">@color/accent_light</item>
 
-        <item name="backgroundImage">@drawable/launcher_background_light</item>
-        <item name="backgroundShape">@drawable/background_light</item>
+        <item name="colorTint">@color/neutral_200</item>
+        <item name="colorTintLow">@color/neutral_50</item>
+        <item name="colorTintMid">@color/neutral_300</item>
+        <item name="colorTintHigh">@color/neutral_500</item>
+
+        <item name="backgroundImage">@drawable/background_light</item>
+        <item name="backgroundShape">@drawable/background_launcher_light</item>
         <item name="logo">@drawable/logo</item>
 
         <item name="android:windowBackground">@drawable/background_light</item>
@@ -48,7 +54,8 @@
 
     <!-- Laucher -->
     <style name="Theme.Meds.Launcher" parent="Theme.Meds">
-        <item name="android:windowBackground">@drawable/launcher_background_light</item>
+        <item name="android:windowBackground">@drawable/background_launcher_light</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <!-- Light Mode Theme -->

@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -49,6 +50,7 @@ import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
+import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,6 +73,7 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
 
+        //registerReceiver();
         runSplash();
     }
 
@@ -413,6 +416,34 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     /* Shared Preferences */
+
+    /* Receivers */
+    private void registerReceiver() {
+        //registerReceiver(new BroadcastReceiverIMPL(), new IntentFilter("android.intent.action.AIRPLANE_MODE"));
+        // Manifest Declare Receiver -> Runs by the Android System even when the app is CLOSED
+        // check AndroidManifest.xml file
+        /*
+        <receiver android:name=".X" android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
+            </intent-filter>
+        </receiver>
+        */
+
+        // Context Declared Receiver -> Only runs on When the app is OPEN
+        // /*
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(new BroadcastReceiverIMPL(), intentFilter);
+        // */
+
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        unregisterReceiver(broadcastReceiverIMPL);
+//    }
+    /* Receivers */
 }
 
 class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
