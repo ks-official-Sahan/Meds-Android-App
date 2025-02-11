@@ -8,11 +8,13 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -48,7 +50,9 @@ import com.google.gson.reflect.TypeToken;
 import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
+import com.sahansachintha.meds.helper.PermissionHelper;
 import com.sahansachintha.meds.helper.SQLiteHelper;
+import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,7 +75,18 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
 
+        //PermissionHelper.getBatteryOptimizationRuntimePermission(this);
+        //PermissionHelper.checkBatteryOptimization(this);
+        PermissionHelper.getNotificationRuntimePermission(this);
+
+        //registerReceiver();
         runSplash();
+
+//        // Create an immutable PendingIntent
+//        PendingIntent immutablePendingIntent = createImmutablePendingIntent(this, 123, myIntent);
+//
+//        // Create a mutable PendingIntent (use with caution)
+//        PendingIntent mutablePendingIntent = createMutablePendingIntent(this, 456, myIntent);
     }
 
     /* Activity Open */
@@ -80,6 +95,27 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
     }
     /* Activity Open */
+
+    /* Pending Intent */
+    public PendingIntent createImmutablePendingIntent(Context context, int requestCode, Intent intent) {
+        int flags;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags = PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT;
+        } else {
+            flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        }
+        return PendingIntent.getActivity(context, requestCode, intent, flags);
+    }
+    public PendingIntent createMutablePendingIntent(Context context, int requestCode, Intent intent) {
+        int flags;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags = PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT;
+        } else {
+            flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        }
+        return PendingIntent.getActivity(context, requestCode, intent, flags);
+    }
+    /* Pending Intent */
 
     /* SQLite */
     private void sqliteInsert() {
@@ -413,6 +449,34 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     /* Shared Preferences */
+
+    /* Receivers */
+    private void registerReceiver() {
+        //registerReceiver(new BroadcastReceiverIMPL(), new IntentFilter("android.intent.action.AIRPLANE_MODE"));
+        // Manifest Declare Receiver -> Runs by the Android System even when the app is CLOSED
+        // check AndroidManifest.xml file
+        /*
+        <receiver android:name=".X" android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
+            </intent-filter>
+        </receiver>
+        */
+
+        // Context Declared Receiver -> Only runs on When the app is OPEN
+        // /*
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(new BroadcastReceiverIMPL(), intentFilter);
+        // */
+
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        unregisterReceiver(broadcastReceiverIMPL);
+//    }
+    /* Receivers */
 }
 
 class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
@@ -427,7 +491,7 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
     @Override
     public StringViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View contactView = layoutInflater.inflate(R.layout.reminder_item, parent, false);
+        View contactView = layoutInflater.inflate(R.layout.medication_view_holder, parent, false);
         return new StringViewHolder(contactView);
     }
 

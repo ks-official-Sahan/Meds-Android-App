@@ -52,11 +52,12 @@
 
     <!--  Logo  -->
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/logo"
         android:importantForAccessibility="no"
+        android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,8 +65,26 @@
         app:srcCompat="?attr/logo" />
     <!--  Logo  -->
 
+    <!--  Asset 2  -->
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="-43dp"
+        android:contentDescription="@string/logo"
+        android:elevation="20dp"
+        android:importantForAccessibility="no"
+        android:tintMode="multiply"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/med_asset_02"
+        app:tint="?attr/colorTint" />
+    <!--  Asset 2  -->
+
     <!--  Card  -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="300dp"
         android:layout_height="400dp"
         android:layout_marginStart="16dp"
@@ -83,7 +102,7 @@
         tools:visibility="visible">
 
 
-        <!-- Sign Up -->
+        <!-- Form Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,9 +118,9 @@
 
                 <TextView
                     android:id="@+id/auth_switch_login"
-                    android:layout_width="120dp"
+                    android:layout_width="125dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/unselected_background"
+                    android:background="@drawable/background_unselected"
                     android:elevation="3dp"
                     android:gravity="center"
                     android:paddingBottom="2dp"
@@ -113,9 +132,9 @@
 
                 <TextView
                     android:id="@+id/auth_switch_signup"
-                    android:layout_width="120dp"
+                    android:layout_width="125dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/selected_background"
+                    android:background="@drawable/background_selected"
                     android:elevation="4dp"
                     android:gravity="center"
                     android:paddingBottom="2dp"
@@ -131,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp" />
 
-            <!-- SignUp Form -->
+            <!-- Form -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -181,7 +200,6 @@
                     android:inputType="textPassword"
                     android:textColorHint="?attr/colorOnSecondary" />
             </com.google.android.material.textfield.TextInputLayout>
-            <!-- SignUp Form -->
 
             <TextView
                 android:id="@+id/auth_forgot_password"
@@ -191,6 +209,7 @@
                 android:text="@string/prompt_forgot_password"
                 android:textColor="?attr/colorNeutral600"
                 android:textSize="12sp" />
+            <!-- Form -->
 
             <Space
                 android:layout_width="match_parent"
@@ -202,25 +221,80 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
-                android:background="@drawable/selected_background"
+                android:background="@drawable/background_selected"
                 android:text="@string/title_signup"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="16sp" />
             <!-- Action Button -->
         </LinearLayout>
-        <!-- Sign Up -->
+        <!-- Form Container -->
     </androidx.cardview.widget.CardView>
     <!--  Card  -->
 
+    <!--  Asset 1  -->
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="180dp"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/med_asset_01"
+        android:contentDescription="@string/app_name"
+        android:elevation="3dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/med_asset_01"
+        android:rotation="120"
+        android:tintMode="multiply"
+        android:layout_marginTop="-20dp"
+        android:layout_marginStart="-80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorTintLow"
+        tools:visibility="visible" />
+    <!--  Asset 1  -->
+
+    <!--  Asset 3  -->
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="110dp"
+        android:contentDescription="@string/app_name"
+        android:elevation="3dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/med_asset_03"
+        android:tintMode="multiply"
+        android:layout_marginBottom="-120dp"
+        android:layout_marginEnd="-60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:tint="?attr/colorTintMid"
+        tools:visibility="visible" />
+    <!--  Asset 3  -->
+
+    <!--  Asset 4  -->
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="220dp"
+        android:layout_marginEnd="-50dp"
+        android:layout_marginBottom="-20dp"
         android:contentDescription="@string/app_name"
         android:importantForAccessibility="no"
+        android:src="@drawable/med_asset_04"
+        android:tintMode="multiply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:tint="?attr/colorTint" />
+    <!--  Asset 4  -->
+
+    <!--  Asset 1  -->
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="180dp"-->
+    <!--        android:layout_marginBottom="0dp"-->
+    <!--        android:background="@drawable/med_asset_01"-->
+    <!--        android:contentDescription="@string/app_name"-->
+    <!--        android:importantForAccessibility="no"-->
+    <!--        android:backgroundTint="?attr/colorTint"-->
+    <!--        android:backgroundTintMode="multiply"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+    <!--  Asset 1  -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

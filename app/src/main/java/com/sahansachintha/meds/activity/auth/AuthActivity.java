@@ -27,9 +27,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AuthActivity extends AppCompatActivity {
 
     private ConstraintLayout authSplashLayout;
-    private TextView textLogin, textSignup;
+    private TextView textLogin, textSignup, forgotPassword;
 
     private final AtomicBoolean isSignUp = new AtomicBoolean(true);
+    private Button authSubmitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,41 +48,12 @@ public class AuthActivity extends AppCompatActivity {
         textLogin = findViewById(R.id.auth_switch_login);
         textSignup = findViewById(R.id.auth_switch_signup);
 
-        Button authSubmitButton = findViewById(R.id.authSubmitButton);
-        TextView forgotPassword = findViewById(R.id.auth_forgot_password);
+        authSubmitButton = findViewById(R.id.authSubmitButton);
+        forgotPassword = findViewById(R.id.auth_forgot_password);
 
-        textLogin.setOnClickListener(v -> {
-            isSignUp.set(false);
+        textLogin.setOnClickListener((View v) -> manageAuthModeToggle());
 
-            textLogin.setBackgroundResource(R.drawable.selected_background);
-            textLogin.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnPrimary));
-            textLogin.setElevation(5f);
-
-            forgotPassword.setVisibility(View.VISIBLE);
-            findViewById(R.id.auth_cpassword_layout).setVisibility(View.GONE);
-
-            textSignup.setBackgroundResource(R.drawable.unselected_background);
-            textSignup.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnSurface));
-            textSignup.setElevation(3f);
-
-            authSubmitButton.setText(R.string.title_login);
-        });
-
-        textSignup.setOnClickListener(v -> {
-            isSignUp.set(true);
-            textSignup.setBackgroundResource(R.drawable.selected_background);
-            textSignup.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnPrimary));
-            textSignup.setElevation(5f);
-
-            forgotPassword.setVisibility(View.GONE);
-            findViewById(R.id.auth_cpassword_layout).setVisibility(View.VISIBLE);
-
-            textLogin.setBackgroundResource(R.drawable.unselected_background);
-            textLogin.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnSurface));
-            textLogin.setElevation(3f);
-
-            authSubmitButton.setText(R.string.title_signup);
-        });
+        textSignup.setOnClickListener(v -> manageAuthModeToggle());
 
         authSubmitButton.setOnClickListener(v -> {
             if (isSignUp.get()) {
@@ -89,7 +61,7 @@ public class AuthActivity extends AppCompatActivity {
                 openIntent(HomeActivity.class);
             } else {
                 /* Login */
-                openIntent(SplashActivity.class);
+                openIntent(HomeActivity.class);
             }
         });
 
@@ -97,6 +69,52 @@ public class AuthActivity extends AppCompatActivity {
             Toast.makeText(this, "Forgot Password", Toast.LENGTH_SHORT).show();
         });
     }
+
+    /* Switch Logic */
+    private void manageAuthModeToggle() {
+        if (isSignUp.get()) {
+            switchToLogin();
+        } else {
+            switchToSignUp();
+        }
+    }
+    /* Switch Logic */
+
+    /* Switch Auth Mode */
+    private void switchToLogin() {
+        isSignUp.set(false);
+
+        textLogin.setBackgroundResource(R.drawable.background_selected);
+        textLogin.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnPrimary));
+        textLogin.setElevation(5f);
+
+        textSignup.setBackgroundResource(R.drawable.background_unselected);
+        textSignup.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnSurface));
+        textSignup.setElevation(3f);
+
+        forgotPassword.setVisibility(View.VISIBLE);
+        findViewById(R.id.auth_cpassword_layout).setVisibility(View.GONE);
+
+        authSubmitButton.setText(R.string.title_login);
+    }
+
+    private void switchToSignUp() {
+        isSignUp.set(true);
+
+        textSignup.setBackgroundResource(R.drawable.background_selected);
+        textSignup.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnPrimary));
+        textSignup.setElevation(5f);
+
+        textLogin.setBackgroundResource(R.drawable.background_unselected);
+        textLogin.setTextColor(getThemeColor(this, com.google.android.material.R.attr.colorOnSurface));
+        textLogin.setElevation(3f);
+
+        forgotPassword.setVisibility(View.GONE);
+        findViewById(R.id.auth_cpassword_layout).setVisibility(View.VISIBLE);
+
+        authSubmitButton.setText(R.string.title_signup);
+    }
+    /* Switch Auth Mode */
 
     /* Activity Open */
     private void openIntent(Class<?> activity) {

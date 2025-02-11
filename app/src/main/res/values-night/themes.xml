@@ -16,8 +16,13 @@
         <item name="colorSuccess">@color/success_dark</item>
         <item name="colorAccent">@color/accent_dark</item>
 
-        <item name="backgroundImage">@drawable/launcher_background_dark</item>
-        <item name="backgroundShape">@drawable/background_dark</item>
+        <item name="colorTint">@color/neutral_700_dark</item>
+        <item name="colorTintLow">@color/neutral_900_dark</item>
+        <item name="colorTintMid">@color/neutral_600_dark</item>
+        <item name="colorTintHigh">@color/neutral_200_dark</item>
+
+        <item name="backgroundImage">@drawable/background_dark</item>
+        <item name="backgroundShape">@drawable/background_launcher_dark</item>
         <item name="logo">@drawable/logo_light</item>
 
         <item name="android:windowBackground">@drawable/background_dark</item>
@@ -28,7 +33,8 @@
 
     <!-- Launcher -->
     <style name="Theme.Meds.Launcher" parent="Theme.Meds.Dark">
-        <item name="android:windowBackground">@drawable/launcher_background_dark</item>
+        <item name="android:windowBackground">@drawable/background_launcher_dark</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="Theme.Meds.Colors" parent="Base.Theme.Meds">

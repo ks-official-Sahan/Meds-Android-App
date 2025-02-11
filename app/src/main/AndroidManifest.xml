@@ -2,37 +2,66 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Camera -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- Phone -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Alarm Permissions -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+
+    <!-- Notification -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Meds"
-        tools:targetApi="31">
+        tools:targetApi="33">
+        <!-- Activities -->
+        <activity
+            android:name=".activity.AlarmActivity"
+            android:theme="@style/Theme.Meds.Alarm"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:exported="true" />
         <activity
             android:name=".activity.SplashActivity"
             android:exported="true"
             android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.Meds.Launcher"
-            >
+            android:theme="@style/Theme.Meds.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,8 +70,8 @@
         </activity>
         <activity
             android:name=".activity.auth.AuthActivity"
-            android:label="@string/title_activity_auth"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_auth" />
         <activity
             android:name=".activity.HomeActivity"
             android:exported="false"
@@ -50,8 +79,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:label="@string/title_activity_main" />
-
+            android:label="@string/title_activity_main" /> <!-- Activities -->
+        <!-- Services -->
         <service
             android:name=".service.MessagingService"
             android:exported="false">
@@ -59,6 +88,23 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <!-- Services -->
+        <!-- Receivers -->
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.AlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.sahansachintha.meds.ALARM_TRIGGERED"/>
+            </intent-filter>
+        </receiver>
+        <!-- Receivers -->
     </application>
 
 </manifest>
