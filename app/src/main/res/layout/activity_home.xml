@@ -115,19 +115,30 @@
         <!-- Floating Button -->
 
         <!-- Bottom Navigation -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation_view_user"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="-20dp"
-            android:background="@drawable/background_nav_bottom"
-            android:padding="0dp"
-            app:itemActiveIndicatorStyle="@drawable/background_menu_item"
-            app:itemIconTint="?attr/colorNeutral500"
-            app:labelVisibilityMode="auto"
-            app:menu="@menu/user_bottom_nav_menu" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation_view_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_nav_bottom"
+                android:padding="0dp"
+                android:layout_marginBottom="-22dp"
+                app:itemActiveIndicatorStyle="@drawable/background_menu_item"
+                app:itemIconTint="?attr/colorNeutral500"
+                app:itemIconSize="24dp"
+                app:itemPaddingTop="8dp"
+                app:itemPaddingBottom="32dp"
+                app:itemIconPadding="0dp"
+                app:itemTextAppearanceActive="@style/BottomNavTextAppearanceActive"
+                app:itemTextAppearanceInactive="@style/BottomNavTextAppearanceInactive"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/user_bottom_nav_menu" />
+        </FrameLayout>
+        <!-- Bottom Navigation -->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

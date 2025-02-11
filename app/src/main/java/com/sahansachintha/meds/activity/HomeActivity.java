@@ -1,23 +1,16 @@
 package com.sahansachintha.meds.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,9 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -37,6 +28,7 @@ import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.fragment.navigation.HomeFragment;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
 import com.sahansachintha.meds.fragment.navigation.SettingFragment;
+import com.sahansachintha.meds.helper.PermissionHelper;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -139,6 +131,16 @@ public class HomeActivity extends AppCompatActivity {
         /* Default Toolbar Back-press Configuration */
         // getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
         /* Navigations */
+
+
+        /* Request Permissions */
+        PermissionHelper.getNotificationPermission(this);
+        PermissionHelper.getLocationPermission(this);
+        PermissionHelper.getBluetoothPermission(this);
+
+        PermissionHelper.requestBatteryOptimizations(this);
+        PermissionHelper.requestOverlayPermission(this);
+        /* Request Permissions */
     }
 
     /* Manage Navigation Logic */

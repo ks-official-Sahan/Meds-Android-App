@@ -1,7 +1,6 @@
 package com.sahansachintha.meds.helper;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,8 +13,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -48,9 +45,12 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_reminder)
                 .setContentTitle("Medication Reminder \uD83D\uDC8A\uD83E\uDE7A")
                 .setContentText("\uD83D\uDD25 Wake up! It's time to take your medicine.")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)  // 🔥 High priority ensures immediate delivery
+                //.setPriority(NotificationCompat.PRIORITY_HIGH)  // 🔥 High priority ensures immediate delivery
+                .setPriority(NotificationCompat.PRIORITY_MAX)  // 🔥 Ensures top-priority notification
                 .setCategory(NotificationCompat.CATEGORY_ALARM) // 🔥 Mark this as an alarm 💊🩺
-                .setAutoCancel(true)
+                //.setAutoCancel(true)
+                .setAutoCancel(false)  // 🔥 Prevents dismissal by swipe
+                //.setOngoing(true) // 🔥 Keeps notification active
                 .setSound(alarmSound)
                 .setVibrate(new long[]{0, 1000, 500, 1000}) // Vibrate pattern
                 .setFullScreenIntent(fullScreenPendingIntent, true) // 🔥 Full-screen intent for alarms
@@ -80,7 +80,7 @@ public class NotificationHelper {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            PermissionHelper.getNotificationRuntimePermission(context);
+            PermissionHelper.getNotificationPermission(context);
         }
         notificationManager.notify(reminderId, builder.build());
     }

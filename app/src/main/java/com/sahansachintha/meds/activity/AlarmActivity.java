@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.helper.LocationHelper;
 import com.sahansachintha.meds.helper.NotificationHelper;
 import com.sahansachintha.meds.utils.AlarmScheduler;
 
@@ -74,6 +75,10 @@ public class AlarmActivity extends AppCompatActivity {
             ringtone.stop();
         }
         missedAlarmHandler.removeCallbacksAndMessages(null);
+
+        // 🔥 Get Location on Dismiss
+        LocationHelper.getCurrentLocation(this);
+
         finish();
     }
 

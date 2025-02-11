@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.sahansachintha.meds.activity.AlarmActivity;
+import com.sahansachintha.meds.helper.LocationHelper;
 import com.sahansachintha.meds.helper.NotificationHelper;
 import com.sahansachintha.meds.model.Reminder;
 import com.sahansachintha.meds.utils.AlarmScheduler;
@@ -44,7 +45,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent alarmIntent = new Intent(context, AlarmActivity.class);
         alarmIntent.putExtra("reminderId", reminderId);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(alarmIntent);
 
         PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(
                 context,
@@ -55,12 +55,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // 🔥 Show High-Priority Notification with Full-Screen Intent
         NotificationHelper.showFullScreenAlarmNotification(context, fullScreenPendingIntent);
+        context.startActivity(alarmIntent);
     }
 
     private void autoSnooze(Context context, int reminderId) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, 10); // Auto-snooze for 10 minutes
         AlarmScheduler.scheduleReminder(context, reminderId, calendar);
+
+        // 🔥 Get Location If Alarm is Missed
+        LocationHelper.getCurrentLocation(context);
     }
 
 }

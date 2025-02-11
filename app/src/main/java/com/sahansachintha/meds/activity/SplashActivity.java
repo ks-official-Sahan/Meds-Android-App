@@ -75,18 +75,15 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
 
-        //PermissionHelper.getBatteryOptimizationRuntimePermission(this);
-        //PermissionHelper.checkBatteryOptimization(this);
-        PermissionHelper.getNotificationRuntimePermission(this);
-
-        //registerReceiver();
         runSplash();
 
+        /* PendingIntent
 //        // Create an immutable PendingIntent
 //        PendingIntent immutablePendingIntent = createImmutablePendingIntent(this, 123, myIntent);
 //
 //        // Create a mutable PendingIntent (use with caution)
 //        PendingIntent mutablePendingIntent = createMutablePendingIntent(this, 456, myIntent);
+         */
     }
 
     /* Activity Open */
