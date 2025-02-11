@@ -50,24 +50,24 @@ public class PermissionHelper {
     }
 
     /* violates google play policy on ignore battery optimization */
-    @SuppressLint("QueryPermissionsNeeded")
-    public static void checkBatteryOptimization(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String packageName = context.getPackageName();
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                @SuppressLint("BatteryLife") Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + packageName));
-
-                // Check if there's an Activity to handle the Intent
-                PackageManager packageManager = context.getPackageManager();
-                if (intent.resolveActivity(packageManager) != null) {
-                    context.startActivity(intent);
-                }
-            }
-        }
-    }
+//    @SuppressLint("QueryPermissionsNeeded")
+//    public static void checkBatteryOptimization(Context context) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            String packageName = context.getPackageName();
+//            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+//
+//            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+//                @SuppressLint("BatteryLife") Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+//                intent.setData(Uri.parse("package:" + packageName));
+//
+//                // Check if there's an Activity to handle the Intent
+//                PackageManager packageManager = context.getPackageManager();
+//                if (intent.resolveActivity(packageManager) != null) {
+//                    context.startActivity(intent);
+//                }
+//            }
+//        }
+//    }
 
 
     public static void getAlarmRuntimePermission(@NonNull Context context) {

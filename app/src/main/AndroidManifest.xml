@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
     <!-- Notification -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -52,7 +53,10 @@
         <!-- Activities -->
         <activity
             android:name=".activity.AlarmActivity"
-            android:exported="false" />
+            android:theme="@style/Theme.Meds.Alarm"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:exported="true" />
         <activity
             android:name=".activity.SplashActivity"
             android:exported="true"

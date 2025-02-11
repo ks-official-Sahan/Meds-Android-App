@@ -75,8 +75,9 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
 
-        PermissionHelper.getBatteryOptimizationRuntimePermission(this);
-        PermissionHelper.checkBatteryOptimization(this);
+        //PermissionHelper.getBatteryOptimizationRuntimePermission(this);
+        //PermissionHelper.checkBatteryOptimization(this);
+        PermissionHelper.getNotificationRuntimePermission(this);
 
         //registerReceiver();
         runSplash();

@@ -38,7 +38,8 @@ public class ProfileFragment extends Fragment {
 
     public static void scheduleAlarm(Context context, int reminderId) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 1); // Schedule 1 minutes from now
+        //calendar.add(Calendar.MINUTE, 1); // Schedule 1 minutes from now
+        calendar.add(Calendar.SECOND, 15); // Schedule 15 seconds from now
 
         AlarmScheduler.scheduleReminder(context, reminderId, calendar);
     }

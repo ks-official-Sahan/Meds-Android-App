@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import com.sahansachintha.meds.helper.PermissionHelper;
 import com.sahansachintha.meds.receiver.AlarmReceiver;
 
 import java.util.Calendar;
@@ -24,24 +25,27 @@ public class AlarmScheduler {
     @SuppressLint("ScheduleExactAlarm")
     public static void scheduleReminder(Context context, int id, Calendar calendar) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(context.getPackageName() + ".ALARM_TRIGGERED");
-        intent.putExtra("reminderId", id);
-        intent.putExtra("scheduledTime", calendar.getTimeInMillis());
+
+        PermissionHelper.getNotificationRuntimePermission(context);
+        PermissionHelper.getAlarmRuntimePermission(context);
+
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        alarmIntent.setAction(context.getPackageName() + ".ALARM_TRIGGERED");
+        alarmIntent.putExtra("reminderId", id);
+        alarmIntent.putExtra("scheduledTime", calendar.getTimeInMillis());
+        alarmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         int flags = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
                 : PendingIntent.FLAG_UPDATE_CURRENT;
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, id, intent, flags
+                context, id, alarmIntent, flags
         );
 
         if (alarmManager != null) {
             try {
                 if (canScheduleExactAlarm(context)) {
-                    //checkBatteryOptimization(context);
-
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
                     Toast.makeText(context, "Alarm at " + calendar.getTime() + " scheduled successfully", Toast.LENGTH_SHORT).show();
@@ -64,38 +68,13 @@ public class AlarmScheduler {
                 boolean canSchedule = alarmManager.canScheduleExactAlarms();
                 Log.d("MyMedsAlarmUtils", "Can Schedule Exact Alarms: " + canSchedule);
                 if (!canSchedule) {
-                    requestExactAlarmPermission(context);
+                    PermissionHelper.requestExactAlarmPermission(context);
                 }
                 return canSchedule;
             }
         }
         return true; // Below API 31, exact alarms are allowed by default
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.S)
-    public static void requestExactAlarmPermission(Context context) {
-        Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:" + context.getPackageName()));
-        context.startActivity(intent);
-    }
-
-//    @SuppressLint("QueryPermissionsNeeded")
-//    public static void checkBatteryOptimization(Context context) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            String packageName = context.getPackageName();
-//            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-//
-//            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-//                @SuppressLint("BatteryLife") Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-//                intent.setData(Uri.parse("package:" + packageName));
-//
-//                // Check if there's an Activity to handle the Intent
-//                PackageManager packageManager = context.getPackageManager();
-//                if (intent.resolveActivity(packageManager) != null) {
-//                    context.startActivity(intent);
-//                }
-//            }
-//        }
-//    }
 
     public static void cancelReminder(Context context, int id) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

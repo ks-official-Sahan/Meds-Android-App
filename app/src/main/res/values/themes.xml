@@ -2,6 +2,12 @@
 
     <style name="Base.Theme.Meds.Basic" parent="Theme.Material3.DayNight.NoActionBar"></style>
 
+    <!--<style name="Theme.Meds.Alarm" parent="Base.Theme.Meds.Basic">-->
+    <style name="Theme.Meds.Alarm" parent="Theme.Meds">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <style name="Base.Theme.Meds.Advanced" parent="Base.Theme.Meds.Basic">
         <!-- Edge-to-Edge UI -->
         <item name="android:windowTranslucentStatus">true</item>
@@ -10,7 +16,7 @@
 
         <!-- UI Enhancements -->
         <item name="android:windowBackground">?android:attr/colorBackgroundFloating</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
 
