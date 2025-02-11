@@ -41,12 +41,12 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_gravity="top|center_horizontal"
+            android:background="@drawable/background_nav_top"
+            android:clipToPadding="false"
+            android:elevation="5dp"
             android:paddingHorizontal="16dp"
             android:paddingTop="5dp"
-            android:background="@drawable/background_nav_top"
-            android:paddingBottom="5dp"
-            android:elevation="5dp"
-            android:clipToPadding="false">
+            android:paddingBottom="5dp">
 
             <ImageView
                 android:id="@+id/action_menu"
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
-                    android:contentDescription="@string/menu_profile"
+                    android:contentDescription="@string/title_profile"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_profile" />
 
@@ -98,6 +98,7 @@
             android:paddingBottom="85dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <!-- Floating Button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -106,21 +107,23 @@
             android:layout_marginBottom="112dp"
             android:backgroundTint="@color/secondary_light"
             android:contentDescription="@string/app_name"
+            android:visibility="gone"
             app:layout_anchor="@id/fragmentContainerViewHome"
             app:layout_anchorGravity="bottom|end"
             app:srcCompat="@android:drawable/ic_input_add"
             tools:visibility="gone" />
+        <!-- Floating Button -->
 
         <!-- Bottom Navigation -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view_user"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:layout_marginBottom="-20dp"
             android:background="@drawable/background_nav_bottom"
-            android:paddingBottom="0dp"
+            android:padding="0dp"
             app:itemActiveIndicatorStyle="@drawable/background_menu_item"
             app:itemIconTint="?attr/colorNeutral500"
             app:labelVisibilityMode="auto"

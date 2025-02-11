@@ -5,11 +5,11 @@
     <string name="menu">Menu</string>
 
     <!--  Menu  -->
-    <string name="menu_home">Home</string>
-    <string name="menu_reminders">Reminders</string>
-    <string name="menu_profile">Profile</string>
-    <string name="menu_setting">Settings</string>
-    <string name="menu_logout">Logout</string>
+    <string name="title_home">Home</string>
+    <string name="title_reminders">Reminders</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_setting">Settings</string>
+    <string name="title_logout">Logout</string>
 
     <!--  Navigation Drawer  -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -44,4 +44,13 @@
     <!--  Fragments  -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--  Home  -->
+    <string name="search_home">Search for a item</string>
+
+    <string name="categories">Categories</string>
+    <string name="my_reminders">My Reminders</string>
+    <string name="my_medications">My Medications</string>
+
+    <!--  Alarm  -->
+    <string name="alarm_test">Alarm Test</string>
 </resources>

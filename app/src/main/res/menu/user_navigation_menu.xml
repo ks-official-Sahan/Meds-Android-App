@@ -7,18 +7,18 @@
         <item
             android:id="@+id/nav_item_home"
             android:icon="@drawable/ic_home"
-            android:title="@string/menu_home" />
+            android:title="@string/title_home" />
         <item
             android:id="@+id/nav_item_profile"
             android:icon="@drawable/ic_profile"
-            android:title="@string/menu_profile" />
+            android:title="@string/title_profile" />
         <item
             android:id="@+id/nav_item_setting"
             android:icon="@drawable/ic_setting"
-            android:title="@string/menu_setting" />
+            android:title="@string/title_setting" />
         <item
             android:id="@+id/nav_item_logout"
             android:icon="@drawable/ic_logout"
-            android:title="@string/menu_logout" />
+            android:title="@string/title_logout" />
     </group>
 </menu>
