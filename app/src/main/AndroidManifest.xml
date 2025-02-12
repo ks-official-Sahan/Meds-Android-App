@@ -54,13 +54,14 @@
         <activity
             android:name=".activity.AlarmActivity"
             android:theme="@style/Theme.Meds.Alarm"
+            android:launchMode="singleTop"
+            android:excludeFromRecents="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
             android:exported="true" />
         <activity
             android:name=".activity.SplashActivity"
             android:exported="true"
-            android:label="@string/title_activity_splash"
             android:theme="@style/Theme.Meds.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,6 +77,10 @@
             android:name=".activity.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home" />
+        <activity
+            android:name=".activity.StoreActivity"
+            android:exported="false"
+            android:label="@string/title_activity_store" />
         <activity
             android:name=".MainActivity"
             android:exported="false"

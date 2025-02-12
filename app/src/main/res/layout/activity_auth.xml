@@ -263,6 +263,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintEnd_toStartOf="@+id/cardView"
         app:tint="?attr/colorTintMid"
+        android:visibility="gone"
         tools:visibility="visible" />
     <!--  Asset 3  -->
 

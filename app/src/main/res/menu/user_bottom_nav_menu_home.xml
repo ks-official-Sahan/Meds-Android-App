@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item
+        android:id="@+id/menu_item_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home"
+        app:iconSize="24dp" />
+    <item
+        android:id="@+id/menu_item_reminders"
+        android:icon="@drawable/ic_reminder"
+        android:title="@string/title_reminders"
+        app:iconSize="24dp" />
+    <item
+        android:id="@+id/menu_item_medications"
+        android:icon="@drawable/ic_medicine"
+        android:title="@string/title_medications"
+        app:iconSize="24dp" />
+</menu>

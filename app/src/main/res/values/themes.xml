@@ -64,6 +64,16 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <!--  Bottom Navigation  -->
+    <style name="BottomNavTextAppearanceActive" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="BottomNavTextAppearanceInactive" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:padding">0dp</item>
+    </style>
+    <!--  Bottom Navigation  -->
+
     <!-- Light Mode Theme -->
     <style name="Theme.Meds.Colors" parent="Base.Theme.Meds">
         <item name="colorPrimaryVariant">@color/primary_variant_light</item>

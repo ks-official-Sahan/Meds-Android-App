@@ -16,83 +16,73 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.fragment.navigation.HomeFragment;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
+import com.sahansachintha.meds.fragment.navigation.StoreFragment;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
 
-public class HomeActivity extends AppCompatActivity {
+public class StoreActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigationView;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout_home), (v, insets) -> {
+        setContentView(R.layout.activity_store);
+        setupEdgeToEdgeInsets();
+
+        initViews();
+        setupToolbar();
+        setupFloatingButton();
+        setupFragmentManagement();
+        setupNavigationListeners();
+        setupNavigationViewColors();
+        requestPermissions();
+    }
+
+    private void setupEdgeToEdgeInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout_store), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        initViews();
-
-        setupToolbar();
-        setupFloatingButton();
-
-        /* Navigations */
-        setupFragmentManagement();
-        setupNavigationListeners();
-        setupNavigationViewColors();
-        /* Navigations */
-
-        requestPermissions();
     }
 
     private void initViews() {
-        drawerLayout = findViewById(R.id.drawer_layout_home);
-        navigationView = findViewById(R.id.navigation_view_user);
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view_user);
+        drawerLayout = findViewById(R.id.drawer_layout_store);
+        navigationView = findViewById(R.id.navigation_view_user_store);
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view_user_store);
     }
 
-    /* Fragment Management */
+    private void setupToolbar() {
+        findViewById(R.id.action_menu_store).setOnClickListener(v -> drawerLayout.openDrawer(navigationView));
+        findViewById(R.id.action_home_store).setOnClickListener(v -> openIntent(HomeActivity.class));
+        findViewById(R.id.action_profile_store).setOnClickListener(v -> showFragment(ProfileFragment.class));
+    }
+
+    private void setupFloatingButton() {
+        findViewById(R.id.fab_store).setOnClickListener(v -> NavigationHelper.getInstance().makeCall(this));
+    }
+
     private void setupFragmentManagement() {
         fragmentManager = getSupportFragmentManager();
 
-        showFragment(HomeFragment.class);
-        navigationView.setCheckedItem(R.id.nav_item_home);
-        bottomNavigationView.setSelectedItemId(R.id.menu_item_home);
+        showFragment(StoreFragment.class);
+        navigationView.setCheckedItem(R.id.nav_item_store);
+        bottomNavigationView.setSelectedItemId(R.id.menu_item_store);
     }
 
-    private void showFragment(Class<? extends Fragment> fragmentClass) {
-        NavigationHelper.getInstance().showFragment(fragmentManager, R.id.fragmentContainerViewHome, fragmentClass);
-    }
-    /* Fragment Management */
-
-    /* Custom Toolbar */
-    private void setupToolbar() {
-        findViewById(R.id.action_menu).setOnClickListener(v -> drawerLayout.openDrawer(navigationView));
-        findViewById(R.id.action_profile).setOnClickListener(v -> showFragment(ProfileFragment.class));
-    }
-    /* Custom Toolbar */
-
-    /* Floating Button */
-    private void setupFloatingButton() {
-        findViewById(R.id.fab).setOnClickListener(v -> NavigationHelper.getInstance().makeCall(this));
-    }
-    /* Floating Button */
-
-    /* Setup Navigation */
     private void setupNavigationListeners() {
         navigationView.setNavigationItemSelectedListener(item -> {
             logNavigation(item.getItemId());
             drawerLayout.closeDrawers();
             return runNavigation(item.getItemId());
         });
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             logNavigation(item.getItemId());
             return runNavigation(item.getItemId());
@@ -108,30 +98,7 @@ public class HomeActivity extends AppCompatActivity {
         navigationView.setItemTextColor(ContextCompat.getColorStateList(this, textColor));
         bottomNavigationView.setItemTextColor(ContextCompat.getColorStateList(this, textColor));
     }
-    /* Setup Navigation */
 
-    /* Manage Navigation Logic */
-    private boolean runNavigation(int itemID) {
-        return NavigationHelper.getInstance().runNavigation(itemID,
-                this::showFragment,
-                this::openIntent,
-                getSelectedMenuId());
-    }
-
-    private int getSelectedMenuId() {
-        return (navigationView.getCheckedItem() != null)
-                ? navigationView.getCheckedItem().getItemId()
-                : bottomNavigationView.getSelectedItemId();
-    }
-    /* Manage Navigation Logic */
-
-    /* Activity Open */
-    private void openIntent(Class<?> activity) {
-        NavigationHelper.getInstance().openIntent(HomeActivity.this, activity);
-    }
-    /* Activity Open */
-
-    /* Request Permissions */
     private void requestPermissions() {
         PermissionHelper.getNotificationPermission(this);
         PermissionHelper.getLocationPermission(this);
@@ -139,9 +106,31 @@ public class HomeActivity extends AppCompatActivity {
         PermissionHelper.requestBatteryOptimizations(this);
         PermissionHelper.requestOverlayPermission(this);
     }
-    /* Request Permissions */
 
     private void logNavigation(int itemID) {
         Log.i("MyMedsNavigation", String.valueOf(itemID));
+    }
+
+    private boolean runNavigation(int itemID) {
+        return NavigationHelper.getInstance().runNavigation(
+                itemID,
+                this::showFragment,
+                this::openIntent,
+                getSelectedMenuId()
+        );
+    }
+
+    private int getSelectedMenuId() {
+        return navigationView.getCheckedItem() != null
+                ? navigationView.getCheckedItem().getItemId()
+                : bottomNavigationView.getSelectedItemId();
+    }
+
+    private void showFragment(Class<? extends Fragment> fragmentClass) {
+        NavigationHelper.getInstance().showFragment(fragmentManager, R.id.fragmentContainerViewStore, fragmentClass);
+    }
+
+    private void openIntent(Class<?> activity) {
+        NavigationHelper.getInstance().openIntent(this, activity);
     }
 }

@@ -46,6 +46,21 @@ public class Reminder implements Serializable {
         this.timeInMillis = timeInMillis;
     }
 
+    public Reminder(int id, String title, long timeInMillis, String notes) {
+        this.id = id;
+        this.title = title;
+        this.timeInMillis = timeInMillis;
+        this.notes = notes;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     public int getId() {
         return id;
     }
@@ -54,16 +69,16 @@ public class Reminder implements Serializable {
         return title;
     }
 
-    public long getTimeInMillis() {
-        return timeInMillis;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public long getTimeInMillis() {
+        return timeInMillis;
     }
 
     public void setTimeInMillis(long timeInMillis) {
@@ -76,6 +91,9 @@ public class Reminder implements Serializable {
     }
 
     public Calendar getCalendar() {
+        if (this.calendar != null) {
+            return this.calendar;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timeInMillis);
         return calendar;

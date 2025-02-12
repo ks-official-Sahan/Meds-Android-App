@@ -5,15 +5,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 
 import com.sahansachintha.meds.helper.PermissionHelper;
 import com.sahansachintha.meds.receiver.AlarmReceiver;
@@ -26,8 +20,8 @@ public class AlarmScheduler {
     public static void scheduleReminder(Context context, int id, Calendar calendar) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        PermissionHelper.getNotificationRuntimePermission(context);
-        PermissionHelper.getAlarmRuntimePermission(context);
+        PermissionHelper.getNotificationPermission(context);
+        PermissionHelper.getLocationPermission(context);
 
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         alarmIntent.setAction(context.getPackageName() + ".ALARM_TRIGGERED");
