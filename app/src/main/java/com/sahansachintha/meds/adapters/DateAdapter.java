@@ -9,11 +9,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -24,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder> {
-    private List<LocalDate> dates;
+    private final List<LocalDate> dates;
     private LocalDate selectedDate;
 
     private OnDateClickListener listener;
@@ -52,7 +50,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
     @Override
     public DateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context != null ? context : parent.getContext());
-        View view = layoutInflater.inflate(R.layout.date_view_holder, parent, false);
+        View view = layoutInflater.inflate(R.layout.view_holder_date, parent, false);
 
         return new DateViewHolder(view);
     }

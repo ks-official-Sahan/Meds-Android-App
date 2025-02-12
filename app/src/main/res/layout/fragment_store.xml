@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="5dp"
-    tools:context=".fragment.navigation.SettingFragment">
+    tools:context=".fragment.navigation.StoreFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,11 +12,11 @@
         android:layout_gravity="center">
 
         <TextView
-            android:id="@+id/settings_title"
+            android:id="@+id/store_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/title_setting"
+            android:text="@string/title_store"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

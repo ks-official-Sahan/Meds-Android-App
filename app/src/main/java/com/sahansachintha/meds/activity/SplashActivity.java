@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -50,7 +48,6 @@ import com.google.gson.reflect.TypeToken;
 import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
-import com.sahansachintha.meds.helper.PermissionHelper;
 import com.sahansachintha.meds.helper.SQLiteHelper;
 import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
@@ -488,7 +485,7 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
     @Override
     public StringViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View contactView = layoutInflater.inflate(R.layout.medication_view_holder, parent, false);
+        View contactView = layoutInflater.inflate(R.layout.view_holder_medication, parent, false);
         return new StringViewHolder(contactView);
     }
 
@@ -498,11 +495,11 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
         //holder.textViewLetter.setText(String.valueOf(contact.getFirstName().charAt(0)));
         holder.textViewName.setText(contact);
 
-        holder.button.setOnClickListener(view -> {
-            Intent i = new Intent(Intent.ACTION_DIAL);
-            i.setData(Uri.parse("tel:" + contact));
-            view.getContext().startActivity(i);
-        });
+//        holder.button.setOnClickListener(view -> {
+//            Intent i = new Intent(Intent.ACTION_DIAL);
+//            i.setData(Uri.parse("tel:" + contact));
+//            view.getContext().startActivity(i);
+//        });
     }
 
     @Override
@@ -514,12 +511,12 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
 class StringViewHolder extends RecyclerView.ViewHolder {
 
     TextView textViewName;
-    Button button;
+    //Button button;
 
     public StringViewHolder(@NonNull View itemView) {
         super(itemView);
-        textViewName = itemView.findViewById(R.id.textView);
-        button = itemView.findViewById(R.id.button);
+        textViewName = itemView.findViewById(R.id.medication_name);
+        //button = itemView.findViewById(R.id.btn_today);
     }
 
 }

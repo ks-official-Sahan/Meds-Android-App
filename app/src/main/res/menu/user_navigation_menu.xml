@@ -9,6 +9,26 @@
             android:icon="@drawable/ic_home"
             android:title="@string/title_home" />
         <item
+            android:id="@+id/nav_item_reminders"
+            android:icon="@drawable/ic_reminder"
+            android:title="@string/title_reminders" />
+        <item
+            android:id="@+id/nav_item_medications"
+            android:icon="@drawable/ic_medicine"
+            android:title="@string/title_medications" />
+        <item
+            android:id="@+id/nav_item_store"
+            android:icon="@drawable/ic_shop"
+            android:title="@string/title_store" />
+        <item
+            android:id="@+id/nav_item_cart"
+            android:icon="@drawable/ic_cart"
+            android:title="@string/title_cart" />
+        <item
+            android:id="@+id/nav_item_orders"
+            android:icon="@drawable/ic_orders"
+            android:title="@string/title_orders" />
+        <item
             android:id="@+id/nav_item_profile"
             android:icon="@drawable/ic_profile"
             android:title="@string/title_profile" />

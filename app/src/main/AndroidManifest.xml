@@ -78,6 +78,10 @@
             android:exported="false"
             android:label="@string/title_activity_home" />
         <activity
+            android:name=".activity.StoreActivity"
+            android:exported="false"
+            android:label="@string/title_activity_store" />
+        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/title_activity_main" /> <!-- Activities -->

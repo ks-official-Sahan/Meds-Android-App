@@ -7,9 +7,14 @@
     <!--  Menu  -->
     <string name="title_home">Home</string>
     <string name="title_reminders">Reminders</string>
+    <string name="title_medications">Medications</string>
     <string name="title_profile">Profile</string>
     <string name="title_setting">Settings</string>
     <string name="title_logout">Logout</string>
+    <string name="title_store">Store</string>
+    <string name="title_shop">Shop</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_orders">Orders</string>
 
     <!--  Navigation Drawer  -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -20,6 +25,7 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_auth">AuthActivity</string>
+    <string name="title_activity_store">StoreActivity</string>
 
     <!--  Auth Activity  -->
     <string name="title_login">Login</string>
@@ -52,5 +58,16 @@
     <string name="my_medications">My Medications</string>
 
     <!--  Alarm  -->
-    <string name="alarm_test">Alarm Test</string>
+    <string name="reminder_15s">Reminder 15s</string>
+    <string name="reminder_30s">Reminder 30s</string>
+    <string name="reminder_1m">Reminder 1min</string>
+    <string name="reminder_2m">Reminder 2min</string>
+    <string name="reminder_5m">Reminder 5min</string>
+    <string name="reminder_10m">Reminder 10min</string>
+    <string name="medication_reminder">Medication Reminder!</string>
+    <string name="confirm">Confirm</string>
+    <string name="snooze">Snooze</string>
+    <string name="snooze_10_min">Snooze  (10 min)</string>
+    <string name="min_10">(10 min)</string>
+    <string name="owner">Sahan Sachintha</string>
 </resources>
