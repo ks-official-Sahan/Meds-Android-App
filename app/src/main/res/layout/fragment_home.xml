@@ -2,11 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:padding="2dp"
     android:paddingBottom="0dp"
-    android:clipChildren="false"
     tools:context=".fragment.navigation.HomeFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -18,8 +19,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:clipChildren="false">
+            android:clipChildren="false"
+            android:paddingBottom="4dp">
 
             <EditText
                 android:id="@+id/home_search"
@@ -30,9 +31,9 @@
                 android:autofillHints="Reminder name, time, date | Medication name"
                 android:background="@drawable/background_rounded"
                 android:hint="@string/search_home"
+                android:inputType="text"
                 android:paddingHorizontal="24dp"
                 android:paddingBottom="1dp"
-                android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,47 +97,84 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btn_today"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="66dp"
-                android:layout_gravity="bottom|end"
-                app:cardBackgroundColor="?attr/colorSecondary400"
-                app:cardCornerRadius="30dp"
-                app:strokeColor="?attr/colorNeutral300"
-                app:strokeWidth="2dp">
+    <!--  Today Btn  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="82dp"
+        android:backgroundTint="?attr/colorTint"
+        android:contentDescription="@string/app_name"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_today"
+        app:tint="?attr/colorTintHigh"
+        tools:visibility="visible" />
 
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_today"
-                    android:tintMode="src_in"
-                    app:tint="?attr/colorTint" />
-            </com.google.android.material.card.MaterialCardView>
+    <!--    <com.google.android.material.card.MaterialCardView-->
+    <!--        android:id="@+id/btn_today"-->
+    <!--        android:layout_width="60dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        android:layout_gravity="bottom|end"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:layout_marginBottom="78dp"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:cardBackgroundColor="?attr/colorTint"-->
+    <!--        app:cardCornerRadius="16dp"-->
+    <!--        app:strokeColor="?attr/colorNeutral300"-->
+    <!--        app:strokeWidth="2dp"-->
+    <!--        tools:visibility="visible">-->
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btn_shop"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                android:layout_gravity="bottom|end"
-                app:cardBackgroundColor="?attr/colorSecondary300"
-                app:cardCornerRadius="30dp"
-                app:strokeColor="?attr/colorNeutral300"
-                app:strokeWidth="2dp">
+    <!--        <ImageView-->
+    <!--            android:layout_width="32dp"-->
+    <!--            android:layout_height="32dp"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:importantForAccessibility="no"-->
+    <!--            android:src="@drawable/ic_today"-->
+    <!--            android:tintMode="src_in"-->
+    <!--            app:tint="?attr/colorTintHigh" />-->
+    <!--    </com.google.android.material.card.MaterialCardView>-->
+    <!--  Today Btn  -->
 
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_shop"
-                    android:tintMode="src_in"
-                    app:tint="?attr/colorTint" />
-            </com.google.android.material.card.MaterialCardView>
+
+    <!--  Shop Btn  -->
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fab_shop_home"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom|end"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:layout_marginBottom="12dp"-->
+    <!--        android:backgroundTint="?attr/colorTint"-->
+    <!--        android:contentDescription="@string/app_name"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:srcCompat="@drawable/ic_shop"-->
+    <!--        app:tint="?attr/colorTintHigh"-->
+    <!--        tools:visibility="visible" />-->
+
+    <!--        <com.google.android.material.card.MaterialCardView-->
+    <!--            android:id="@+id/btn_shop"-->
+    <!--            android:layout_width="60dp"-->
+    <!--            android:layout_height="60dp"-->
+    <!--            android:layout_gravity="bottom|end"-->
+    <!--            android:layout_marginEnd="8dp"-->
+    <!--            android:layout_marginBottom="12dp"-->
+    <!--            android:visibility="gone"-->
+    <!--            app:cardBackgroundColor="?attr/colorTint"-->
+    <!--            app:cardCornerRadius="16dp"-->
+    <!--            app:strokeColor="?attr/colorNeutral300"-->
+    <!--            tools:visibility="visible"-->
+    <!--            app:strokeWidth="2dp">-->
+
+    <!--            <ImageView-->
+    <!--                android:layout_width="32dp"-->
+    <!--                android:layout_height="32dp"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:importantForAccessibility="no"-->
+    <!--                android:src="@drawable/ic_shop"-->
+    <!--                android:tintMode="src_in"-->
+    <!--                app:tint="?attr/colorTint" />-->
+    <!--        </com.google.android.material.card.MaterialCardView>-->
+    <!--  Shop Btn  -->
 </FrameLayout>

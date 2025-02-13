@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,9 +27,21 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
     private final Context context;
 
+    private OnReminderClickListener listener;
+
+    public interface OnReminderClickListener {
+        void onReminderClick(Reminder reminder);
+    }
+
     public ReminderAdapter(List<Reminder> reminderList, Context context) {
         this.reminderList = reminderList;
         this.context = context;
+    }
+
+    public ReminderAdapter(List<Reminder> reminderList, Context context, OnReminderClickListener listener) {
+        this.reminderList = reminderList;
+        this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,6 +64,12 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             holder.reminderImg.setImageResource(R.drawable.ic_reminder);
             holder.reminderImg.setImageTintMode(PorterDuff.Mode.SRC_IN);
         //}
+        holder.reminderHolderCard.setOnClickListener(v -> {
+            Toast.makeText(context, reminder.getTitle(), Toast.LENGTH_SHORT).show();
+            if (listener != null) {
+                listener.onReminderClick(reminder);
+            }
+        });
     }
 
     @Override

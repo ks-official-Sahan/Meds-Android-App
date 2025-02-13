@@ -17,7 +17,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
-import com.sahansachintha.meds.fragment.navigation.StoreFragment;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
 
@@ -71,9 +70,8 @@ public class StoreActivity extends AppCompatActivity {
     private void setupFragmentManagement() {
         fragmentManager = getSupportFragmentManager();
 
-        showFragment(StoreFragment.class);
-        navigationView.setCheckedItem(R.id.nav_item_store);
-        bottomNavigationView.setSelectedItemId(R.id.menu_item_store);
+        //showFragment(StoreFragment.class);
+        showFragment(NavigationHelper.getInstance().getFragmentById(getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_store)));
     }
 
     private void setupNavigationListeners() {
@@ -132,5 +130,11 @@ public class StoreActivity extends AppCompatActivity {
 
     private void openIntent(Class<?> activity) {
         NavigationHelper.getInstance().openIntent(this, activity);
+        finish();
+    }
+
+    private void openIntent(Class<?> activity, int fragmentId) {
+        NavigationHelper.getInstance().openIntent(StoreActivity.this, activity, fragmentId);
+        finish();
     }
 }

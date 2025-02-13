@@ -11,13 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.StoreActivity;
 import com.sahansachintha.meds.adapters.DateAdapter;
 import com.sahansachintha.meds.adapters.MedicationAdapter;
 import com.sahansachintha.meds.adapters.ReminderAdapter;
-import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.model.Medication;
 import com.sahansachintha.meds.model.Reminder;
 
@@ -62,23 +60,25 @@ public class HomeFragment extends Fragment {
         medicationRecycler = view.findViewById(R.id.medication_recycler);
         initMedicationRecyler();
 
-        MaterialCardView btnToday = view.findViewById(R.id.btn_today);
+        //MaterialCardView btnToday = view.findViewById(R.id.btn_today);
+        FloatingActionButton btnToday = view.findViewById(R.id.fab_today);
         btnToday.setOnClickListener(v -> {
             selectedDate = LocalDate.now();
             dateAdapter.setSelectedDate(selectedDate);
             scrollToPositionSmooth(calendarData.indexOf(selectedDate));
         });
 
-        MaterialCardView btnShop = view.findViewById(R.id.btn_shop);
-        btnShop.setOnClickListener(v -> {
-            if (getContext() != null) {
-                try {
-                    NavigationHelper.getInstance().openIntent(this.requireContext(), StoreActivity.class);
-                } catch (IllegalStateException e) {
-                    Log.e("MyMedsHome", "Error opening StoreActivity: " + e.getMessage());
-                }
-            }
-        });
+        //MaterialCardView btnShop = view.findViewById(R.id.btn_shop);
+//        FloatingActionButton btnShop = view.findViewById(R.id.fab_shop_home);
+//        btnShop.setOnClickListener(v -> {
+//            if (getContext() != null) {
+//                try {
+//                    NavigationHelper.getInstance().openIntent(this.requireContext(), StoreActivity.class);
+//                } catch (IllegalStateException e) {
+//                    Log.e("MyMedsHome", "Error opening StoreActivity: " + e.getMessage());
+//                }
+//            }
+//        });
 
         return view;
     }

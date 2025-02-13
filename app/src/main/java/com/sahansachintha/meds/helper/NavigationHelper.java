@@ -64,6 +64,12 @@ public class NavigationHelper {
         context.startActivity(intent);
     }
 
+    public void openIntent(@NonNull Context context, @NonNull Class<?> activity, int fragmentId) {
+        Intent intent = new Intent(context, activity);
+        intent.putExtra("FRAGMENT_ID", fragmentId);
+        context.startActivity(intent);
+    }
+
     public void makeCall(Context context) {
         boolean granted = PermissionHelper.requestPermission(context, "android.permission.CALL_PHONE");
         if (granted) {
@@ -79,58 +85,72 @@ public class NavigationHelper {
     /* Activity Open */
 
     /* Manage Navigation Logic */
-    private final Map<Integer, Class<? extends Fragment>> fragmentMap = new HashMap<>() {{
+    /* Fragment Mapping */
+    private final Map<Integer, Class<? extends Fragment>> homeFragments = new HashMap<>() {{
         put(R.id.nav_item_home, HomeFragment.class);
         put(R.id.menu_item_home, HomeFragment.class);
-        put(R.id.nav_item_store, StoreFragment.class);
-        put(R.id.menu_item_store, StoreFragment.class);
         put(R.id.nav_item_reminders, RemindersFragment.class);
         put(R.id.menu_item_reminders, RemindersFragment.class);
         put(R.id.nav_item_medications, MedicationsFragment.class);
         put(R.id.menu_item_medications, MedicationsFragment.class);
+    }};
+
+    private final Map<Integer, Class<? extends Fragment>> storeFragments = new HashMap<>() {{
+        put(R.id.nav_item_store, StoreFragment.class);
+        put(R.id.menu_item_store, StoreFragment.class);
         put(R.id.nav_item_cart, CartFragment.class);
         put(R.id.menu_item_cart, CartFragment.class);
         put(R.id.nav_item_orders, OrdersFragment.class);
         put(R.id.menu_item_orders, OrdersFragment.class);
+    }};
+
+    private final Map<Integer, Class<? extends Fragment>> sharedFragments = new HashMap<>() {{
         put(R.id.nav_item_profile, ProfileFragment.class);
         put(R.id.nav_item_setting, SettingFragment.class);
     }};
+
     private final Map<Integer, Class<?>> activityMap = new HashMap<>() {{
         put(R.id.nav_item_logout, AuthActivity.class);
     }};
 
-    public interface FragmentCallback {
-        void showFragment(@NonNull Class<? extends Fragment> fragmentClass);
+    /* Identify Home-Related Items */
+    private boolean isHomeRelated(int id) {
+        return homeFragments.containsKey(id);
     }
 
-    public interface ActivityCallback {
-        void openIntent(@NonNull Class<?> activity);
-    }
-
-    private boolean isHome(int id) {
-        return id == R.id.nav_item_home || id == R.id.menu_item_home;
-    }
-    private boolean isStore(int id) {
-        return id == R.id.nav_item_store || id == R.id.menu_item_store;
+    /* Identify Store-Related Items */
+    private boolean isStoreRelated(int id) {
+        return storeFragments.containsKey(id);
     }
 
     public boolean runNavigation(int itemID, FragmentCallback fragmentCallback, ActivityCallback activityCallback, int selectedMenuId) {
-        /* Handle Home <-> Store Activity switching */
-        if ((isHome(itemID) && isStore(selectedMenuId))) {
-            activityCallback.openIntent(HomeActivity.class);
+        // Handle Home <-> Store Activity switching
+        if (isHomeRelated(itemID) && isStoreRelated(selectedMenuId)) {
+            activityCallback.openIntent(HomeActivity.class, itemID);
             return true;
         }
-        if ((isStore(itemID) && isHome(selectedMenuId))) {
-            activityCallback.openIntent(StoreActivity.class);
+        if (isStoreRelated(itemID) && isHomeRelated(selectedMenuId)) {
+            activityCallback.openIntent(StoreActivity.class, itemID);
             return true;
         }
-        /* Handle Home <-> Store Activity switching */
 
-        if (fragmentMap.containsKey(itemID)) {
-            fragmentCallback.showFragment(Objects.requireNonNull(fragmentMap.get(itemID)));
+        // Open shared fragments in both activities
+        if (sharedFragments.containsKey(itemID)) {
+            fragmentCallback.showFragment(Objects.requireNonNull(sharedFragments.get(itemID)));
             return true;
-        } else if (activityMap.containsKey(itemID)) {
-            activityCallback.openIntent(Objects.requireNonNull(activityMap.get(itemID)));
+        }
+
+        // Handle normal navigation for each activity
+        if (homeFragments.containsKey(itemID)) {
+            fragmentCallback.showFragment(Objects.requireNonNull(homeFragments.get(itemID)));
+            return true;
+        }
+        if (storeFragments.containsKey(itemID)) {
+            fragmentCallback.showFragment(Objects.requireNonNull(storeFragments.get(itemID)));
+            return true;
+        }
+        if (activityMap.containsKey(itemID)) {
+            activityCallback.openIntent(Objects.requireNonNull(activityMap.get(itemID)), -1);
             return true;
         }
 
@@ -139,6 +159,20 @@ public class NavigationHelper {
 
     public boolean runNavigation(int itemID, FragmentCallback fragmentCallback, ActivityCallback activityCallback) {
         return runNavigation(itemID, fragmentCallback, activityCallback, -1);
+    }
+
+    public Class<? extends Fragment> getFragmentById(int id) {
+        if (homeFragments.containsKey(id)) return homeFragments.get(id);
+        if (storeFragments.containsKey(id)) return storeFragments.get(id);
+        return HomeFragment.class; // Default
+    }
+
+    public interface FragmentCallback {
+        void showFragment(@NonNull Class<? extends Fragment> fragmentClass);
+    }
+
+    public interface ActivityCallback {
+        void openIntent(@NonNull Class<?> activity, int fragmentId);
     }
     /* Manage Navigation Logic */
 

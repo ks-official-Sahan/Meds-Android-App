@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.fragment.navigation.HomeFragment;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
@@ -44,8 +43,9 @@ public class HomeActivity extends AppCompatActivity {
         setupToolbar();
         setupFloatingButton();
 
-        /* Navigations */
         setupFragmentManagement();
+        
+        /* Navigations */
         setupNavigationListeners();
         setupNavigationViewColors();
         /* Navigations */
@@ -63,9 +63,8 @@ public class HomeActivity extends AppCompatActivity {
     private void setupFragmentManagement() {
         fragmentManager = getSupportFragmentManager();
 
-        showFragment(HomeFragment.class);
-        navigationView.setCheckedItem(R.id.nav_item_home);
-        bottomNavigationView.setSelectedItemId(R.id.menu_item_home);
+        //showFragment(HomeFragment.class);
+        showFragment(NavigationHelper.getInstance().getFragmentById(getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_home)));
     }
 
     private void showFragment(Class<? extends Fragment> fragmentClass) {
@@ -82,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /* Floating Button */
     private void setupFloatingButton() {
-        findViewById(R.id.fab).setOnClickListener(v -> NavigationHelper.getInstance().makeCall(this));
+        findViewById(R.id.fab).setOnClickListener(v -> NavigationHelper.getInstance().openIntent(this, StoreActivity.class));
     }
     /* Floating Button */
 
@@ -128,6 +127,12 @@ public class HomeActivity extends AppCompatActivity {
     /* Activity Open */
     private void openIntent(Class<?> activity) {
         NavigationHelper.getInstance().openIntent(HomeActivity.this, activity);
+        finish();
+    }
+
+    private void openIntent(Class<?> activity, int fragmentId) {
+        NavigationHelper.getInstance().openIntent(HomeActivity.this, activity, fragmentId);
+        finish();
     }
     /* Activity Open */
 

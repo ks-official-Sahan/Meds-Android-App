@@ -25,9 +25,9 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
     private final List<LocalDate> dates;
     private LocalDate selectedDate;
 
-    private OnDateClickListener listener;
-
     private final Context context;
+
+    private OnDateClickListener listener;
 
     public interface OnDateClickListener {
         void onDateClick(LocalDate date);
