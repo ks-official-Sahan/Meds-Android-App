@@ -40,10 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="1dp"
             android:outlineAmbientShadowColor="?attr/colorNeutral200"
             android:outlineSpotShadowColor="?attr/colorNeutral200"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp"
             app:strokeColor="?attr/colorNeutral500"
             app:strokeWidth="0.5dp">
 
@@ -52,6 +52,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:contentDescription="@string/title_medications"
+                android:importantForAccessibility="no"
                 android:src="@drawable/ic_medicine"
                 android:tintMode="multiply"
                 app:tint="?attr/colorTintMid" />

@@ -23,7 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_gravity="top|center"
-            android:background="@drawable/med_asset_01"
+            android:importantForAccessibility="no"
+            android:src="@drawable/med_asset_01"
+            android:scaleType="fitXY"
             android:contentDescription="@string/title_medications" />
     </com.google.android.material.card.MaterialCardView>
 

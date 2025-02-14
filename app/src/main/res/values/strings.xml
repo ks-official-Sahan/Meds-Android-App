@@ -1,6 +1,7 @@
 <resources>
     <!--  App  -->
     <string name="app_name">MyMeds</string>
+    <string name="owner">Sahan Sachintha</string>
     <string name="logo">App Logo</string>
     <string name="menu">Menu</string>
 
@@ -69,5 +70,16 @@
     <string name="snooze">Snooze</string>
     <string name="snooze_10_min">Snooze  (10 min)</string>
     <string name="min_10">(10 min)</string>
-    <string name="owner">Sahan Sachintha</string>
+
+    <!--  Product View  -->
+    <string name="decrement">Decrement</string>
+    <string name="increment">Increment</string>
+    <string name="price">Price</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="_1">1</string>
+    <string name="dosage">Dosage</string>
+    <string name="product_title">Product Title</string>
+    <string name="product_description">Product Description</string>
+    <string name="description">Description</string>
+    <string name="similar_products">Similar Products</string>
 </resources>

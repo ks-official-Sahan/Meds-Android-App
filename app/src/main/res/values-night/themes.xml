@@ -83,5 +83,7 @@
         <item name="colorNeutral700">@color/neutral_700_dark</item>
         <item name="colorNeutral800">@color/neutral_800_dark</item>
         <item name="colorNeutral900">@color/neutral_900_dark</item>
+
+        <item name="colorCard">@color/card_background</item>
     </style>
 </resources>

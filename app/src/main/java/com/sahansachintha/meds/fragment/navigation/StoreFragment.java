@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.CategoryAdapter;
 import com.sahansachintha.meds.adapters.ProductAdapter;
+import com.sahansachintha.meds.helper.data.ProductHelper;
 import com.sahansachintha.meds.model.Category;
 import com.sahansachintha.meds.model.Product;
 
@@ -71,7 +72,7 @@ public class StoreFragment extends Fragment {
     }
 
     private void initProductRecycler() {
-        productLayoutManager = new GridLayoutManager(getContext(), getSpanCountBasedOnScreenWidth(), LinearLayoutManager.VERTICAL, true);
+        productLayoutManager = new GridLayoutManager(getContext(), getSpanCountBasedOnScreenWidth(), LinearLayoutManager.VERTICAL, false);
         productRecycler.setLayoutManager(productLayoutManager);
 
         productData = getProductData();
@@ -83,12 +84,8 @@ public class StoreFragment extends Fragment {
     private List<Product> getProductData() {
         List<Product> productList = new ArrayList<>();
 
-        productList.add(new Product("Tablets", "300LKR", "Paracetamol", 1));
-        productList.add(new Product("Tablets", "300LKR", "Amoxicillin", 2));
-        productList.add(new Product("Tablets", "300LKR", "Ibuprofen", 3));
-        productList.add(new Product("Tablets", "300LKR", "Aspirin", 4));
-        productList.add(new Product("Tablets", "300LKR", "Omeprazole", 5));
-        productList.add(new Product("Tablets", "300LKR", "Metformin", 6));
+        // Add dummy data to the product list
+        productList = ProductHelper.getInstance().getSampledata();
 
         return productList;
     }

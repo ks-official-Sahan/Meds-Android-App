@@ -121,5 +121,7 @@
         <item name="colorNeutral700">@color/neutral_700</item>
         <item name="colorNeutral800">@color/neutral_800</item>
         <item name="colorNeutral900">@color/neutral_900</item>
+
+        <item name="colorCard">@color/card_background_light</item>
     </style>
 </resources>

@@ -11,8 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.ProductViewActivity;
+import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.model.Product;
 
 import java.util.List;
@@ -52,8 +55,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.productTitle.setText(product.getTitle());
         holder.productPrice.setText(String.valueOf(product.getPrice()));
         holder.productCategory.setText(product.getCategoryName());
+
+        Glide.with(context)
+                .load(product.getImage())
+                .placeholder(R.drawable.med_asset_05) // Optional: Add a placeholder image
+                .error(R.drawable.error_image) // Optional: Handle errors
+                .into(holder.productImage);
+
         holder.productCard.setOnClickListener(v -> {
-            Toast.makeText(context, product.getTitle(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, product.getTitle(), Toast.LENGTH_SHORT).show();
+            //NavigationHelper.getInstance().openIntent(context, ProductViewActivity.class);
+            NavigationHelper.getInstance().viewProduct(context, product);
             if (listener != null) {
                 listener.onProductClick(product);
             }

@@ -104,11 +104,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="82dp"
+        android:layout_marginBottom="86dp"
         android:backgroundTint="?attr/colorTint"
         android:contentDescription="@string/app_name"
         android:visibility="visible"
         app:srcCompat="@drawable/ic_today"
+        android:scaleType="fitXY"
         app:tint="?attr/colorTintHigh"
         tools:visibility="visible" />
 

@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.HomeActivity;
+import com.sahansachintha.meds.activity.ProductViewActivity;
 import com.sahansachintha.meds.activity.StoreActivity;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.fragment.navigation.CartFragment;
@@ -24,6 +25,7 @@ import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
 import com.sahansachintha.meds.fragment.navigation.RemindersFragment;
 import com.sahansachintha.meds.fragment.navigation.SettingFragment;
 import com.sahansachintha.meds.fragment.navigation.StoreFragment;
+import com.sahansachintha.meds.model.Product;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +69,18 @@ public class NavigationHelper {
     public void openIntent(@NonNull Context context, @NonNull Class<?> activity, int fragmentId) {
         Intent intent = new Intent(context, activity);
         intent.putExtra("FRAGMENT_ID", fragmentId);
+        context.startActivity(intent);
+    }
+
+    public void viewProduct(@NonNull Context context, @NonNull Product product) {
+        Intent intent = new Intent(context, ProductViewActivity.class);
+        intent.putExtra("product", product);
+        context.startActivity(intent);
+    }
+
+    public void viewProfile(@NonNull Context context) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra("FRAGMENT_ID", R.id.nav_item_profile);
         context.startActivity(intent);
     }
 
@@ -164,6 +178,7 @@ public class NavigationHelper {
     public Class<? extends Fragment> getFragmentById(int id) {
         if (homeFragments.containsKey(id)) return homeFragments.get(id);
         if (storeFragments.containsKey(id)) return storeFragments.get(id);
+        if (sharedFragments.containsKey(id)) return sharedFragments.get(id);
         return HomeFragment.class; // Default
     }
 

@@ -50,6 +50,7 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/title_reminders"
+                android:importantForAccessibility="no"
                 android:src="?attr/logo"
                 android:tintMode="multiply"
                 app:tint="?attr/colorTintMid" />
