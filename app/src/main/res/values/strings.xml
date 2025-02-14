@@ -82,4 +82,6 @@
     <string name="product_description">Product Description</string>
     <string name="description">Description</string>
     <string name="similar_products">Similar Products</string>
+    <string name="back">Back</string>
+    <string name="product">Product</string>
 </resources>

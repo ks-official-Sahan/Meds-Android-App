@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -51,6 +52,8 @@ public class HomeActivity extends AppCompatActivity {
         /* Navigations */
 
         requestPermissions();
+
+         getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
     }
 
     private void initViews() {
@@ -149,4 +152,21 @@ public class HomeActivity extends AppCompatActivity {
     private void logNavigation(int itemID) {
         Log.i("MyMedsNavigation", String.valueOf(itemID));
     }
+
+    private class HomeOnBackPressedCallback extends OnBackPressedCallback {
+        public HomeOnBackPressedCallback() {
+            super(true);
+        }
+        @Override
+        public void handleOnBackPressed() {
+            if (drawerLayout.isDrawerOpen(navigationView)) {
+                drawerLayout.closeDrawers();
+            } else if (fragmentManager.getBackStackEntryCount() > 1) {
+                fragmentManager.popBackStack();
+            } else {
+                finish(); // Default behavior to exit the activity
+            }
+        }
+    }
+
 }
