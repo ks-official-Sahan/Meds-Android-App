@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -41,6 +42,8 @@ public class StoreActivity extends AppCompatActivity {
         setupNavigationListeners();
         setupNavigationViewColors();
         requestPermissions();
+
+         getOnBackPressedDispatcher().addCallback(this, new StoreOnBackPressedCallback());
     }
 
     private void setupEdgeToEdgeInsets() {
@@ -136,5 +139,22 @@ public class StoreActivity extends AppCompatActivity {
     private void openIntent(Class<?> activity, int fragmentId) {
         NavigationHelper.getInstance().openIntent(StoreActivity.this, activity, fragmentId);
         finish();
+    }
+
+    private class StoreOnBackPressedCallback extends OnBackPressedCallback {
+        public StoreOnBackPressedCallback() {
+            super(true);
+        }
+
+        @Override
+        public void handleOnBackPressed() {
+            if (drawerLayout.isDrawerOpen(navigationView)) {
+                drawerLayout.closeDrawers();
+            } else if (fragmentManager.getBackStackEntryCount() > 1) {
+                fragmentManager.popBackStack();
+            } else {
+                finish(); // Default behavior to exit the activity
+            }
+        }
     }
 }
