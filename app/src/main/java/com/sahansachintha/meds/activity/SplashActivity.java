@@ -1,6 +1,7 @@
 package com.sahansachintha.meds.activity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,9 +14,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +33,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -51,10 +56,12 @@ import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
 import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressLint("CustomSplashScreen")
@@ -82,6 +89,47 @@ public class SplashActivity extends AppCompatActivity {
 //        PendingIntent mutablePendingIntent = createMutablePendingIntent(this, 456, myIntent);
          */
     }
+
+    /* ImageSelection */
+//    private void showDatePicker() {
+//        Calendar calendar = Calendar.getInstance();
+//        int year = calendar.get(Calendar.YEAR);
+//        int month = calendar.get(Calendar.MONTH);
+//        int day = calendar.get(Calendar.DAY_OF_MONTH);
+//
+//        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year1, month1, dayOfMonth) -> {
+//            String selectedDate = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+//            etDob.setText(selectedDate);
+//        }, year, month, day);
+//        datePickerDialog.show();
+//    }
+//
+//    private void selectImageFromGallery() {
+//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(intent, 100);
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+//            Uri selectedImageUri = data.getData();
+//            if (selectedImageUri != null) {
+//                try {
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+//                    imgProfile.setImageBitmap(bitmap);
+//
+//                    // Convert Bitmap to ByteArray
+//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//                    imageBytes = byteArrayOutputStream.toByteArray();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
+    /* ImageSelection */
 
     /* Activity Open */
     private void openIntent(Class<?> activity) {

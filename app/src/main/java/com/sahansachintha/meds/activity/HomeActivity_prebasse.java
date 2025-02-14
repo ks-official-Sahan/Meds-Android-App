@@ -183,6 +183,10 @@ public class HomeActivity_prebasse extends AppCompatActivity {
     private void openIntent(Class<?> activity) {
         NavigationHelper.getInstance().openIntent(HomeActivity_prebasse.this, activity);
     }
+
+    private void openIntent(Class<?> activity, int fragmentId) {
+        NavigationHelper.getInstance().openIntent(HomeActivity_prebasse.this, activity, fragmentId);
+    }
 //    private void openIntent(Class<?> activity) {
 //        Intent intent = new Intent(HomeActivity.this, activity);
 //        startActivity(intent);

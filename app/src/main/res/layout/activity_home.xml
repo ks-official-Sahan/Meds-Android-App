@@ -106,15 +106,15 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="112dp"
-            android:backgroundTint="@color/secondary_light"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="124dp"
             android:contentDescription="@string/app_name"
-            android:visibility="gone"
-            app:layout_anchor="@id/fragmentContainerViewHome"
+            app:layout_anchor="@+id/fragmentContainerViewHome"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@android:drawable/ic_input_add"
-            tools:visibility="gone" />
+            app:srcCompat="@drawable/ic_shop"
+            app:tint="?attr/colorTintHigh"
+            android:backgroundTint="?attr/colorTint"
+            tools:visibility="visible" />
         <!-- Floating Button -->
 
         <!-- Bottom Navigation -->

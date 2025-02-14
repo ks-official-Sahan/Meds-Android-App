@@ -26,10 +26,20 @@
         <item name="logo">@drawable/logo_light</item>
 
         <item name="android:windowBackground">@drawable/background_dark</item>
+
+        <item name="materialCardViewStyle">@style/Theme.Meds.MaterialCardView</item>
     </style>
 
     <!-- Dark Mode Theme -->
     <style name="Theme.Meds.Dark" parent="Theme.Meds.Colors"></style>
+
+    <!-- Card -->
+    <style name="Theme.Meds.MaterialCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="strokeColor">@color/card_stroke</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">12dp</item>
+    </style>
 
     <!-- Launcher -->
     <style name="Theme.Meds.Launcher" parent="Theme.Meds.Dark">
@@ -73,5 +83,7 @@
         <item name="colorNeutral700">@color/neutral_700_dark</item>
         <item name="colorNeutral800">@color/neutral_800_dark</item>
         <item name="colorNeutral900">@color/neutral_900_dark</item>
+
+        <item name="colorCard">@color/card_background</item>
     </style>
 </resources>

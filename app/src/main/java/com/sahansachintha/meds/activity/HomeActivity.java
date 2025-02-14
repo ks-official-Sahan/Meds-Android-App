@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -16,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.fragment.navigation.HomeFragment;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
@@ -33,24 +33,27 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout_home), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout_home), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
 
         initViews();
 
         setupToolbar();
         setupFloatingButton();
 
-        /* Navigations */
         setupFragmentManagement();
+        
+        /* Navigations */
         setupNavigationListeners();
         setupNavigationViewColors();
         /* Navigations */
 
         requestPermissions();
+
+         getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
     }
 
     private void initViews() {
@@ -63,9 +66,8 @@ public class HomeActivity extends AppCompatActivity {
     private void setupFragmentManagement() {
         fragmentManager = getSupportFragmentManager();
 
-        showFragment(HomeFragment.class);
-        navigationView.setCheckedItem(R.id.nav_item_home);
-        bottomNavigationView.setSelectedItemId(R.id.menu_item_home);
+        //showFragment(HomeFragment.class);
+        showFragment(NavigationHelper.getInstance().getFragmentById(getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_home)));
     }
 
     private void showFragment(Class<? extends Fragment> fragmentClass) {
@@ -82,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /* Floating Button */
     private void setupFloatingButton() {
-        findViewById(R.id.fab).setOnClickListener(v -> NavigationHelper.getInstance().makeCall(this));
+        findViewById(R.id.fab).setOnClickListener(v -> NavigationHelper.getInstance().openIntent(this, StoreActivity.class));
     }
     /* Floating Button */
 
@@ -128,6 +130,12 @@ public class HomeActivity extends AppCompatActivity {
     /* Activity Open */
     private void openIntent(Class<?> activity) {
         NavigationHelper.getInstance().openIntent(HomeActivity.this, activity);
+        finish();
+    }
+
+    private void openIntent(Class<?> activity, int fragmentId) {
+        NavigationHelper.getInstance().openIntent(HomeActivity.this, activity, fragmentId);
+        finish();
     }
     /* Activity Open */
 
@@ -144,4 +152,21 @@ public class HomeActivity extends AppCompatActivity {
     private void logNavigation(int itemID) {
         Log.i("MyMedsNavigation", String.valueOf(itemID));
     }
+
+    private class HomeOnBackPressedCallback extends OnBackPressedCallback {
+        public HomeOnBackPressedCallback() {
+            super(true);
+        }
+        @Override
+        public void handleOnBackPressed() {
+            if (drawerLayout.isDrawerOpen(navigationView)) {
+                drawerLayout.closeDrawers();
+            } else if (fragmentManager.getBackStackEntryCount() > 1) {
+                fragmentManager.popBackStack();
+            } else {
+                finish(); // Default behavior to exit the activity
+            }
+        }
+    }
+
 }

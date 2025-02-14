@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +24,21 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
     private final Context context;
 
+    private OnMedicationClickListener listener;
+
+    public interface OnMedicationClickListener {
+        void onMedicationClick(Medication medication);
+    }
+
     public MedicationAdapter(List<Medication> medicationList, Context context) {
         this.medicationList = medicationList;
         this.context = context;
+    }
+
+    public MedicationAdapter(Context context, List<Medication> medicationList, OnMedicationClickListener listener) {
+        this.context = context;
+        this.medicationList = medicationList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,6 +63,13 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             holder.medicationImg.setImageResource(R.drawable.ic_medicine);
             holder.medicationImg.setImageTintMode(PorterDuff.Mode.SRC_IN);
         //}
+
+        holder.medicationHolderCard.setOnClickListener(v -> {
+            Toast.makeText(context, medication.getName(), Toast.LENGTH_SHORT).show();
+            if (listener != null) {
+                listener.onMedicationClick(medication);
+            }
+        });
     }
 
     @Override
