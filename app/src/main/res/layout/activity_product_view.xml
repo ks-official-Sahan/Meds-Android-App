@@ -5,6 +5,7 @@
     android:id="@+id/product_view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     android:textAlignment="center"
     tools:context=".activity.ProductViewActivity">
@@ -12,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
         android:paddingBottom="20dp">
 
         <!-- Content View -->
@@ -48,8 +50,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/back"
                         android:src="@drawable/ic_back"
-                        app:tint="?attr/colorTintHigh" />
+                        app:tint="?attr/colorNeutral900" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -64,8 +67,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/title_profile"
                         android:src="@drawable/ic_profile"
-                        app:tint="?attr/colorTintHigh" />
+                        app:tint="?attr/colorTint" />
                 </com.google.android.material.card.MaterialCardView>
 
             </com.google.android.material.card.MaterialCardView>
@@ -76,6 +80,7 @@
                 android:id="@+id/product_view_img"
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
+                android:contentDescription="@string/product"
                 android:scaleType="fitXY"
                 android:src="@drawable/med_asset_05"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -129,10 +134,10 @@
                         android:id="@+id/product_view_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         android:text="@string/price"
                         android:textSize="30sp"
                         android:textStyle="bold"
-                        android:layout_marginTop="12dp"
                         app:layout_constraintBottom_toTopOf="@+id/product_view_buy_btn"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/product_view_dosage" />
@@ -166,6 +171,7 @@
                         android:id="@+id/product_view_quantity"
                         android:layout_width="70dp"
                         android:layout_height="50dp"
+                        android:autofillHints="Quantity"
                         android:ems="10"
                         android:gravity="center_horizontal"
                         android:inputType="number|numberDecimal"
@@ -173,7 +179,8 @@
                         android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="@+id/product_view_price"
                         app:layout_constraintEnd_toStartOf="@+id/product_view_increment"
-                        app:layout_constraintTop_toTopOf="@+id/product_view_price" />
+                        app:layout_constraintTop_toTopOf="@+id/product_view_price"
+                        tools:ignore="LabelFor" />
                     <!--  Quantity Mechanism  -->
 
                     <TextView
@@ -189,11 +196,11 @@
                         android:textColor="?attr/colorOnPrimary"
                         android:textSize="26sp"
                         android:textStyle="bold"
-                        app:layout_constraintTop_toBottomOf="@+id/product_view_price"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/product_view_price" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--    Main Details    -->
@@ -206,6 +213,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_top"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:paddingHorizontal="24dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -263,7 +272,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="20dp"
-                android:text="Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description "
+                android:text="@string/product_description"
                 android:textColor="?attr/colorNeutral700"
                 android:textSize="15sp"
                 android:textStyle="normal"
