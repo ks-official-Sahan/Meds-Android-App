@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="86dp"
+        android:layout_marginBottom="76dp"
         android:backgroundTint="?attr/colorTint"
         android:contentDescription="@string/app_name"
         android:visibility="visible"
@@ -140,19 +140,19 @@
 
 
     <!--  Shop Btn  -->
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:id="@+id/fab_shop_home"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="bottom|end"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:layout_marginBottom="12dp"-->
-    <!--        android:backgroundTint="?attr/colorTint"-->
-    <!--        android:contentDescription="@string/app_name"-->
-    <!--        android:visibility="gone"-->
-    <!--        app:srcCompat="@drawable/ic_shop"-->
-    <!--        app:tint="?attr/colorTintHigh"-->
-    <!--        tools:visibility="visible" />-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="?attr/colorTint"
+            android:contentDescription="@string/app_name"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_shop"
+            app:tint="?attr/colorTintHigh"
+            tools:visibility="visible" />
 
     <!--        <com.google.android.material.card.MaterialCardView-->
     <!--            android:id="@+id/btn_shop"-->

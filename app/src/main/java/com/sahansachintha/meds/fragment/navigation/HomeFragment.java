@@ -13,9 +13,13 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.StoreActivity;
 import com.sahansachintha.meds.adapters.DateAdapter;
 import com.sahansachintha.meds.adapters.MedicationAdapter;
 import com.sahansachintha.meds.adapters.ReminderAdapter;
+import com.sahansachintha.meds.helper.NavigationHelper;
+import com.sahansachintha.meds.helper.data.MedicationManager;
+import com.sahansachintha.meds.helper.data.ReminderManager;
 import com.sahansachintha.meds.model.Medication;
 import com.sahansachintha.meds.model.Reminder;
 
@@ -45,11 +49,12 @@ public class HomeFragment extends Fragment {
     private MedicationAdapter medicationAdapter;
     private LinearLayoutManager medicationLayoutManager;
 
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
         dateRecyler = view.findViewById(R.id.date_recycler);
         initDateRecyler();
@@ -68,17 +73,24 @@ public class HomeFragment extends Fragment {
             scrollToPositionSmooth(calendarData.indexOf(selectedDate));
         });
 
+        try {
+            getActivity().findViewById(R.id.fab).setVisibility(View.GONE);
+        } catch (NullPointerException e) {
+            view.findViewById(R.id.fab_shop).setVisibility(View.GONE);
+            Log.e("MyMedsHome", "Cannot Find Resource with ID R.id.fab in HomeFragment");
+        }
+
         //MaterialCardView btnShop = view.findViewById(R.id.btn_shop);
-//        FloatingActionButton btnShop = view.findViewById(R.id.fab_shop_home);
-//        btnShop.setOnClickListener(v -> {
-//            if (getContext() != null) {
-//                try {
-//                    NavigationHelper.getInstance().openIntent(this.requireContext(), StoreActivity.class);
-//                } catch (IllegalStateException e) {
-//                    Log.e("MyMedsHome", "Error opening StoreActivity: " + e.getMessage());
-//                }
-//            }
-//        });
+        FloatingActionButton btnShop = view.findViewById(R.id.fab_shop);
+        btnShop.setOnClickListener(v -> {
+            if (getContext() != null) {
+                try {
+                    NavigationHelper.getInstance().openIntent(requireContext(), StoreActivity.class);
+                } catch (IllegalStateException e) {
+                    Log.e("MyMedsHome", "Error opening StoreActivity: " + e.getMessage());
+                }
+            }
+        });
 
         return view;
     }
@@ -112,21 +124,9 @@ public class HomeFragment extends Fragment {
     }
 
     private List<Reminder> getReminderData() {
-        List<Reminder> reminderList = new ArrayList<>();
+        List<Reminder> reminderList;
 
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(2025, Calendar.FEBRUARY, 12, 8, 30); // 12th Feb, 8:30 AM
-        reminderList.add(new Reminder(1, "Reminder 1", calendar.getTimeInMillis(), "Finish Reminder Development"));
-
-        calendar.set(2025, Calendar.FEBRUARY, 12, 10, 30); // 12th Feb, 8:30 AM
-        reminderList.add(new Reminder(2, "Reminder 2", calendar.getTimeInMillis(), "Finish Medication Development"));
-
-        calendar.set(2025, Calendar.FEBRUARY, 13, 8, 30); // 13th Feb, 8:30 AM
-        reminderList.add(new Reminder(3, "Reminder 3", calendar.getTimeInMillis(), "Finish Store Home Development"));
-
-        calendar.set(2025, Calendar.FEBRUARY, 14, 8, 30); // 14th Feb, 8:30 AM
-        reminderList.add(new Reminder(4, "Reminder 4", calendar.getTimeInMillis(), "Finish Store Product View Development"));
+        reminderList = ReminderManager.getInstance().getSampleData();
 
         return reminderList;
     }
@@ -143,12 +143,9 @@ public class HomeFragment extends Fragment {
     }
 
     private List<Medication> getMedicationData() {
-        List<Medication> medicationList = new ArrayList<>();
+        List<Medication> medicationList;
 
-        medicationList.add(new Medication(1, "Paracetamol", "500mg", "Once per day", "After Eating"));
-        medicationList.add(new Medication(2, "Ibuprofen", "200mg", "Twice per day", "Before Eating"));
-        medicationList.add(new Medication(3, "Amoxicillin", "500mg", "Once per day", "After Eating"));
-        medicationList.add(new Medication(4, "Aspirin", "300mg", "Twice per day", "Before Eating"));
+        medicationList = MedicationManager.getInstance().getSampleData();
 
         return medicationList;
     }
@@ -174,4 +171,13 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        try {
+            getActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
+        } catch (NullPointerException e) {
+            Log.e("MyMedsHome", "Cannot Find Resource with ID R.id.fab in HomeFragment");
+        }
+    }
 }

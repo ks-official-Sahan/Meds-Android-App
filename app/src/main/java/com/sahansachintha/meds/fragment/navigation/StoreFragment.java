@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.CategoryAdapter;
 import com.sahansachintha.meds.adapters.ProductAdapter;
+import com.sahansachintha.meds.helper.data.CategoryManager;
 import com.sahansachintha.meds.helper.data.ProductManager;
 import com.sahansachintha.meds.model.Category;
 import com.sahansachintha.meds.model.Product;
@@ -62,11 +63,9 @@ public class StoreFragment extends Fragment {
     }
 
     private List<Category> getCategoryData() {
-        List<Category> categoryList = new ArrayList<>();
+        List<Category> categoryList;
 
-        categoryList.add(new Category(1, "Tablets", R.drawable.ic_medicine));
-        categoryList.add(new Category(2, "Capsules", R.drawable.ic_medication));
-        categoryList.add(new Category(3, "Syrups", R.drawable.ic_medicine));
+        categoryList = CategoryManager.getInstance().getSampleData();
 
         return categoryList;
     }
@@ -82,7 +81,7 @@ public class StoreFragment extends Fragment {
     }
 
     private List<Product> getProductData() {
-        List<Product> productList = new ArrayList<>();
+        List<Product> productList;
 
         // Add dummy data to the product list
         productList = ProductManager.getInstance().getSampleData();

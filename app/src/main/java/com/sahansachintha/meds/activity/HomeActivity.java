@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
 
         requestPermissions();
 
-         getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
+        getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
     }
 
     private void initViews() {
