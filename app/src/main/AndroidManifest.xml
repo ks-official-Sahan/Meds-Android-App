@@ -40,9 +40,11 @@
         android:theme="@style/Theme.Meds"
         tools:targetApi="33">
         <activity
-            android:name=".activity.ProductViewActivity"
+            android:name=".activity.CheckoutActivity"
             android:exported="false" />
-        <!-- Activities -->
+        <activity
+            android:name=".activity.ProductViewActivity"
+            android:exported="false" /> <!-- Activities -->
         <activity
             android:name=".activity.AlarmActivity"
             android:excludeFromRecents="true"

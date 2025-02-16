@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.CategoryAdapter;
 import com.sahansachintha.meds.adapters.ProductAdapter;
-import com.sahansachintha.meds.helper.data.ProductHelper;
+import com.sahansachintha.meds.helper.data.ProductManager;
 import com.sahansachintha.meds.model.Category;
 import com.sahansachintha.meds.model.Product;
 
@@ -85,7 +85,7 @@ public class StoreFragment extends Fragment {
         List<Product> productList = new ArrayList<>();
 
         // Add dummy data to the product list
-        productList = ProductHelper.getInstance().getSampledata();
+        productList = ProductManager.getInstance().getSampleData();
 
         return productList;
     }

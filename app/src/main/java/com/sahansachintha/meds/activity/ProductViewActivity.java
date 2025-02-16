@@ -2,7 +2,6 @@ package com.sahansachintha.meds.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,19 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.ProductAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
-import com.sahansachintha.meds.helper.data.ProductHelper;
+import com.sahansachintha.meds.helper.data.CartManager;
+import com.sahansachintha.meds.helper.data.ProductManager;
 import com.sahansachintha.meds.model.Product;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +45,7 @@ public class ProductViewActivity extends AppCompatActivity {
     private TextView dosage;
     private TextView description;
     private ImageView image;
+    private EditText quantityField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +64,11 @@ public class ProductViewActivity extends AppCompatActivity {
         setupQuantity();
 
         findViewById(R.id.product_view_buy_btn).setOnClickListener(v -> {
-            Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show();
+            if (product != null) {
+                int quantity = Integer.parseInt(quantityField.getText().toString());
+                CartManager.addProduct(product, quantity);
+                Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show();
+            }
         });
 
         setUpToolbar();
@@ -124,7 +126,7 @@ public class ProductViewActivity extends AppCompatActivity {
     }
 
     private List<Product> getProductData() {
-        List<Product> productList = new ArrayList<>(ProductHelper.getInstance().getSampledata());
+        List<Product> productList = new ArrayList<>(ProductManager.getInstance().getSampleData());
 
         if (product != null) {
             productList.removeIf(p -> p.getId() == product.getId());
@@ -134,31 +136,31 @@ public class ProductViewActivity extends AppCompatActivity {
     }
 
     private void setupQuantity() {
-        ImageView decrement = findViewById(R.id.product_view_decrement);
-        ImageView increment = findViewById(R.id.product_view_increment);
-        EditText editText = findViewById(R.id.product_view_quantity);
+        ImageView decrement = findViewById(R.id.cart_item_decrement);
+        ImageView increment = findViewById(R.id.cart_item_increment);
+        quantityField = findViewById(R.id.cart_item_quantity);
 
-        editText.setText(String.valueOf(1));
+        quantityField.setText(String.valueOf(1));
         //maxQuantity = getIntent().getIntExtra("maxQuantity", -1);
 
         decrement.setOnClickListener(v -> {
-            int quantity = Integer.parseInt(editText.getText().toString());
+            int quantity = Integer.parseInt(this.quantityField.getText().toString());
             if (quantity > 1) {
                 quantity--;
-                editText.setText(String.valueOf(quantity));
+                this.quantityField.setText(String.valueOf(quantity));
             }
         });
 
         increment.setOnClickListener(v -> {
-            int quantity = Integer.parseInt(editText.getText().toString());
+            int quantity = Integer.parseInt(this.quantityField.getText().toString());
             if (maxQuantity != -1) {
                 if (maxQuantity >= quantity) {
                     quantity++;
-                    editText.setText(String.valueOf(quantity));
+                    this.quantityField.setText(String.valueOf(quantity));
                 }
             } else {
                 quantity++;
-                editText.setText(String.valueOf(quantity));
+                this.quantityField.setText(String.valueOf(quantity));
             }
         });
     }

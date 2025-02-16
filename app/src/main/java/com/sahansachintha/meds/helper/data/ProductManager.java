@@ -4,21 +4,21 @@ import com.sahansachintha.meds.model.Product;
 
 import java.util.ArrayList;
 
-public class ProductHelper {
+public class ProductManager {
 
-        private static ProductHelper productHelper;
+        private static ProductManager productManager;
 
-        private ProductHelper() {
+        private ProductManager() {
         }
 
-        public static ProductHelper getInstance() {
-                if (productHelper == null) {
-                        productHelper = new ProductHelper();
+        public static ProductManager getInstance() {
+                if (productManager == null) {
+                        productManager = new ProductManager();
                 }
-                return productHelper;
+                return productManager;
         }
 
-        public ArrayList<Product> getSampledata() {
+        public ArrayList<Product> getSampleData() {
                 ArrayList<Product> productList = new ArrayList<>();
 
                 productList.add(new Product(
@@ -29,7 +29,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/801",
                                 "Pain Killer",
                                 "500mg",
-                                "320 LKR",
+                                "320",
                                 100));
 
                 productList.add(new Product(
@@ -40,7 +40,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/802",
                                 "Pain Killer",
                                 "75mg",
-                                "280 LKR",
+                                "280",
                                 75));
 
                 productList.add(new Product(
@@ -51,7 +51,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/799",
                                 "Antibiotic",
                                 "500mg",
-                                "540 LKR",
+                                "540",
                                 50));
 
                 productList.add(new Product(
@@ -62,7 +62,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/804",
                                 "Allergy Relief",
                                 "10mg",
-                                "250 LKR",
+                                "250",
                                 80));
 
                 productList.add(new Product(
@@ -73,7 +73,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/805",
                                 "Digestive Health",
                                 "20mg",
-                                "460 LKR",
+                                "460",
                                 60));
 
                 productList.add(new Product(
@@ -84,7 +84,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/806",
                                 "Diabetes Care",
                                 "500mg",
-                                "620 LKR",
+                                "620",
                                 100));
 
                 productList.add(new Product(
@@ -95,7 +95,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/807",
                                 "Pain Killer",
                                 "400mg",
-                                "350 LKR",
+                                "350",
                                 90));
 
                 productList.add(new Product(
@@ -106,7 +106,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/808",
                                 "Heart Health",
                                 "50mg",
-                                "540 LKR",
+                                "540",
                                 40));
 
                 productList.add(new Product(
@@ -117,7 +117,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/809",
                                 "Heart Health",
                                 "10mg",
-                                "850 LKR",
+                                "850",
                                 70));
 
                 productList.add(new Product(
@@ -128,7 +128,7 @@ public class ProductHelper {
                                 "https://picsum.photos/600/810",
                                 "Respiratory Care",
                                 "100mcg per dose",
-                                "1200 LKR",
+                                "1200",
                                 30));
 
                 return productList;

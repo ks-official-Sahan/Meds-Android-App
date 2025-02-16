@@ -11,6 +11,9 @@ public class Medication implements Serializable {
     private String notes;
 
     private String time;
+
+    private String image; // Store Image URL instead of binary data
+
 //    private long timeInMillis;
 //    private Calendar calendar;
 
@@ -20,6 +23,15 @@ public class Medication implements Serializable {
         this.dosage = dosage;
         this.time = time;
         this.notes = notes;
+    }
+
+    public Medication(int id, String name, String dosage, String notes, String time, String image) {
+        this.id = id;
+        this.name = name;
+        this.dosage = dosage;
+        this.notes = notes;
+        this.time = time;
+        this.image = image;
     }
 
     public int getId() {
@@ -62,7 +74,15 @@ public class Medication implements Serializable {
         this.notes = notes;
     }
 
-//    public long getTimeInMillis() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    //    public long getTimeInMillis() {
 //        return timeInMillis;
 //    }
 //
