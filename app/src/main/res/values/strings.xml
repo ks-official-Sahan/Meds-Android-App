@@ -91,4 +91,7 @@
     <string name="empty_cart">Your Cart is Empty</string>
     <string name="total_price_">Total Price:</string>
     <string name="total">Total:</string>
+    <string name="category">Category</string>
+    <string name="title">Title</string>
+    <string name="pay_with_payhere">Pay with PayHere</string>
 </resources>

@@ -76,6 +76,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
             }
             holder.cardView.setStrokeWidth(2);
             holder.cardView.setStrokeColor(getThemeColor(context, R.attr.colorPrimary300));
+            holder.cardView.animate().scaleX(1.1f).scaleY(1.1f).setDuration(500).start();
 
             holder.textMonth.setTextColor(getThemeColor(context, R.attr.colorPrimary400));
             holder.textDate.setTextColor(getThemeColor(context, R.attr.colorPrimary400));
@@ -85,6 +86,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
                 holder.cardView.setOutlineAmbientShadowColor(getThemeColor(context, R.attr.colorNeutral400));
                 holder.cardView.setOutlineSpotShadowColor(getThemeColor(context, R.attr.colorNeutral400));
             }
+            holder.cardView.animate().scaleX(1f).scaleY(1f).setDuration(500).start();
 
             if (date.equals(LocalDate.now())) {
                 holder.cardView.setStrokeWidth(1);

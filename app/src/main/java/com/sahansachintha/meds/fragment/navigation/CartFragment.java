@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,15 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.CheckoutActivity;
 import com.sahansachintha.meds.adapters.CartAdapter;
+import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
 import com.sahansachintha.meds.model.CartItem;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class CartFragment extends Fragment implements CartAdapter.CartUpdateListener {
 
@@ -91,5 +95,10 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     private void proceedToCheckout() {
         Toast.makeText(getContext(), "Proceeding to checkout...", Toast.LENGTH_SHORT).show();
         // Implement checkout navigation
+        try {
+            NavigationHelper.getInstance().openIntent(requireActivity(), CheckoutActivity.class);
+        } catch (IllegalStateException e) {
+            Log.e("CartFragment", "Error opening CheckoutActivity: " + e.getMessage());
+        }
     }
 }

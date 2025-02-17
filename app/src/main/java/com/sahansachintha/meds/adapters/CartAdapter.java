@@ -8,15 +8,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.helper.data.CartManager;
 import com.sahansachintha.meds.model.CartItem;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -49,8 +51,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.cartTitle.setText(cartItem.getProduct().getTitle());
         //holder.cartPrice.setText(cartItem.getProduct().getPrice());
-        holder.cartPrice.setText(String.format(Locale.US, "LKR %.2f", Double.parseDouble(cartItem.getProduct().getPrice())));
         holder.cartQuantity.setText(String.format(Locale.US, "%d", cartItem.getQuantity()));
+        holder.cartPrice.setText(String.format(Locale.US, "LKR %.2f", (Double.parseDouble(cartItem.getProduct().getPrice()) * cartItem.getQuantity())));
         holder.cartCategory.setText(cartItem.getProduct().getCategoryName());
 
         Glide.with(context)
