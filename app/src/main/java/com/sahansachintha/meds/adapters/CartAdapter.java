@@ -1,6 +1,7 @@
 package com.sahansachintha.meds.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +114,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     // Remove item from cart
     private void removeItem(int position) {
         CartManager.removeProduct(cartItems.get(position).getProduct().getId());
-        cartItems.remove(position);
+        Log.i("MyMedsCartAdapter", "CartItems" + cartItems.size());
+        //cartItems.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, cartItems.size());
         Toast.makeText(context, "Removed from cart", Toast.LENGTH_SHORT).show();

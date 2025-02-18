@@ -64,7 +64,10 @@ public class RemindersFragment extends Fragment {
 
         setClickListener(R.id.reminders_view_all, this::viewAll);
         setClickListener(R.id.reminders_refresh, this::viewAll);
-        setClickListener(R.id.fab_add_reminders, () -> toggleView(R.id.add_reminders_container, true));
+        setClickListener(R.id.fab_add_reminders, () -> {
+            toggleView(R.id.add_reminders_container, true);
+            toggleView(R.id.reminders_container, false);
+        });
 
         setClickListener(R.id.fab_shop_reminders, () -> {
             try {

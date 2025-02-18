@@ -93,9 +93,9 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
                 holder.cardView.setStrokeWidth(0);
                 holder.cardView.setStrokeColor(getThemeColor(context, R.attr.colorNeutral300));
 
-//                holder.textMonth.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
-//                holder.textDate.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
-//                holder.textDay.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+                holder.textMonth.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+                holder.textDate.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+                holder.textDay.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
             }
         }
 

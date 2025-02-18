@@ -1,6 +1,7 @@
 package com.sahansachintha.meds.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,18 @@ import java.util.List;
 import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
-    private List<CartItem> orderItems;
-    private Context context;
+    private final List<CartItem> orderItems;
+    private final Context context;
+    private final OnOderItemClickListener listener;
 
-    public OrderAdapter(List<CartItem> orderItems, Context context) {
+    public interface OnOderItemClickListener {
+        void onOderItemClick(CartItem cartItem);
+    }
+
+    public OrderAdapter(List<CartItem> orderItems, Context context, OnOderItemClickListener listener) {
         this.orderItems = orderItems;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -47,6 +54,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 .placeholder(R.drawable.placeholder_image) // Use a default placeholder
                 .into(holder.orderImage);
 
+        holder.orderHolder.setOnClickListener(v -> listener.onOderItemClick(orderItem));
+
     }
 
     @Override
@@ -62,11 +71,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            orderTitle = itemView.findViewById(R.id.cart_item_title);
-            orderPrice = itemView.findViewById(R.id.cart_item_price);
-            orderQuantity = itemView.findViewById(R.id.cart_item_quantity);
-            orderImage = itemView.findViewById(R.id.cart_item_img);
-            orderHolder = itemView.findViewById(R.id.cart_item_holder);
+            orderTitle = itemView.findViewById(R.id.order_item_title);
+            orderPrice = itemView.findViewById(R.id.order_item_price);
+            orderQuantity = itemView.findViewById(R.id.order_item_quantity);
+            orderImage = itemView.findViewById(R.id.order_item_img);
+            orderHolder = itemView.findViewById(R.id.order_item_holder);
         }
     }
 }
