@@ -9,8 +9,21 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 public class LocationHelper {
+
+    private static LocationHelper locationHelper;
+
+    private LocationHelper() {
+    }
+
+    public static LocationHelper getInstance() {
+        if (locationHelper == null) {
+            locationHelper = new LocationHelper();
+        }
+        return locationHelper;
+    }
+
     @SuppressLint("MissingPermission")
-    public static void getCurrentLocation(Context context) {
+    public void getCurrentLocation(Context context) {
         if (!PermissionHelper.getLocationPermission(context)) {
             Log.e("MyMedsLocation", "Location permission not granted!");
             return;

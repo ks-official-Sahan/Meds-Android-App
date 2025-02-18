@@ -27,7 +27,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
 
     private final Context context;
 
-    private OnDateClickListener listener;
+    private final OnDateClickListener listener;
 
     public interface OnDateClickListener {
         void onDateClick(LocalDate date);
@@ -38,12 +38,6 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
         this.dates = dates;
         this.selectedDate = selectedDate;
         this.listener = listener;
-    }
-
-    public DateAdapter(Context context, List<LocalDate> dates, LocalDate selectedDate) {
-        this.dates = dates;
-        this.selectedDate = selectedDate;
-        this.context = context;
     }
 
     @NonNull
@@ -90,7 +84,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
 
             if (date.equals(LocalDate.now())) {
                 holder.cardView.setStrokeWidth(1);
-                holder.cardView.setStrokeColor(getThemeColor(context, com.google.android.material.R.attr.colorAccent));
+                holder.cardView.setStrokeColor(getThemeColor(context, R.attr.colorAccent));
 
                 holder.textMonth.setTextColor(getThemeColor(context, R.attr.colorSecondary300));
                 holder.textDate.setTextColor(getThemeColor(context, R.attr.colorSecondary300));
@@ -99,9 +93,9 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
                 holder.cardView.setStrokeWidth(0);
                 holder.cardView.setStrokeColor(getThemeColor(context, R.attr.colorNeutral300));
 
-                holder.textMonth.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
-                holder.textDate.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
-                holder.textDay.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+//                holder.textMonth.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+//                holder.textDate.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+//                holder.textDay.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
             }
         }
 

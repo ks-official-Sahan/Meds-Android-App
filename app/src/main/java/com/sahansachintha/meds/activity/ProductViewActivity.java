@@ -32,7 +32,6 @@ public class ProductViewActivity extends AppCompatActivity {
     private RecyclerView productRecycler;
     private List<Product> productData;
     private ProductAdapter productAdapter;
-    private LinearLayoutManager productLayoutManager;
 
     /* Product */
     private Product product;
@@ -116,7 +115,7 @@ public class ProductViewActivity extends AppCompatActivity {
     private void initProductRecycler() {
         //productRecycler = findViewById(R.id.product_view_recycler);
 
-        productLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager productLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         productRecycler.setLayoutManager(productLayoutManager);
 
         productData = getProductData();
@@ -126,7 +125,7 @@ public class ProductViewActivity extends AppCompatActivity {
     }
 
     private List<Product> getProductData() {
-        List<Product> productList = new ArrayList<>(ProductManager.getInstance().getSampleData());
+        List<Product> productList = new ArrayList<>(ProductManager.getInstance().getAllProducts());
 
         if (product != null) {
             productList.removeIf(p -> p.getId() == product.getId());

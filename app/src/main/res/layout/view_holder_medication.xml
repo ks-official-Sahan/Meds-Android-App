@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/medication_holder_card"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginHorizontal="8dp"
+    android:layout_height="85dp"
+    android:layout_marginHorizontal="4dp"
     android:layout_marginVertical="4dp"
     android:clipChildren="false"
     android:clipToPadding="false"
@@ -21,7 +21,7 @@
         android:layout_gravity="top|end"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="80dp"
-        android:text="ID"
+        tools:text="ID"
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="invisible" />
@@ -33,24 +33,25 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:paddingHorizontal="12dp"
+        android:paddingHorizontal="6dp"
         android:paddingVertical="8dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_vertical"
             android:outlineAmbientShadowColor="?attr/colorNeutral200"
             android:outlineSpotShadowColor="?attr/colorNeutral200"
             app:cardCornerRadius="20dp"
             app:cardElevation="1dp"
             app:strokeColor="?attr/colorNeutral500"
-            app:strokeWidth="0.5dp">
+            app:strokeWidth="0dp">
 
             <ImageView
                 android:id="@+id/medication_img"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
                 android:contentDescription="@string/title_medications"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_medicine"
@@ -70,7 +71,7 @@
                 android:id="@+id/medication_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Paracetamol"
+                tools:text="Title"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="500mg"
+                tools:text="Dossage"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/medication_note"
                 app:layout_constraintTop_toBottomOf="@+id/medication_name" />
@@ -92,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Note"
+                tools:text="Note"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/medication_name" />
@@ -101,7 +102,7 @@
                 android:id="@+id/medication_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="08:00 AM"
+                tools:text="Frequency"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

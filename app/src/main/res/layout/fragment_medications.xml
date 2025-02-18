@@ -2,29 +2,139 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/medication_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:padding="2dp"
+    android:paddingBottom="2dp"
     tools:context=".fragment.navigation.MedicationsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:paddingBottom="4dp">
 
-        <TextView
-            android:id="@+id/medication_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/title_medications"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            <EditText
+                android:id="@+id/medication_search"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:autofillHints="Reminder name, time, date | Medication name"
+                android:background="@drawable/background_rounded"
+                android:hint="@string/search_home"
+                android:inputType="text"
+                android:paddingHorizontal="24dp"
+                android:paddingBottom="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/medication_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/my_medications"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/medication_search" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/medications_recycler"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/medication_title"
+                tools:visibility="gone" />
+
+            <!--  No Medications  -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/medications_empty_view"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:layout_margin="16dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/medication_title"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/empty_medications_img"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="20dp"
+                    android:contentDescription="@string/no_medications"
+                    android:scaleType="centerCrop"
+                    app:tint="?attr/colorTintHigh"
+                    android:src="@drawable/ic_medication"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_medications"
+                    android:textSize="25sp"
+                    android:textStyle="italic"
+                    android:textColor="?attr/colorTintHigh"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/empty_medications_img" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--  No Medications  -->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--  Add Btn  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_medications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="76dp"
+        android:backgroundTint="?attr/colorTint"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_add_2"
+        app:tint="?attr/colorTintHigh"
+        tools:visibility="visible" />
+
+    <!--  Shop Btn  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_shop_medications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="?attr/colorTint"
+        android:contentDescription="@string/app_name"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_shop"
+        app:tint="?attr/colorTintHigh"
+        tools:visibility="visible" />
+
+
 
 </FrameLayout>

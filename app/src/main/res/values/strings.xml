@@ -94,4 +94,11 @@
     <string name="category">Category</string>
     <string name="title">Title</string>
     <string name="pay_with_payhere">Pay with PayHere</string>
+    <string name="view_all">View All</string>
+    <string name="no_reminders">No Reminders</string>
+    <string name="no_medications">No Medications</string>
+    <string name="prodcuts">Prodcuts</string>
+    <string name="refresh">Refresh</string>
+    <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
 </resources>
