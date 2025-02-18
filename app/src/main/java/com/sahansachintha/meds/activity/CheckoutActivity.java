@@ -1,15 +1,12 @@
 package com.sahansachintha.meds.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -31,13 +29,11 @@ import com.sahansachintha.meds.adapters.OrderAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import lk.payhere.androidsdk.PHConfigs;
@@ -63,7 +59,6 @@ public class CheckoutActivity extends AppCompatActivity {
     private static final String PAYHERE_SANDBOX_URL = PHConfigs.SANDBOX_URL;
 
     private RecyclerView orderRecycler;
-    private byte[] imageBytes;
     private ImageView imgPrescription;
 
     @Override
@@ -138,7 +133,9 @@ public class CheckoutActivity extends AppCompatActivity {
 
             byte[] buffer = new byte[4096]; // Larger buffer for efficiency
             int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
+            while (true) {
+                assert inputStream != null;
+                if ((bytesRead = inputStream.read(buffer)) == -1) break;
                 fos.write(buffer, 0, bytesRead);
             }
             fos.flush();
@@ -168,12 +165,13 @@ public class CheckoutActivity extends AppCompatActivity {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, IOException e) {
                 Log.e("Upload", "Upload failed: " + e.getMessage());
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                assert response.body() != null;
                 Log.d("Upload", "Upload success: " + response.body().string());
             }
         });

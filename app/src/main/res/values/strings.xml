@@ -109,4 +109,8 @@
     <string name="mobile">Mobile</string>
     <string name="prescription_optional">Prescription (Optional)</string>
     <string name="prescription">Prescription</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="sahan">Sahan</string>
+    <string name="owner_mobile">0768701148</string>
+    <string name="map">Map</string>
 </resources>

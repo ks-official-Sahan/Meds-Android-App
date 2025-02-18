@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-    private List<CartItem> cartItems;
-    private Context context;
+    private final List<CartItem> cartItems;
+    private final Context context;
     private final CartUpdateListener cartUpdateListener;
 
 //    public CartAdapter(List<CartItem> cartItems, Context context) {

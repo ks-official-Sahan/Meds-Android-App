@@ -1,25 +1,9 @@
 package com.sahansachintha.meds.helper;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-
-import com.sahansachintha.meds.activity.CheckoutActivity;
-import com.sahansachintha.meds.activity.StoreActivity;
-
-import java.io.Serializable;
 
 import lk.payhere.androidsdk.PHConfigs;
-import lk.payhere.androidsdk.PHConstants;
-import lk.payhere.androidsdk.PHMainActivity;
-import lk.payhere.androidsdk.PHResponse;
 import lk.payhere.androidsdk.model.InitRequest;
-import lk.payhere.androidsdk.model.Item;
-import lk.payhere.androidsdk.model.StatusResponse;
 
 public class PayHereHelper {
     private static final String TAG = "MyMedsPayhere";

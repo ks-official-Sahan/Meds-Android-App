@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
-    id("kotlin-kapt")
+    //id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -54,10 +55,14 @@ dependencies {
     implementation(libs.okhttp)
     //implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt("com.github.bumptech.glide:compiler:4.16.0")
+    //implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.glide)
+    //kapt("com.github.bumptech.glide:compiler:4.16.0")
+    //ksp("com.github.bumptech.glide:compiler:4.16.0")
+    ksp(libs.compiler)
 
-    implementation("com.github.PayHereDevs:payhere-android-sdk:v3.0.17")
+    //implementation("com.github.PayHereDevs:payhere-android-sdk:v3.0.17")
+    implementation(libs.payhere.android.sdk)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
