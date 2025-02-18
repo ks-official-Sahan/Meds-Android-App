@@ -1,5 +1,6 @@
 package com.sahansachintha.meds.fragment.navigation;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,167 +12,154 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.HomeActivity;
+import com.sahansachintha.meds.activity.StoreActivity;
 import com.sahansachintha.meds.adapters.DateAdapter;
 import com.sahansachintha.meds.adapters.MedicationAdapter;
 import com.sahansachintha.meds.adapters.ReminderAdapter;
+import com.sahansachintha.meds.helper.NavigationHelper;
+import com.sahansachintha.meds.helper.data.DateManager;
+import com.sahansachintha.meds.helper.data.MedicationManager;
+import com.sahansachintha.meds.helper.data.ReminderManager;
 import com.sahansachintha.meds.model.Medication;
 import com.sahansachintha.meds.model.Reminder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     private LocalDate selectedDate = LocalDate.now();
-
-    /* Date */
-    private RecyclerView dateRecyler;
-    private List<LocalDate> calendarData;
+    private RecyclerView dateRecycler, reminderRecycler, medicationRecycler;
     private DateAdapter dateAdapter;
-    private LinearLayoutManager dateLayoutManager;
-
-    /* Reminder */
-    private RecyclerView reminderRecyler;
-    private List<Reminder> reminderData;
     private ReminderAdapter reminderAdapter;
-    private LinearLayoutManager reminderLayoutManager;
-
-    /* Medication */
-    private RecyclerView medicationRecycler;
-    private List<Medication> medicationData;
     private MedicationAdapter medicationAdapter;
-    private LinearLayoutManager medicationLayoutManager;
+    private List<LocalDate> calendarData;
+    private List<Reminder> reminderData;
+    private List<Medication> medicationData;
 
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        dateRecyler = view.findViewById(R.id.date_recycler);
-        initDateRecyler();
+        initDateRecycler();
+        initReminderRecycler();
+        initMedicationRecycler();
 
-        reminderRecyler = view.findViewById(R.id.reminder_recycler);
-        initReminderRecyler();
+//        try {
+//            getActivity().findViewById(R.id.fab).setVisibility(View.GONE);
+//        } catch (NullPointerException e) {
+//            view.findViewById(R.id.fab_shop).setVisibility(View.GONE);
+//            Log.e("MyMedsHome", "Cannot Find Resource with ID R.id.fab in HomeFragment");
+//        }
+        view.findViewById(R.id.fab_today).setOnClickListener(v -> selectDate(LocalDate.now()));
 
-        medicationRecycler = view.findViewById(R.id.medication_recycler);
-        initMedicationRecyler();
+        view.findViewById(R.id.reminder_view_all_home).setOnClickListener(v -> viewAllReminders());
+        view.findViewById(R.id.reminder_refresh_home).setOnClickListener(v -> viewAllReminders());
+        view.findViewById(R.id.medication_view_all_home).setOnClickListener(v -> viewAllMedications());
+        view.findViewById(R.id.medication_refresh_home).setOnClickListener(v -> viewAllMedications());
 
-        //MaterialCardView btnToday = view.findViewById(R.id.btn_today);
-        FloatingActionButton btnToday = view.findViewById(R.id.fab_today);
-        btnToday.setOnClickListener(v -> {
-            selectedDate = LocalDate.now();
-            dateAdapter.setSelectedDate(selectedDate);
-            scrollToPositionSmooth(calendarData.indexOf(selectedDate));
-        });
-
-        //MaterialCardView btnShop = view.findViewById(R.id.btn_shop);
-//        FloatingActionButton btnShop = view.findViewById(R.id.fab_shop_home);
-//        btnShop.setOnClickListener(v -> {
-//            if (getContext() != null) {
-//                try {
-//                    NavigationHelper.getInstance().openIntent(this.requireContext(), StoreActivity.class);
-//                } catch (IllegalStateException e) {
-//                    Log.e("MyMedsHome", "Error opening StoreActivity: " + e.getMessage());
-//                }
-//            }
-//        });
+        view.findViewById(R.id.fab_shop).setOnClickListener(v -> openStore());
 
         return view;
     }
 
-    private void initDateRecyler() {
-        dateLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        dateRecyler.setLayoutManager(dateLayoutManager);
-
-        calendarData = generateCalendarData();
-
-        //DateAdapter dateAdapter = new DateAdapter(getContext(), calendarData, selectedDate);
-        dateAdapter = new DateAdapter(getContext(), calendarData, selectedDate, date -> {
-            selectedDate = date;
-            Log.d("MyMedsHome", "Selected Date: " + date);
-            scrollToPositionSmooth(calendarData.indexOf(date));
-        });
-        dateRecyler.setAdapter(dateAdapter);
-
-        dateRecyler.post(() -> scrollToPositionSmooth(calendarData.indexOf(selectedDate)));
-    }
-
-    private void initReminderRecyler() {
-        reminderLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        reminderRecyler.setLayoutManager(reminderLayoutManager);
-
-        reminderData = getReminderData();
-
-        //ReminderAdapter reminderAdapter = new ReminderAdapter(reminderData, getContext());
-        reminderAdapter = new ReminderAdapter(reminderData, getContext());
-        reminderRecyler.setAdapter(reminderAdapter);
-    }
-
-    private List<Reminder> getReminderData() {
-        List<Reminder> reminderList = new ArrayList<>();
-
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(2025, Calendar.FEBRUARY, 12, 8, 30); // 12th Feb, 8:30 AM
-        reminderList.add(new Reminder(1, "Reminder 1", calendar.getTimeInMillis(), "Finish Reminder Development"));
-
-        calendar.set(2025, Calendar.FEBRUARY, 12, 10, 30); // 12th Feb, 8:30 AM
-        reminderList.add(new Reminder(2, "Reminder 2", calendar.getTimeInMillis(), "Finish Medication Development"));
-
-        calendar.set(2025, Calendar.FEBRUARY, 13, 8, 30); // 13th Feb, 8:30 AM
-        reminderList.add(new Reminder(3, "Reminder 3", calendar.getTimeInMillis(), "Finish Store Home Development"));
-
-        calendar.set(2025, Calendar.FEBRUARY, 14, 8, 30); // 14th Feb, 8:30 AM
-        reminderList.add(new Reminder(4, "Reminder 4", calendar.getTimeInMillis(), "Finish Store Product View Development"));
-
-        return reminderList;
-    }
-
-    private void initMedicationRecyler() {
-        medicationLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        medicationRecycler.setLayoutManager(medicationLayoutManager);
-
-        medicationData = getMedicationData();
-
-        //MedicationAdapter medicationAdapter = new MedicationAdapter(medicationData, getContext());
-        medicationAdapter = new MedicationAdapter(medicationData, getContext());
-        medicationRecycler.setAdapter(medicationAdapter);
-    }
-
-    private List<Medication> getMedicationData() {
-        List<Medication> medicationList = new ArrayList<>();
-
-        medicationList.add(new Medication(1, "Paracetamol", "500mg", "Once per day", "After Eating"));
-        medicationList.add(new Medication(2, "Ibuprofen", "200mg", "Twice per day", "Before Eating"));
-        medicationList.add(new Medication(3, "Amoxicillin", "500mg", "Once per day", "After Eating"));
-        medicationList.add(new Medication(4, "Aspirin", "300mg", "Twice per day", "Before Eating"));
-
-        return medicationList;
-    }
-
-    private List<LocalDate> generateCalendarData() {
-        List<LocalDate> days = new ArrayList<>();
-        LocalDate startDate = LocalDate.now().minusMonths(6); // 6 months before
-        LocalDate endDate = LocalDate.now().plusMonths(6); // 6 months after
-
-        while (!startDate.isAfter(endDate)) {
-            days.add(startDate);
-            startDate = startDate.plusDays(1);
+    private void openStore() {
+        try {
+            NavigationHelper.getInstance().openIntent(requireContext(), StoreActivity.class);
+        } catch (IllegalStateException e) {
+            Log.e("MyMedsHome", "Error opening StoreActivity: " + e.getMessage());
         }
-
-        return days;
     }
 
-    private void scrollToPositionSmooth(int position) {
+    private void viewAllReminders() {
+        navigateTo(HomeActivity.class, R.id.menu_item_reminders);
+    }
+
+    private void viewAllMedications() {
+        navigateTo(HomeActivity.class, R.id.menu_item_medications);
+    }
+
+    private void navigateTo(Class<?> target, int menuItem) {
+        NavigationHelper.getInstance().openIntent(requireContext(), target, menuItem);
+    }
+
+    private void initDateRecycler() {
+        dateRecycler = view.findViewById(R.id.date_recycler);
+        dateRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        calendarData = DateManager.getInstance().generateCalendarData();
+        dateAdapter = new DateAdapter(getContext(), calendarData, selectedDate, this::onDateSelected);
+        dateRecycler.setAdapter(dateAdapter);
+
+        dateRecycler.post(() -> scrollToPosition(calendarData.indexOf(selectedDate)));
+    }
+
+    private void onDateSelected(LocalDate date) {
+        selectDate(date);
+        updateReminders(ReminderManager.getInstance().getRemindersForDate(selectedDate));
+    }
+
+    private void selectDate(LocalDate date) {
+        selectedDate = date;
+        dateAdapter.setSelectedDate(selectedDate);
+        scrollToPosition(calendarData.indexOf(selectedDate));
+    }
+
+    private void scrollToPosition(int position) {
         //dateRecyler.smoothScrollToPosition(position);
         if (position >= 0 && position < calendarData.size()) {
+            LinearLayoutManager layoutManager = (LinearLayoutManager) dateRecycler.getLayoutManager();
+            assert layoutManager != null;
+            layoutManager.scrollToPositionWithOffset(position, (dateRecycler.getWidth() / 2) - 120);
             //layoutManager.scrollToPositionWithOffset(position, 0); // start
-            dateLayoutManager.scrollToPositionWithOffset(position, (dateRecyler.getWidth() / 2) - 120); // center
         }
     }
 
+    private void initReminderRecycler() {
+        reminderRecycler = view.findViewById(R.id.reminder_recycler);
+        reminderRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        reminderData = ReminderManager.getInstance().getRemindersForDate(selectedDate);
+        reminderAdapter = new ReminderAdapter(reminderData, getContext());
+        reminderRecycler.setAdapter(reminderAdapter);
+
+        toggleView(R.id.reminder_empty_view_home, reminderData.isEmpty());
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateReminders(List<Reminder> reminders) {
+        reminderData.clear();
+        reminderData.addAll(reminders);
+        reminderAdapter.notifyDataSetChanged();
+        toggleView(R.id.reminder_empty_view_home, reminderData.isEmpty());
+    }
+
+    private void initMedicationRecycler() {
+        medicationRecycler = view.findViewById(R.id.medication_recycler);
+        medicationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        medicationData = MedicationManager.getInstance().getAllMedications();
+        medicationAdapter = new MedicationAdapter(medicationData, getContext());
+        medicationRecycler.setAdapter(medicationAdapter);
+
+        toggleView(R.id.medication_empty_view_home, medicationData.isEmpty());
+    }
+
+    private void toggleView(int viewId, boolean isVisible) {
+        view.findViewById(viewId).setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        try {
+//            getActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
+//        } catch (NullPointerException e) {
+//            Log.e("MyMedsHome", "Cannot Find Resource with ID R.id.fab in HomeFragment");
+//        }
+//    }
 }

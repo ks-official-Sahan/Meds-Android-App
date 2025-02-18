@@ -1,25 +1,36 @@
 package com.sahansachintha.meds.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 public class Medication implements Serializable {
 
     private int id;
     private String name;
     private String dosage;
-    private String notes;
+    private String instructions;
 
-    private String time;
+    private String frequency;
+
+    private String image; // Store Image URL instead of binary data
+
 //    private long timeInMillis;
 //    private Calendar calendar;
 
-    public Medication(int id, String name, String dosage, String time, String notes) {
+    public Medication(int id, String name, String dosage, String frequency, String instructions) {
         this.id = id;
         this.name = name;
         this.dosage = dosage;
-        this.time = time;
-        this.notes = notes;
+        this.frequency = frequency;
+        this.instructions = instructions;
+    }
+
+    public Medication(int id, String name, String dosage, String instructions, String frequency, String image) {
+        this.id = id;
+        this.name = name;
+        this.dosage = dosage;
+        this.instructions = instructions;
+        this.frequency = frequency;
+        this.image = image;
     }
 
     public int getId() {
@@ -46,23 +57,31 @@ public class Medication implements Serializable {
         this.dosage = dosage;
     }
 
-    public String getTime() {
-        return time;
+    public String getFrequency() {
+        return frequency;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getInstructions() {
+        return instructions;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 
-//    public long getTimeInMillis() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    //    public long getTimeInMillis() {
 //        return timeInMillis;
 //    }
 //

@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Categories"
+                android:text="@string/categories"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,11 +83,38 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Prodcuts"
+                android:text="@string/prodcuts"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/store_category_recycler" />
+
+            <TextView
+                android:id="@+id/products_view_all_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/view_all"
+                android:textColor="?attr/colorTintHigh"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/products_refresh_store"
+                app:layout_constraintEnd_toStartOf="@+id/products_refresh_store"
+                app:layout_constraintTop_toTopOf="@+id/products_refresh_store" />
+
+            <ImageView
+                android:id="@+id/products_refresh_store"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/refresh"
+                android:scaleType="centerCrop"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_refresh"
+                app:layout_constraintBottom_toBottomOf="@+id/store_products_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/store_products_text"
+                app:tint="?attr/colorTintMid" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/store_products_recycler"

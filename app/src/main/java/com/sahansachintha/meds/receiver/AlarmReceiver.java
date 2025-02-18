@@ -9,12 +9,9 @@ import android.util.Log;
 import com.sahansachintha.meds.activity.AlarmActivity;
 import com.sahansachintha.meds.helper.LocationHelper;
 import com.sahansachintha.meds.helper.NotificationHelper;
-import com.sahansachintha.meds.model.Reminder;
 import com.sahansachintha.meds.utils.AlarmScheduler;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
@@ -64,7 +61,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         AlarmScheduler.scheduleReminder(context, reminderId, calendar);
 
         // 🔥 Get Location If Alarm is Missed
-        LocationHelper.getCurrentLocation(context);
+        LocationHelper.getInstance().getCurrentLocation(context);
     }
 
 }

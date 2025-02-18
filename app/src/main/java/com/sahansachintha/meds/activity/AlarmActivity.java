@@ -7,31 +7,32 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.helper.LocationHelper;
 import com.sahansachintha.meds.helper.NotificationHelper;
 import com.sahansachintha.meds.utils.AlarmScheduler;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class AlarmActivity extends AppCompatActivity {
 
     private Ringtone ringtone;
     private int reminderId;
-    private Handler missedAlarmHandler = new Handler();
+    private final Handler missedAlarmHandler = new Handler();
     private boolean isAlarmHandled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //EdgeToEdge.enable(this);
+        EdgeToEdge.enable(this);
 
         /* Make activity appear on lock screen */
         getWindow().addFlags(
@@ -41,13 +42,15 @@ public class AlarmActivity extends AppCompatActivity {
         );
 
         setContentView(R.layout.activity_alarm);
-        //ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.alarm_main), (v, insets) -> {
-        //    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-        //    v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-        //    return insets;
-        //});
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.alarm_main), (v, insets) -> {
+            v.setPadding(0, 0, 0, 0);
+            return insets;
+        });
 
         reminderId = getIntent().getIntExtra("reminderId", -1);
+
+        TextView timeText = findViewById(R.id.alarm_time);
+        timeText.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
 
         // Play alarm sound
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -77,7 +80,7 @@ public class AlarmActivity extends AppCompatActivity {
         missedAlarmHandler.removeCallbacksAndMessages(null);
 
         // 🔥 Get Location on Dismiss
-        LocationHelper.getCurrentLocation(this);
+        LocationHelper.getInstance().getCurrentLocation(this);
 
         finish();
     }

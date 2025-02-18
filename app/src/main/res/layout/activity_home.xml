@@ -114,6 +114,7 @@
             app:srcCompat="@drawable/ic_shop"
             app:tint="?attr/colorTintHigh"
             android:backgroundTint="?attr/colorTint"
+            android:visibility="gone"
             tools:visibility="visible" />
         <!-- Floating Button -->
 

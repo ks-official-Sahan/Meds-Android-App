@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.ProductViewActivity;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.model.Product;
 
@@ -86,11 +84,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            productTitle = itemView.findViewById(R.id.product_card_title);
-            productPrice = itemView.findViewById(R.id.product_card_price);
-            productCategory = itemView.findViewById(R.id.product_card_category);
-            productImage = itemView.findViewById(R.id.product_card_img);
-            productCard = itemView.findViewById(R.id.product_card_holder);
+            productTitle = itemView.findViewById(R.id.cart_item_title);
+            productPrice = itemView.findViewById(R.id.cart_item_price);
+            productCategory = itemView.findViewById(R.id.cart_item_category);
+            productImage = itemView.findViewById(R.id.cart_item_img);
+            productCard = itemView.findViewById(R.id.cart_item__holder);
         }
     }
 }

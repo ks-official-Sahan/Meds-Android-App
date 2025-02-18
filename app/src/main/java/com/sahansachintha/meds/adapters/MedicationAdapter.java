@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
 
-    private List<Medication> medicationList;
+    private final List<Medication> medicationList;
 
     private final Context context;
 
@@ -54,8 +54,8 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
         holder.medicationId.setText(String.valueOf(medication.getId()));
         holder.medicationName.setText(medication.getName());
-        holder.medicationNote.setText(medication.getNotes());
-        holder.medicationTime.setText(medication.getTime());
+        holder.medicationNote.setText(medication.getInstructions());
+        holder.medicationTime.setText(medication.getFrequency());
         holder.medicationDosage.setText(medication.getDosage());
 
         //if (medication.getImg()) {

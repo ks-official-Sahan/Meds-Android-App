@@ -1,12 +1,12 @@
 package com.sahansachintha.meds.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,24 +19,27 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
-    private List<Category> categoryList;
-    private Context context;
+    private final List<Category> categoryList;
+    private final Context context;
 
-    private OnCategoryClickListener listener;
+    private int selectedItem = -1;
+
+    private final OnCategoryClickListener listener;
 
     public interface OnCategoryClickListener {
         void onCategoryClick(Category category);
-    }
-
-    public CategoryAdapter(List<Category> categoryList, Context context) {
-        this.categoryList = categoryList;
-        this.context = context;
     }
 
     public CategoryAdapter(List<Category> categoryList, Context context, OnCategoryClickListener listener) {
         this.categoryList = categoryList;
         this.context = context;
         this.listener = listener;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,12 +54,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Category category = categoryList.get(position);
         holder.categoryTitle.setText(category.getName());
         holder.categoryImage.setImageResource(category.getImgId());
+
+        if (position == selectedItem) {
+            holder.categoryCard.animate().scaleX(1.1f).scaleY(1.1f).setDuration(500).start();
+            holder.categoryContainer.setBackgroundResource(R.color.primary_400);
+        } else {
+            holder.categoryCard.animate().scaleX(1f).scaleY(1f).setDuration(500).start();
+            holder.categoryContainer.setBackgroundResource(R.color.transparent);
+        }
+
         holder.categoryCard.setOnClickListener(v -> {
-            Toast.makeText(context, category.getName(), Toast.LENGTH_SHORT).show();
+            setSelectedItem(position);
+            //setSelectedItem(holder.getAdapterPosition());
             if (listener != null) {
                 listener.onCategoryClick(category);
             }
         });
+
     }
 
     @Override
@@ -68,11 +82,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         TextView categoryTitle;
         ImageView categoryImage;
         MaterialCardView categoryCard;
+        View categoryContainer;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryTitle = itemView.findViewById(R.id.category_card_title);
             categoryImage = itemView.findViewById(R.id.category_card_img);
+            categoryContainer = itemView.findViewById(R.id.category_card_container);
+
             categoryCard = itemView.findViewById(R.id.category_card_holder);
         }
     }

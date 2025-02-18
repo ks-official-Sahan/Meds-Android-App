@@ -84,4 +84,21 @@
     <string name="similar_products">Similar Products</string>
     <string name="back">Back</string>
     <string name="product">Product</string>
+    <string name="checkout">Checkout</string>
+    <string name="continue_shopping">Continue Shopping</string>
+    <string name="total_price">Total Price</string>
+    <string name="_0">0</string>
+    <string name="empty_cart">Your Cart is Empty</string>
+    <string name="total_price_">Total Price:</string>
+    <string name="total">Total:</string>
+    <string name="category">Category</string>
+    <string name="title">Title</string>
+    <string name="pay_with_payhere">Pay with PayHere</string>
+    <string name="view_all">View All</string>
+    <string name="no_reminders">No Reminders</string>
+    <string name="no_medications">No Medications</string>
+    <string name="prodcuts">Prodcuts</string>
+    <string name="refresh">Refresh</string>
+    <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
 </resources>

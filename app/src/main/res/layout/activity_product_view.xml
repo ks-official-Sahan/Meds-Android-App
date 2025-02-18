@@ -144,33 +144,35 @@
 
                     <!--  Quantity Mechanism  -->
                     <ImageView
-                        android:id="@+id/product_view_decrement"
+                        android:id="@+id/cart_item_decrement"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginHorizontal="4dp"
+                        android:layout_marginEnd="4dp"
                         android:contentDescription="@string/decrement"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_minus"
-                        app:layout_constraintBottom_toBottomOf="@+id/product_view_quantity"
-                        app:layout_constraintEnd_toStartOf="@+id/product_view_quantity"
-                        app:layout_constraintTop_toTopOf="@+id/product_view_quantity" />
+                        app:layout_constraintBottom_toBottomOf="@+id/cart_item_quantity"
+                        app:layout_constraintEnd_toStartOf="@+id/cart_item_quantity"
+                        app:layout_constraintTop_toTopOf="@+id/cart_item_quantity" />
 
                     <ImageView
-                        android:id="@+id/product_view_increment"
+                        android:id="@+id/cart_item_increment"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginHorizontal="4dp"
                         android:contentDescription="@string/increment"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_add"
-                        app:layout_constraintBottom_toBottomOf="@+id/product_view_quantity"
+                        app:layout_constraintBottom_toBottomOf="@+id/cart_item_quantity"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/product_view_quantity" />
+                        app:layout_constraintTop_toTopOf="@+id/cart_item_quantity" />
 
                     <EditText
-                        android:id="@+id/product_view_quantity"
+                        android:id="@+id/cart_item_quantity"
                         android:layout_width="70dp"
                         android:layout_height="50dp"
+                        android:layout_marginEnd="4dp"
                         android:autofillHints="Quantity"
                         android:ems="10"
                         android:gravity="center_horizontal"
@@ -178,7 +180,7 @@
                         android:text="@string/_1"
                         android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="@+id/product_view_price"
-                        app:layout_constraintEnd_toStartOf="@+id/product_view_increment"
+                        app:layout_constraintEnd_toStartOf="@+id/cart_item_increment"
                         app:layout_constraintTop_toTopOf="@+id/product_view_price"
                         tools:ignore="LabelFor" />
                     <!--  Quantity Mechanism  -->

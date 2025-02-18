@@ -132,4 +132,6 @@
 
     <color name="card_background">#1E293B</color> <!-- Modern, Minimalist Dark Blue -->
     <color name="card_stroke">#334155</color> <!-- Subtle Border for Depth -->
+
+    <color name="transparent">#00000000</color>
 </resources>

@@ -14,7 +14,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0.1a"
+        versionName = "1.0.0-alpha4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,6 +56,8 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
     kapt("com.github.bumptech.glide:compiler:4.16.0")
+
+    implementation("com.github.PayHereDevs:payhere-android-sdk:v3.0.17")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

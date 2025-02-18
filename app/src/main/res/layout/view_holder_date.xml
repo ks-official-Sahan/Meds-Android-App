@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/date_holder_card"
-    android:layout_width="70dp"
-    android:layout_height="100dp"
-    android:layout_marginHorizontal="4dp"
+    android:layout_width="58dp"
+    android:layout_height="80dp"
+    android:layout_marginHorizontal="5dp"
     android:layout_marginVertical="2dp"
-    app:cardCornerRadius="24dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="16dp"
     app:strokeColor="?attr/colorPrimary300"
     app:strokeWidth="1.5dp"
+    android:outlineAmbientShadowColor="?attr/colorPrimary300"
+    android:outlineSpotShadowColor="?attr/colorPrimary300"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -20,6 +23,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="4dp"
+        android:layout_marginTop="-3dp"
         android:clipChildren="false"
         android:clipToPadding="false">
 
@@ -28,8 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="4"
-            android:textSize="18sp"
+            tools:text="4"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
@@ -37,8 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Wed"
-            android:textSize="14sp"
+            tools:text="Wed"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
@@ -46,8 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="April"
-            android:textSize="12sp"
+            tools:text="April"
+            android:textSize="11sp"
             android:textStyle="bold" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

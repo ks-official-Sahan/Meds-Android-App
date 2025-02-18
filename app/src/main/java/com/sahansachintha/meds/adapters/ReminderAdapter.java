@@ -1,5 +1,6 @@
 package com.sahansachintha.meds.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -75,6 +76,12 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     @Override
     public int getItemCount() {
         return reminderList.size();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateData(List<Reminder> newReminders) {
+        this.reminderList = newReminders;
+        notifyDataSetChanged();
     }
 
     private String getFormattedTime(Date date) {

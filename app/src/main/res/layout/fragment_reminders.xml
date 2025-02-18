@@ -2,15 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reminder_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    tools:context=".fragment.navigation.ProfileFragment">
+    android:clipChildren="false"
+    android:padding="2dp"
+    android:paddingBottom="0dp"
+    tools:context=".fragment.navigation.RemindersFragment">
 
+    <!--  Add Alarms  -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_reminders_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/reminders_title"
@@ -18,8 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="128dp"
             android:gravity="center"
-            android:textSize="25sp"
             android:text="@string/title_reminders"
+            android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +42,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reminders_title" />
+
         <Button
             android:id="@+id/alarm_test_30s"
             android:layout_width="wrap_content"
@@ -45,8 +52,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alarm_test_15s"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/alarm_test_15s" />
+
         <Button
             android:id="@+id/alarm_test_1m"
             android:layout_width="wrap_content"
@@ -56,8 +63,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alarm_test_30s"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/alarm_test_30s" />
+
         <Button
             android:id="@+id/alarm_test_5m"
             android:layout_width="wrap_content"
@@ -67,8 +74,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alarm_test_1m"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/alarm_test_1m" />
+
         <Button
             android:id="@+id/alarm_test_10m"
             android:layout_width="wrap_content"
@@ -78,7 +85,191 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alarm_test_5m"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/alarm_test_5m" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--  Add Alarms  -->
+
+    <!--  Reminders  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reminders_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:paddingBottom="4dp">
+
+        <EditText
+            android:id="@+id/reminders_search"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:autofillHints="Reminder name, time, date | Medication name"
+            android:background="@drawable/background_rounded"
+            android:hint="@string/search_home"
+            android:inputType="text"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="1dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reminders_date_recycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reminders_search" />
+
+        <TextView
+            android:id="@+id/reminder_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/my_reminders"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reminders_date_recycler" />
+
+        <TextView
+            android:id="@+id/reminders_view_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/view_all"
+            android:textColor="?attr/colorTintHigh"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/reminders_refresh"
+            app:layout_constraintEnd_toStartOf="@+id/reminders_refresh"
+            app:layout_constraintTop_toTopOf="@+id/reminders_refresh" />
+
+        <ImageView
+            android:id="@+id/reminders_refresh"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/refresh"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_refresh"
+            app:layout_constraintBottom_toBottomOf="@+id/reminder_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/reminder_title"
+            app:tint="?attr/colorTintMid" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reminders_recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reminder_title"
+            tools:visibility="gone" />
+
+        <!--  No Reminders  -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/reminders_empty_view"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reminder_title"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/empty_reminders_img"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="@string/no_reminders"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_reminder"
+                app:tint="?attr/colorTintHigh"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_reminders"
+                android:textSize="25sp"
+                android:textStyle="italic"
+                android:textColor="?attr/colorTintHigh"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/empty_reminders_img" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--  No Reminders  -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--  Reminders  -->
+
+    <!--  Add Btn  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_reminders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="140dp"
+        android:backgroundTint="?attr/colorTint"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_add_2"
+        app:tint="?attr/colorTintHigh"
+        tools:visibility="visible" />
+
+    <!--  Today Btn  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_today_reminders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="76dp"
+        android:backgroundTint="?attr/colorTint"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_today"
+        app:tint="?attr/colorTintHigh"
+        tools:visibility="visible" />
+
+    <!--  Shop Btn  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_shop_reminders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="?attr/colorTint"
+        android:contentDescription="@string/app_name"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_shop"
+        app:tint="?attr/colorTintHigh"
+        tools:visibility="visible" />
+
 </FrameLayout>
