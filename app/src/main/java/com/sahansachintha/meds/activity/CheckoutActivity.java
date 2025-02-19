@@ -73,6 +73,8 @@ public class CheckoutActivity extends AppCompatActivity {
             return insets;
         });
 
+        findViewById(R.id.checkout_back_btn).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+
         initOrderRecycler();
 
         findViewById(R.id.checkout_pay_btn).setOnClickListener(v -> initPayment());
@@ -165,7 +167,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(@NonNull Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("Upload", "Upload failed: " + e.getMessage());
             }
 
@@ -262,21 +264,32 @@ public class CheckoutActivity extends AppCompatActivity {
             Intent data = result.getData();
             if (data.hasExtra(PHConstants.INTENT_EXTRA_RESULT)) {
                 Serializable serializable = data.getSerializableExtra(PHConstants.INTENT_EXTRA_RESULT);
-                if (serializable instanceof PHResponse) {
-                    PHResponse<StatusResponse> response = (PHResponse<StatusResponse>) serializable;
-                    if (response.isSuccess()) {
-                        Log.d(TAG, "Payment Success: " + response.getData());
-                        Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+                if (serializable instanceof PHResponse<?>) {
+                    PHResponse<?> genericResponse = (PHResponse<?>) serializable;
+                    Object responseData = genericResponse.getData();
 
-                        NavigationHelper.getInstance().openIntent(CheckoutActivity.this, StoreActivity.class);
-                        // Run Order Save API here
+                    if (responseData instanceof StatusResponse) {
+                        @SuppressWarnings("unchecked")
+                        PHResponse<StatusResponse> response = (PHResponse<StatusResponse>) genericResponse;
+
+                        if (response.isSuccess()) {
+                            Log.d(TAG, "Payment Success: " + response.getData());
+                            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+
+                            NavigationHelper.getInstance().openIntent(CheckoutActivity.this, StoreActivity.class);
+                            // Run Order Save API here
+                        } else {
+                            Log.e(TAG, "Payment Failed: " + response);
+                            Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
+
+                            NavigationHelper.getInstance().openIntent(CheckoutActivity.this, StoreActivity.class);
+                            // Run Order Fail API here
+                        }
                     } else {
-                        Log.e(TAG, "Payment Failed: " + response);
-                        Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
-
-                        NavigationHelper.getInstance().openIntent(CheckoutActivity.this, StoreActivity.class);
-                        // Run Order Fail API here
+                        Log.e(TAG, "Unexpected response type: " + responseData);
                     }
+                } else {
+                    Log.e(TAG, "Unexpected result type: " + serializable);
                 }
             }
         } else if (result.getResultCode() == Activity.RESULT_CANCELED) {

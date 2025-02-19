@@ -58,8 +58,11 @@ dependencies {
     //implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.glide)
     //kapt("com.github.bumptech.glide:compiler:4.16.0")
+    //kapt(libs.compiler)
     //ksp("com.github.bumptech.glide:compiler:4.16.0")
-    ksp(libs.compiler)
+    //ksp(libs.compiler)
+    //ksp("com.github.bumptech.glide:ksp:4.14.2")
+    ksp(libs.ksp)
 
     //implementation("com.github.PayHereDevs:payhere-android-sdk:v3.0.17")
     implementation(libs.payhere.android.sdk)

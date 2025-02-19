@@ -1,19 +1,21 @@
 [versions]
-agp = "8.8.0"
+agp = "8.8.1"
 compiler = "4.16.0"
-firebaseBom = "33.8.0"
+firebaseBom = "33.9.0"
 glide = "4.16.0"
 gson = "2.11.0"
-kotlin = "1.9.24"
+#kotlin = "1.9.24"
+kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+ksp = "4.14.2"
 material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
-navigationFragment = "2.8.6"
+navigationFragment = "2.8.7"
 okhttp = "4.12.0"
 annotation = "1.9.1"
 lifecycleLivedataKtx = "2.8.7"
@@ -33,6 +35,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "ksp" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
