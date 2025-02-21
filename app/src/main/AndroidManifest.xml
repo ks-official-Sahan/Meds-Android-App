@@ -40,6 +40,15 @@
         android:theme="@style/Theme.Meds"
         tools:targetApi="33">
         <activity
+            android:name=".activity.home.AddMedicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.home.AddReminderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.store.OrderViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.store.OrderCompleteActivity"
             android:exported="false" />
         <activity

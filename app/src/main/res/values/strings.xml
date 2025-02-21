@@ -117,4 +117,15 @@
     <string name="order_id_">Order ID:</string>
     <string name="order_id">Order ID</string>
     <string name="view_orders">View Orders</string>
+    <string name="delivery">Delivery</string>
+    <string name="delivery_">Delivery:</string>
+    <string name="subtotal_">Subtotal:</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="empty_orders">You have no Orders</string>
+    <string name="order">Order</string>
+    <string name="order_placed_on_">Order Placed On:</string>
+    <string name="status_">Status:</string>
+    <string name="customer_">Customer:</string>
+    <string name="order_details">Order Details</string>
+    <string name="order_complete">Order Complete</string>
 </resources>

@@ -18,13 +18,13 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.helper.data.CartManager;
-import com.sahansachintha.meds.model.CartItem;
+import com.sahansachintha.meds.model.ProductItem;
 
 import java.util.List;
 import java.util.Locale;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-    private final List<CartItem> cartItems;
+    private final List<ProductItem> productItems;
     private final Context context;
     private final CartUpdateListener cartUpdateListener;
 
@@ -33,8 +33,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 //        this.context = context;
 //    }
 
-    public CartAdapter(List<CartItem> cartItems, Context context, CartUpdateListener cartUpdateListener) {
-        this.cartItems = cartItems;
+    public CartAdapter(List<ProductItem> productItems, Context context, CartUpdateListener cartUpdateListener) {
+        this.productItems = productItems;
         this.context = context;
         this.cartUpdateListener = cartUpdateListener;
     }
@@ -48,30 +48,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        CartItem cartItem = cartItems.get(position);
+        ProductItem productItem = productItems.get(position);
 
-        holder.cartTitle.setText(cartItem.getProduct().getTitle());
+        holder.cartTitle.setText(productItem.getProduct().getTitle());
         //holder.cartPrice.setText(cartItem.getProduct().getPrice());
-        holder.cartQuantity.setText(String.format(Locale.US, "%d", cartItem.getQuantity()));
-        holder.cartPrice.setText(String.format(Locale.US, "LKR %.2f", (Double.parseDouble(cartItem.getProduct().getPrice()) * cartItem.getQuantity())));
-        holder.cartCategory.setText(cartItem.getProduct().getCategoryName());
+        holder.cartQuantity.setText(String.format(Locale.US, "%d", productItem.getQuantity()));
+        holder.cartPrice.setText(String.format(Locale.US, "LKR %.2f", (Double.parseDouble(productItem.getProduct().getPrice()) * productItem.getQuantity())));
+        holder.cartCategory.setText(productItem.getProduct().getCategoryName());
 
         Glide.with(context)
-                .load(cartItem.getProduct().getImage())
+                .load(productItem.getProduct().getImage())
                 .placeholder(R.drawable.placeholder_image) // Use a default placeholder
                 .into(holder.cartImage);
 
         // Handle quantity input change with a dialog
-        holder.cartQuantity.setOnClickListener(v -> showQuantityDialog(cartItem, holder, position));
+        holder.cartQuantity.setOnClickListener(v -> showQuantityDialog(productItem, holder, position));
 
         holder.removeBtn.setOnClickListener(v -> removeItem(position));
-        holder.incrementBtn.setOnClickListener(v -> updateQuantity(position, cartItem, 1));
-        holder.decrementBtn.setOnClickListener(v -> updateQuantity(position, cartItem, -1));
+        holder.incrementBtn.setOnClickListener(v -> updateQuantity(position, productItem, 1));
+        holder.decrementBtn.setOnClickListener(v -> updateQuantity(position, productItem, -1));
     }
 
     @Override
     public int getItemCount() {
-        return cartItems.size();
+        return productItems.size();
     }
 
     // ViewHolder
@@ -99,11 +99,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     // Update quantity
-    private void updateQuantity(int position, CartItem cartItem, int change) {
-        int newQuantity = cartItem.getQuantity() + change;
+    private void updateQuantity(int position, ProductItem productItem, int change) {
+        int newQuantity = productItem.getQuantity() + change;
         if (newQuantity > 0) {
-            CartManager.updateQuantity(cartItem.getProduct(), newQuantity);
-            cartItem.setQuantity(newQuantity);
+            CartManager.getInstance().updateQuantity(productItem.getProduct(), newQuantity);
+            productItem.setQuantity(newQuantity);
             notifyItemChanged(position);
 //        } else {
 //            removeItem(position);
@@ -113,28 +113,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     // Remove item from cart
     private void removeItem(int position) {
-        CartManager.removeProduct(cartItems.get(position).getProduct().getId());
-        Log.i("MyMedsCartAdapter", "CartItems" + cartItems.size());
+        CartManager.getInstance().removeProduct(productItems.get(position).getProduct().getId());
+        Log.i("MyMedsCartAdapter", "CartItems" + productItems.size());
         //cartItems.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, cartItems.size());
+        notifyItemRangeChanged(position, productItems.size());
         Toast.makeText(context, "Removed from cart", Toast.LENGTH_SHORT).show();
         cartUpdateListener.onCartUpdated();
     }
 
     // Show input dialog for quantity change
-    private void showQuantityDialog(CartItem cartItem, CartViewHolder holder, int position) {
+    private void showQuantityDialog(ProductItem productItem, CartViewHolder holder, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Update Quantity");
 
         final EditText input = new EditText(context);
-        input.setText(String.valueOf(cartItem.getQuantity()));
+        input.setText(String.valueOf(productItem.getQuantity()));
         builder.setView(input);
 
         builder.setPositiveButton("Update", (dialog, which) -> {
             try {
                 int newQuantity = Integer.parseInt(input.getText().toString());
-                updateQuantity(position, cartItem, newQuantity - cartItem.getQuantity());
+                updateQuantity(position, productItem, newQuantity - productItem.getQuantity());
             } catch (NumberFormatException e) {
                 Toast.makeText(context, "Invalid input", Toast.LENGTH_SHORT).show();
             }

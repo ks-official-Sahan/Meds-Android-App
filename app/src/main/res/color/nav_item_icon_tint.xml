@@ -2,6 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 <!--    <item android:color="@color/bottom_nav_item_icon_selected" android:state_checked="true"/>-->
 <!--    <item android:color="@color/bottom_nav_item_icon_tint"/>-->
-    <item android:color="?attr/colorAccent" android:state_checked="true"/>
+    <item android:color="?attr/colorNeutral500" android:state_checked="true"/>
+<!--    <item android:color="?attr/colorAccent" android:state_checked="true"/>-->
     <item android:color="?attr/colorNeutral500"/>
 </selector>

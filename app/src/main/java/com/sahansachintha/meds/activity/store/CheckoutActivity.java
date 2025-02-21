@@ -25,10 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.adapters.OrderAdapter;
+import com.sahansachintha.meds.adapters.OrderItemAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
-import com.sahansachintha.meds.model.CartItem;
+import com.sahansachintha.meds.helper.data.OrderManager;
+import com.sahansachintha.meds.model.Order;
+import com.sahansachintha.meds.model.ProductItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,6 +62,10 @@ public class CheckoutActivity extends AppCompatActivity {
     private static final String MERCHANT_ID = "1221502";
     private static final String PAYHERE_SANDBOX_URL = PHConfigs.SANDBOX_URL;
 
+    //public static final String ORDER_ID = UUID.randomUUID().toString();
+    public static final String ORDER_ID = OrderManager.generateOrderId();
+    public static final double DELIVERY = 200;
+
     private RecyclerView orderRecycler;
     private ImageView imgPrescription;
 
@@ -78,11 +84,21 @@ public class CheckoutActivity extends AppCompatActivity {
         findViewById(R.id.checkout_back_btn).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         initOrderRecycler();
+        getCustomer();
 
         findViewById(R.id.checkout_pay_btn).setOnClickListener(v -> initPayment());
 
         imgPrescription = findViewById(R.id.checkout_prescription);
         imgPrescription.setOnClickListener(v -> selectImageFromGallery());
+    }
+
+    private void getCustomer() {
+        TextView customerName = findViewById(R.id.checkout_customer_name);
+        TextView customerMobile = findViewById(R.id.checkout_customer_mobile);
+        TextView address = findViewById(R.id.checkout_address);
+        customerName.setText("Sahan Sachintha");
+        customerMobile.setText("+94771234567");
+        address.setText("No.1, Galle Road, Main Street, Colombo.");
     }
 
     /* ImageSelection */
@@ -186,18 +202,27 @@ public class CheckoutActivity extends AppCompatActivity {
 
         orderRecycler.setLayoutManager(new LinearLayoutManager(CheckoutActivity.this, LinearLayoutManager.VERTICAL, false));
 
-        OrderAdapter orderAdapter = new OrderAdapter(CartManager.getInstance().getCartItems(), CheckoutActivity.this, cartItem -> {
-            Log.i(TAG, cartItem.getProduct().getTitle());
+        OrderItemAdapter orderItemAdapter = new OrderItemAdapter(CartManager.getInstance().getCartItems(), CheckoutActivity.this, item -> {
+            Log.i(TAG, item.getProduct().getTitle());
         });
-        orderRecycler.setAdapter(orderAdapter);
+        orderRecycler.setAdapter(orderItemAdapter);
 
         updateTotalPrice();
     }
 
     private void updateTotalPrice() {
-        String totalValue = String.format(Locale.US, "LKR %.2f", CartManager.getTotalPrice());
+        String subTotal = String.format(Locale.US, "LKR %.2f", CartManager.getInstance().getTotalPrice());
+        TextView subTotalText = findViewById(R.id.checkout_subtotal);
+        subTotalText.setText(subTotal);
+
+        String delivery = String.format(Locale.US, "LKR %.2f", DELIVERY);
+        TextView deliveryText = findViewById(R.id.checkout_delivery);
+        deliveryText.setText(delivery);
+
+        double totalValue = CartManager.getInstance().getTotalPrice() + DELIVERY;
+        String total = String.format(Locale.US, "LKR %.2f", totalValue);
         TextView totalText = findViewById(R.id.checkout_total);
-        totalText.setText(totalValue);
+        totalText.setText(total);
     }
 
 
@@ -206,8 +231,8 @@ public class CheckoutActivity extends AppCompatActivity {
             InitRequest req = new InitRequest();
             req.setMerchantId(MERCHANT_ID);
             req.setCurrency("LKR");
-            req.setAmount(CartManager.getTotalPrice());
-            req.setOrderId(UUID.randomUUID().toString());
+            req.setAmount(CartManager.getInstance().getTotalPrice() + DELIVERY);
+            req.setOrderId(ORDER_ID);
 
             req.setItemsDescription("MyMeds Order");
             req.setCustom1("Prescription Payment");
@@ -220,7 +245,7 @@ public class CheckoutActivity extends AppCompatActivity {
             req.setNotifyUrl("https://evisionit.lk/api/payment/callback");
 
             req.getItems().clear();
-            for (CartItem item : CartManager.getInstance().getCartItems()) {
+            for (ProductItem item : CartManager.getInstance().getCartItems()) {
                 //req.getItems().add(new Item(null, item.getProduct().getTitle(), item.getQuantity(), item.getTotalPrice().doubleValue()));
                 req.getItems().add(new Item(null, item.getProduct().getTitle(), item.getQuantity(), item.getTotalPrice()));
             }
@@ -275,13 +300,22 @@ public class CheckoutActivity extends AppCompatActivity {
                             Log.d(TAG, "Payment Success: " + response.getData());
                             Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
 
-                            NavigationHelper.getInstance().openIntent(CheckoutActivity.this, OrderCompleteActivity.class);
+                            Order order = new Order.Builder()
+                                    .setOrderId(ORDER_ID)
+                                    .setOrderItems(CartManager.getInstance().getCartItems())
+                                    .setStatus("Paid")
+                                    .setDelivery(DELIVERY)
+                                    .build();
+                            OrderManager.getInstance().addOrder(order);
+                            CartManager.getInstance().clearCart();
+
+                            NavigationHelper.getInstance().viewOrderComplete(this, order);
                             // Run Order Save API here
                         } else {
                             Log.e(TAG, "Payment Failed: " + response);
                             Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
 
-                            NavigationHelper.getInstance().openIntent(CheckoutActivity.this, StoreActivity.class);
+                            NavigationHelper.getInstance().viewCart(this);
                             // Run Order Fail API here
                         }
                     } else {

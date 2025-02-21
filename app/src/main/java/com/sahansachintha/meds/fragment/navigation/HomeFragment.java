@@ -76,11 +76,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void viewAllReminders() {
-        navigateTo(HomeActivity.class, R.id.menu_item_reminders);
+        //navigateTo(HomeActivity.class, R.id.menu_item_reminders);
+        if (HomeActivity.getNavigationView() != null) {
+            HomeActivity.getBottomNavigationView().setSelectedItemId(R.id.menu_item_reminders);
+        }
     }
 
     private void viewAllMedications() {
-        navigateTo(HomeActivity.class, R.id.menu_item_medications);
+        //navigateTo(HomeActivity.class, R.id.menu_item_medications);
+        if (HomeActivity.getNavigationView() != null) {
+            HomeActivity.getBottomNavigationView().setSelectedItemId(R.id.menu_item_medications);
+        }
     }
 
     private void navigateTo(Class<?> target, int menuItem) {

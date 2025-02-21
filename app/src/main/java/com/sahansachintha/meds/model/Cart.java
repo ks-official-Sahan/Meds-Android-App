@@ -1,99 +1,107 @@
 package com.sahansachintha.meds.model;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Cart implements Serializable {
-    private List<CartItem> cartItems;
+    private final List<ProductItem> cartItems;
 
-    public Cart() {
-        this.cartItems = new ArrayList<>();
+    private Cart(Builder builder) {
+        this.cartItems = builder.productItems;
     }
 
-    public List<CartItem> getCartItems() {
+    public List<ProductItem> getCartItems() {
         return cartItems;
     }
 
-    public void addProduct(Product product, int quantity) {
-        if (quantity <= 0) return;
-
-        for (CartItem item : cartItems) {
-            if (item.getProduct().getId() == product.getId()) {
-                int newQuantity = item.getQuantity() + quantity;
-                if (newQuantity > product.getQuantity()) {
-                    Log.w("MyMedsCart", "Not enough stock!");
-                    return; // Prevent adding more than available stock
-                }
-                item.setQuantity(newQuantity);
-                return;
-            }
-        }
-
-        if (quantity > product.getQuantity()) {
-            Log.w("MyMedsCart", "Not enough stock!");
-            return;
-        }
-
-        cartItems.add(new CartItem(product, quantity));
-    }
-
-    public void removeProduct(int productId) {
-        Iterator<CartItem> iterator = cartItems.iterator();
-        while (iterator.hasNext()) {
-            CartItem item = iterator.next();
-            if (item.getProduct().getId() == productId) {
-                iterator.remove();
-                break;
-            }
-        }
-    }
-
-    public void setProductQuantity(Product product, int quantity) {
-        for (CartItem item : cartItems) {
-            if (item.getProduct().getId() == product.getId()) {
-                item.setQuantity(quantity);
-                return;
-            }
-        }
-    }
-
-    public double calculateTotalPrice() {
-        double total = 0;
-        for (CartItem item : cartItems) {
-            try {
-                total += Double.parseDouble(item.getProduct().getPrice()) * item.getQuantity();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        return total;
-    }
-
-    public void clearCart() {
-        cartItems.clear();
+    public double calculateTotal() {
+        return cartItems.stream().mapToDouble(item -> Double.parseDouble(item.getProduct().getPrice()) * item.getQuantity()).sum();
     }
 
     public boolean isCartEmpty() {
         return cartItems.isEmpty();
     }
 
-    public void saveToDatabase() {
-        // TODO Implement database saving logic
+    public void clearCart() {
+        cartItems.clear();
     }
 
-    public void loadFromDatabase() {
-        // TODO Implement database loading logic
+    public static class Builder {
+        private List<ProductItem> productItems = new ArrayList<>();
+
+        // ✅ New method to retain existing cart items
+        public Builder setCartItems(List<ProductItem> existingItems) {
+            if (existingItems != null) {
+                this.productItems = new ArrayList<>(existingItems);
+            }
+            return this;
+        }
+
+        public Builder addProduct(Product product, int quantity) {
+            if (product == null || quantity <= 0) {
+                throw new IllegalArgumentException("Invalid product or quantity.");
+            }
+
+            boolean productExists = false;
+            for (ProductItem item : productItems) {
+                if (item.getProduct().getId() == product.getId()) {
+                    int newQuantity = item.getQuantity() + quantity;
+                    if (newQuantity > product.getQuantity()) {
+                        throw new IllegalArgumentException("Not enough stock available.");
+                    }
+                    item.setQuantity(newQuantity);
+                    productExists = true;
+                    break;
+                }
+            }
+
+            if (!productExists) {
+                productItems.add(new ProductItem(product, quantity));
+            }
+
+            return this;
+        }
+
+        public Builder removeProduct(int productId) {
+            productItems.removeIf(item -> item.getProduct().getId() == productId);
+            return this;
+        }
+
+        public Builder updateQuantity(Product product, int quantity) {
+            if (product == null || quantity < 0) {
+                throw new IllegalArgumentException("Invalid product or quantity.");
+            }
+
+            for (ProductItem item : productItems) {
+                if (item.getProduct().getId() == product.getId()) {
+                    if (quantity == 0) {
+                        productItems.remove(item);
+                    } else {
+                        if (quantity > product.getQuantity()) {
+                            throw new IllegalArgumentException("Not enough stock available.");
+                        }
+                        item.setQuantity(quantity);
+                    }
+                    break;
+                }
+            }
+            return this;
+        }
+
+        public Cart build() {
+            return new Cart(this);
+        }
     }
 
-    public void deleteFromDatabase() {
-        // TODO Implement database deletion logic
-    }
-
-    public void updateInDatabase() {
-        // TODO Implement database update logic
-    }
+//    public void removeProduct(int productId) {
+//        Iterator<CartItem> iterator = cartItems.iterator();
+//        while (iterator.hasNext()) {
+//            CartItem item = iterator.next();
+//            if (item.getProduct().getId() == productId) {
+//                iterator.remove();
+//                break;
+//            }
+//        }
+//    }
 }

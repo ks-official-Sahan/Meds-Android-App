@@ -44,7 +44,7 @@ public class StoreActivity extends AppCompatActivity {
         setupNavigationViewColors();
         requestPermissions();
 
-         getOnBackPressedDispatcher().addCallback(this, new StoreOnBackPressedCallback());
+        getOnBackPressedDispatcher().addCallback(this, new StoreOnBackPressedCallback());
     }
 
     private void setupEdgeToEdgeInsets() {
@@ -75,7 +75,24 @@ public class StoreActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //showFragment(StoreFragment.class);
-        showFragment(NavigationHelper.getInstance().getFragmentById(getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_store)));
+        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_store);
+        showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
+//        if (fragmentId != R.id.menu_item_store) {
+//            if (!NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
+//                bottomNavigationView.setSelectedItemId(fragmentId);
+//            }
+//        }
+//        MenuItem checkedItem = navigationView.getCheckedItem();
+//        if (checkedItem != null) {
+//            int itemId = checkedItem.getItemId();
+//            if (itemId != R.id.nav_item_store && NavigationHelper.getInstance().storeFragments.containsKey(itemId)) {
+//                if (itemId == R.id.nav_item_cart) {
+//                    bottomNavigationView.setSelectedItemId(R.id.menu_item_cart);
+//                } else if (itemId == R.id.nav_item_orders) {
+//                    bottomNavigationView.setSelectedItemId(R.id.menu_item_orders);
+//                }
+//            }
+//        }
     }
 
     private void setupNavigationListeners() {

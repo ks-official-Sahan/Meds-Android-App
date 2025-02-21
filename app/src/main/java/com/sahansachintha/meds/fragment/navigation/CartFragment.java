@@ -20,27 +20,26 @@ import com.sahansachintha.meds.activity.store.CheckoutActivity;
 import com.sahansachintha.meds.adapters.CartAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
-import com.sahansachintha.meds.model.CartItem;
+import com.sahansachintha.meds.model.ProductItem;
 
 import java.util.List;
 import java.util.Locale;
 
 public class CartFragment extends Fragment implements CartAdapter.CartUpdateListener {
 
-    private List<CartItem> cartItems;
+    private List<ProductItem> productItems;
     private RecyclerView cartRecycler;
     private CartAdapter cartAdapter;
     private TextView totalPrice;
-    private View emptyCartView;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         cartRecycler = view.findViewById(R.id.cart_recycler);
         totalPrice = view.findViewById(R.id.cart_total_price);
-        emptyCartView = view.findViewById(R.id.cart_empty_view);
 
         updateCartUI();
 
@@ -51,7 +50,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         });
 
         view.findViewById(R.id.cart_checkout_btn).setOnClickListener(v -> {
-            if (cartItems.isEmpty()) {
+            if (productItems.isEmpty()) {
                 Toast.makeText(getContext(), "Your cart is empty!", Toast.LENGTH_SHORT).show();
             } else {
                 proceedToCheckout();
@@ -62,18 +61,12 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     public void updateCartUI() {
-        cartItems = CartManager.getInstance().getCartItems();
+        productItems = CartManager.getInstance().getCartItems();
 
-        if (cartItems.isEmpty()) {
-            cartRecycler.setVisibility(View.GONE);
-            emptyCartView.setVisibility(View.VISIBLE);
-        } else {
-            cartRecycler.setVisibility(View.VISIBLE);
-            emptyCartView.setVisibility(View.GONE);
-        }
+        view.findViewById(R.id.cart_empty_view).setVisibility(productItems.isEmpty() ? View.VISIBLE : View.GONE);
 
         cartRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        cartAdapter = new CartAdapter(cartItems, getContext(), this);
+        cartAdapter = new CartAdapter(productItems, getContext(), this);
         cartRecycler.setAdapter(cartAdapter);
 
         updateTotalPrice();
@@ -85,7 +78,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     private void updateTotalPrice() {
-        String totalValue = String.format(Locale.US, "LKR %.2f", CartManager.getTotalPrice());
+        String totalValue = String.format(Locale.US, "LKR %.2f", CartManager.getInstance().getTotalPrice());
         totalPrice.setText(totalValue);
     }
 

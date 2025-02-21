@@ -20,21 +20,21 @@
         android:padding="6dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="60dp"
-            android:layout_height="76dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="start|center_vertical"
             app:cardCornerRadius="10dp"
-            app:cardElevation="1dp">
+            app:cardElevation="8dp">
 
             <ImageView
-                android:id="@+id/order_img"
+                android:id="@+id/order_item_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top|center"
                 android:contentDescription="@string/title_medications"
                 android:importantForAccessibility="no"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_orders" />
+                android:src="@drawable/med_asset_01" />
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,51 +46,38 @@
             android:paddingTop="0dp">
 
             <TextView
-                android:id="@+id/order_id"
-                android:layout_width="wrap_content"
+                android:id="@+id/order_item_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:gravity="start"
+                android:maxLines="2"
+                tools:text="@string/title"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_date"
-                tools:text="Order ID: #12345" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/order_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/order_id"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Date: 2025-02-21 14:30" />
-
-            <TextView
-                android:id="@+id/order_total"
+                android:id="@+id/order_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                tools:text="Total: LKR 3500.00"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/order_status"
-                app:layout_constraintTop_toBottomOf="@+id/order_status" />
-
-            <TextView
-                android:id="@+id/order_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                tools:text="Status: Paid"
-                android:textSize="14sp"
+                tools:text="@string/price"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/order_item_title" />
+
+            <TextView
+                android:id="@+id/order_item_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/_1"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/order_item_price" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
