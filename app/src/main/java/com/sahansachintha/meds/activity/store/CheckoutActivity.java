@@ -1,4 +1,4 @@
-package com.sahansachintha.meds.activity;
+package com.sahansachintha.meds.activity.store;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.OrderAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
+import com.sahansachintha.meds.model.CartItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.UUID;
 
 import lk.payhere.androidsdk.PHConfigs;
 import lk.payhere.androidsdk.PHConstants;
@@ -128,16 +130,15 @@ public class CheckoutActivity extends AppCompatActivity {
         File directory = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyMeds");
         if (!directory.exists()) directory.mkdirs();
 
-        File imageFile = new File(directory, "prescription.jpg");
+        String fileName = "prescription_" + System.currentTimeMillis() + ".jpg";
+        File imageFile = new File(directory, fileName);
 
         try (InputStream inputStream = getContentResolver().openInputStream(imageUri);
              FileOutputStream fos = new FileOutputStream(imageFile)) {
 
-            byte[] buffer = new byte[4096]; // Larger buffer for efficiency
+            byte[] buffer = new byte[4096];
             int bytesRead;
-            while (true) {
-                assert inputStream != null;
-                if ((bytesRead = inputStream.read(buffer)) == -1) break;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
                 fos.write(buffer, 0, bytesRead);
             }
             fos.flush();
@@ -204,36 +205,34 @@ public class CheckoutActivity extends AppCompatActivity {
         try {
             InitRequest req = new InitRequest();
             req.setMerchantId(MERCHANT_ID);
-
             req.setCurrency("LKR");
             req.setAmount(CartManager.getTotalPrice());
-            req.setOrderId("230000123");
+            req.setOrderId(UUID.randomUUID().toString());
 
-            req.setItemsDescription("MyMeds Medications");
-            req.setCustom1("Custom message 1");
-            req.setCustom2("Custom message 2");
+            req.setItemsDescription("MyMeds Order");
+            req.setCustom1("Prescription Payment");
 
-            // Validate customer details
             if (!setCustomerDetails(req)) {
-                Log.e(TAG, "Invalid customer details");
                 Toast.makeText(this, "Invalid customer details", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            req.setNotifyUrl("https://evisionit.lk");
+            req.setNotifyUrl("https://evisionit.lk/api/payment/callback");
 
             req.getItems().clear();
-            req.getItems().add(new Item(null, "Door bell wireless", 1, 1000.0));
+            for (CartItem item : CartManager.getInstance().getCartItems()) {
+                //req.getItems().add(new Item(null, item.getProduct().getTitle(), item.getQuantity(), item.getTotalPrice().doubleValue()));
+                req.getItems().add(new Item(null, item.getProduct().getTitle(), item.getQuantity(), item.getTotalPrice()));
+            }
 
             Intent intent = new Intent(this, PHMainActivity.class);
             intent.putExtra(PHConstants.INTENT_EXTRA_DATA, req);
             PHConfigs.setBaseUrl(PAYHERE_SANDBOX_URL);
 
             payHereLauncher.launch(intent);
-
         } catch (Exception e) {
             Log.e(TAG, "Payment initialization failed", e);
-            Toast.makeText(this, "Payment initialization failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Payment failed", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -276,7 +275,7 @@ public class CheckoutActivity extends AppCompatActivity {
                             Log.d(TAG, "Payment Success: " + response.getData());
                             Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
 
-                            NavigationHelper.getInstance().openIntent(CheckoutActivity.this, StoreActivity.class);
+                            NavigationHelper.getInstance().openIntent(CheckoutActivity.this, OrderCompleteActivity.class);
                             // Run Order Save API here
                         } else {
                             Log.e(TAG, "Payment Failed: " + response);

@@ -1,4 +1,4 @@
-package com.sahansachintha.meds.activity;
+package com.sahansachintha.meds.activity.home;
 
 import android.media.Ringtone;
 import android.media.RingtoneManager;

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.StoreActivity;
+import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.adapters.DateAdapter;
 import com.sahansachintha.meds.adapters.ReminderAdapter;
 import com.sahansachintha.meds.helper.AlarmHelper;

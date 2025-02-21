@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.HomeActivity;
-import com.sahansachintha.meds.activity.StoreActivity;
+import com.sahansachintha.meds.activity.home.HomeActivity;
+import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.adapters.DateAdapter;
 import com.sahansachintha.meds.adapters.MedicationAdapter;
 import com.sahansachintha.meds.adapters.ReminderAdapter;

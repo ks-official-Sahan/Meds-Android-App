@@ -113,4 +113,8 @@
     <string name="sahan">Sahan</string>
     <string name="owner_mobile">0768701148</string>
     <string name="map">Map</string>
+    <string name="your_order_is_confirmed">Your Order is Confirmed</string>
+    <string name="order_id_">Order ID:</string>
+    <string name="order_id">Order ID</string>
+    <string name="view_orders">View Orders</string>
 </resources>

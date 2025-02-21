@@ -18,7 +18,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.HomeActivity;
+import com.sahansachintha.meds.activity.home.HomeActivity;
 
 public class NotificationHelper {
 

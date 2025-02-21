@@ -13,9 +13,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.HomeActivity;
-import com.sahansachintha.meds.activity.ProductViewActivity;
-import com.sahansachintha.meds.activity.StoreActivity;
+import com.sahansachintha.meds.activity.home.HomeActivity;
+import com.sahansachintha.meds.activity.store.ProductViewActivity;
+import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.fragment.navigation.CartFragment;
 import com.sahansachintha.meds.fragment.navigation.HomeFragment;

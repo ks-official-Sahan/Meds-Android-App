@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.sahansachintha.meds.activity.AlarmActivity;
+import com.sahansachintha.meds.activity.home.AlarmActivity;
 import com.sahansachintha.meds.helper.LocationHelper;
 import com.sahansachintha.meds.helper.NotificationHelper;
 import com.sahansachintha.meds.utils.AlarmScheduler;

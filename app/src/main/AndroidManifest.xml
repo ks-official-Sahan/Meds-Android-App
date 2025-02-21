@@ -8,26 +8,21 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <uses-feature
         android:name="android.hardware.telephony"
-        android:required="false" />
-
-    <!-- Location -->
+        android:required="false" /> <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <!-- Internet -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Alarm Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Internet -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Alarm Permissions -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-    <!-- Notification -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- Bluetooth -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" /> <!-- Notification -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -45,13 +40,16 @@
         android:theme="@style/Theme.Meds"
         tools:targetApi="33">
         <activity
-            android:name=".activity.CheckoutActivity"
+            android:name=".activity.store.OrderCompleteActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ProductViewActivity"
+            android:name=".activity.store.CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.store.ProductViewActivity"
             android:exported="false" /> <!-- Activities -->
         <activity
-            android:name=".activity.AlarmActivity"
+            android:name=".activity.home.AlarmActivity"
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleTop"
@@ -73,11 +71,11 @@
             android:exported="false"
             android:label="@string/title_activity_auth" />
         <activity
-            android:name=".activity.HomeActivity"
+            android:name=".activity.home.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home" />
         <activity
-            android:name=".activity.StoreActivity"
+            android:name=".activity.store.StoreActivity"
             android:exported="false"
             android:label="@string/title_activity_store" />
         <activity

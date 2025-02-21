@@ -19,8 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.HomeActivity;
-import com.sahansachintha.meds.activity.SplashActivity;
+import com.sahansachintha.meds.activity.home.HomeActivity;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

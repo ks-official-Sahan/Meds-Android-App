@@ -1,4 +1,4 @@
-package com.sahansachintha.meds.activity;
+package com.sahansachintha.meds.activity.store;
 
 import android.os.Build;
 import android.os.Bundle;

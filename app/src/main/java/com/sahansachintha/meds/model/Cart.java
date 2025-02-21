@@ -19,20 +19,26 @@ public class Cart implements Serializable {
     }
 
     public void addProduct(Product product, int quantity) {
-        Log.i("MyMedsProduct", "Product: " + product.getTitle() + ", Quantity: " + quantity);
+        if (quantity <= 0) return;
+
         for (CartItem item : cartItems) {
             if (item.getProduct().getId() == product.getId()) {
-                item.setQuantity(item.getQuantity() + quantity);
-                Log.i("MyMedsProduct", "CartItems: " + cartItems.size());
-                Log.i("MyMedsProduct", "CartItems: " + cartItems.isEmpty());
-                Log.i("MyMedsProduct", "CartItems: " + isCartEmpty());
+                int newQuantity = item.getQuantity() + quantity;
+                if (newQuantity > product.getQuantity()) {
+                    Log.w("MyMedsCart", "Not enough stock!");
+                    return; // Prevent adding more than available stock
+                }
+                item.setQuantity(newQuantity);
                 return;
             }
         }
+
+        if (quantity > product.getQuantity()) {
+            Log.w("MyMedsCart", "Not enough stock!");
+            return;
+        }
+
         cartItems.add(new CartItem(product, quantity));
-        Log.i("MyMedsProduct", "CartItems: " + cartItems.size());
-        Log.i("MyMedsProduct", "CartItems: " + cartItems.isEmpty());
-        Log.i("MyMedsProduct", "CartItems: " + isCartEmpty());
     }
 
     public void removeProduct(int productId) {
@@ -73,5 +79,21 @@ public class Cart implements Serializable {
 
     public boolean isCartEmpty() {
         return cartItems.isEmpty();
+    }
+
+    public void saveToDatabase() {
+        // TODO Implement database saving logic
+    }
+
+    public void loadFromDatabase() {
+        // TODO Implement database loading logic
+    }
+
+    public void deleteFromDatabase() {
+        // TODO Implement database deletion logic
+    }
+
+    public void updateInDatabase() {
+        // TODO Implement database update logic
     }
 }

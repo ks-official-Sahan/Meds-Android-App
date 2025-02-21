@@ -1,6 +1,5 @@
 package com.sahansachintha.meds.fragment.navigation;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.CheckoutActivity;
+import com.sahansachintha.meds.activity.store.CheckoutActivity;
 import com.sahansachintha.meds.adapters.CartAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
@@ -26,7 +24,6 @@ import com.sahansachintha.meds.model.CartItem;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class CartFragment extends Fragment implements CartAdapter.CartUpdateListener {
 
