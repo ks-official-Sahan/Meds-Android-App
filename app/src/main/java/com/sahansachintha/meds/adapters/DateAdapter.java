@@ -5,7 +5,6 @@ import com.sahansachintha.meds.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.sahansachintha.meds.helper.GeneralHelper;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -93,9 +93,9 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
                 holder.cardView.setStrokeWidth(0);
                 holder.cardView.setStrokeColor(getThemeColor(context, R.attr.colorNeutral300));
 
-//                holder.textMonth.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
-//                holder.textDate.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
-//                holder.textDay.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+                holder.textMonth.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+                holder.textDate.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
+                holder.textDay.setTextColor(getThemeColor(context, com.google.android.material.R.attr.colorOnSurface));
             }
         }
 
@@ -114,9 +114,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
     }
 
     private int getThemeColor(Context context, int attribute) {
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(attribute, typedValue, true);
-        return typedValue.data;
+        return GeneralHelper.getInstance().getThemeColor(context, attribute);
     }
 
     @Override

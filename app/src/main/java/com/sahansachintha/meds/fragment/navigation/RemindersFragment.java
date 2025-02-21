@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.StoreActivity;
+import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.adapters.DateAdapter;
 import com.sahansachintha.meds.adapters.ReminderAdapter;
 import com.sahansachintha.meds.helper.AlarmHelper;
@@ -64,7 +64,10 @@ public class RemindersFragment extends Fragment {
 
         setClickListener(R.id.reminders_view_all, this::viewAll);
         setClickListener(R.id.reminders_refresh, this::viewAll);
-        setClickListener(R.id.fab_add_reminders, () -> toggleView(R.id.add_reminders_container, true));
+        setClickListener(R.id.fab_add_reminders, () -> {
+            toggleView(R.id.add_reminders_container, true);
+            toggleView(R.id.reminders_container, false);
+        });
 
         setClickListener(R.id.fab_shop_reminders, () -> {
             try {

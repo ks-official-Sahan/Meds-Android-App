@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.activity.StoreActivity;
+import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.adapters.MedicationAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.MedicationManager;

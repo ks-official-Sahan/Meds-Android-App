@@ -1,4 +1,4 @@
-package com.sahansachintha.meds.activity;
+package com.sahansachintha.meds.activity.store;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.home.HomeActivity;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
@@ -43,7 +44,7 @@ public class StoreActivity extends AppCompatActivity {
         setupNavigationViewColors();
         requestPermissions();
 
-         getOnBackPressedDispatcher().addCallback(this, new StoreOnBackPressedCallback());
+        getOnBackPressedDispatcher().addCallback(this, new StoreOnBackPressedCallback());
     }
 
     private void setupEdgeToEdgeInsets() {
@@ -74,7 +75,24 @@ public class StoreActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //showFragment(StoreFragment.class);
-        showFragment(NavigationHelper.getInstance().getFragmentById(getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_store)));
+        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_store);
+        showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
+//        if (fragmentId != R.id.menu_item_store) {
+//            if (!NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
+//                bottomNavigationView.setSelectedItemId(fragmentId);
+//            }
+//        }
+//        MenuItem checkedItem = navigationView.getCheckedItem();
+//        if (checkedItem != null) {
+//            int itemId = checkedItem.getItemId();
+//            if (itemId != R.id.nav_item_store && NavigationHelper.getInstance().storeFragments.containsKey(itemId)) {
+//                if (itemId == R.id.nav_item_cart) {
+//                    bottomNavigationView.setSelectedItemId(R.id.menu_item_cart);
+//                } else if (itemId == R.id.nav_item_orders) {
+//                    bottomNavigationView.setSelectedItemId(R.id.menu_item_orders);
+//                }
+//            }
+//        }
     }
 
     private void setupNavigationListeners() {

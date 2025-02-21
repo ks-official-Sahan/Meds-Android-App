@@ -1,7 +1,6 @@
 package com.sahansachintha.meds.activity;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,12 +13,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +29,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -56,12 +51,10 @@ import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
 import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressLint("CustomSplashScreen")
@@ -128,6 +121,35 @@ public class SplashActivity extends AppCompatActivity {
 //                }
 //            }
 //        }
+//    }
+//    /* Convert Image to ByteArray */
+//    private void convertImageToByteArray(Uri imageUri) {
+//        try (InputStream inputStream = getContentResolver().openInputStream(imageUri);
+//             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+//            if (inputStream != null) {
+//                byte[] buffer = new byte[1024];
+//                int bytesRead;
+//                while ((bytesRead = inputStream.read(buffer)) != -1) {
+//                    outputStream.write(buffer, 0, bytesRead);
+//                }
+//                imageBytes = outputStream.toByteArray();
+//            }
+//        } catch (IOException e) {
+//            Log.e("ImageSelection", "Error converting image to byte array", e);
+//        }
+//    }
+
+//    private File saveImageToStorage(Bitmap bitmap, String fileName) throws IOException {
+//        File directory = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyMeds");
+//        if (!directory.exists()) directory.mkdirs();
+//
+//        File imageFile = new File(directory, fileName + ".jpg");
+//        FileOutputStream fos = new FileOutputStream(imageFile);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+//        fos.flush();
+//        fos.close();
+//
+//        return imageFile;
 //    }
     /* ImageSelection */
 

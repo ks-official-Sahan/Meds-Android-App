@@ -1,6 +1,5 @@
 package com.sahansachintha.meds.receiver;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +8,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.sahansachintha.meds.activity.HomeActivity;
-import com.sahansachintha.meds.activity.auth.AuthActivity;
-
-import java.util.Objects;
+import com.sahansachintha.meds.activity.home.HomeActivity;
 
 public class BroadcastReceiverIMPL extends BroadcastReceiver {
     //@SuppressLint("UnsafeProtectedBroadcastReceiver")

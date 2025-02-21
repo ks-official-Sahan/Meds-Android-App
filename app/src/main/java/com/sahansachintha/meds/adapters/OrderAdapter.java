@@ -4,27 +4,35 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.model.CartItem;
+import com.sahansachintha.meds.helper.GeneralHelper;
+import com.sahansachintha.meds.model.Order;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
-    private List<CartItem> orderItems;
-    private Context context;
 
-    public OrderAdapter(List<CartItem> orderItems, Context context) {
-        this.orderItems = orderItems;
+    private final List<Order> orders;
+    private final Context context;
+    private final OnOrderClickListener listener;
+
+    public interface OnOrderClickListener {
+        void onOrderClick(Order order);
+    }
+
+    public OrderAdapter(List<Order> orders, Context context, OnOrderClickListener listener) {
+        this.orders = orders;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,37 +44,91 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        CartItem orderItem = orderItems.get(position);
-
-        holder.orderTitle.setText(orderItem.getProduct().getTitle());
-        holder.orderQuantity.setText(String.format(Locale.US, "%d", orderItem.getQuantity()));
-        holder.orderPrice.setText(String.format(Locale.US, "LKR %.2f", (Double.parseDouble(orderItem.getProduct().getPrice()) * orderItem.getQuantity())));
-
-        Glide.with(context)
-                .load(orderItem.getProduct().getImage())
-                .placeholder(R.drawable.placeholder_image) // Use a default placeholder
-                .into(holder.orderImage);
-
+        Order order = orders.get(position);
+        holder.bind(order);
     }
 
     @Override
     public int getItemCount() {
-        return orderItems.size();
+        return orders.size();
     }
 
-    // ViewHolder
-    public static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView orderTitle, orderPrice, orderQuantity;
-        ImageView orderImage;
-        MaterialCardView orderHolder;
+    public void updateOrders(List<Order> newOrders) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new OrderDiffCallback(this.orders, newOrders));
+        this.orders.clear();
+        this.orders.addAll(newOrders);
+        diffResult.dispatchUpdatesTo(this);
+    }
+
+    public class OrderViewHolder extends RecyclerView.ViewHolder {
+        private final TextView orderIdText, orderDateText, orderTotalText, orderStatusText;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            orderTitle = itemView.findViewById(R.id.cart_item_title);
-            orderPrice = itemView.findViewById(R.id.cart_item_price);
-            orderQuantity = itemView.findViewById(R.id.cart_item_quantity);
-            orderImage = itemView.findViewById(R.id.cart_item_img);
-            orderHolder = itemView.findViewById(R.id.cart_item_holder);
+            orderIdText = itemView.findViewById(R.id.order_id);
+            orderDateText = itemView.findViewById(R.id.order_date);
+            orderTotalText = itemView.findViewById(R.id.order_total);
+            orderStatusText = itemView.findViewById(R.id.order_status);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onOrderClick(orders.get(getAdapterPosition()));
+                }
+            });
+        }
+
+        public void bind(Order order) {
+            orderIdText.setText(String.format(Locale.US, "Order ID: %s", order.getOrderId()));
+            orderTotalText.setText(String.format(Locale.US, "LKR %.2f", order.getTotalPrice()));
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(order.getTimestamp());
+            orderDateText.setText(dateFormat.format(calendar.getTime()));
+
+            orderStatusText.setText(order.getStatus());
+            orderStatusText.setTextColor(getStatusColor(order.getStatus()));
+        }
+
+        private int getStatusColor(String status) {
+            if (status.equalsIgnoreCase("Paid")) return getThemeColor(context, R.attr.colorSuccess);
+            if (status.equalsIgnoreCase("Pending")) return getThemeColor(context, R.attr.colorAccent);
+            if (status.equalsIgnoreCase("Cancelled")) return getThemeColor(context, com.google.android.material.R.attr.colorError);
+            return getThemeColor(context, R.attr.colorNeutral500);
+        }
+
+        private int getThemeColor(Context context, int attribute) {
+            return GeneralHelper.getInstance().getThemeColor(context, attribute);
+        }
+    }
+
+    private static class OrderDiffCallback extends DiffUtil.Callback {
+        private final List<Order> oldList;
+        private final List<Order> newList;
+
+        public OrderDiffCallback(List<Order> oldList, List<Order> newList) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).getOrderId().equals(newList.get(newItemPosition).getOrderId());
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
         }
     }
 }

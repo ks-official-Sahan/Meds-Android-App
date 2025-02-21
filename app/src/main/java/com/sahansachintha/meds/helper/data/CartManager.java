@@ -2,43 +2,92 @@ package com.sahansachintha.meds.helper.data;
 
 import android.util.Log;
 
+import com.sahansachintha.meds.helper.DatabaseHelper;
 import com.sahansachintha.meds.model.Cart;
+import com.sahansachintha.meds.model.ProductItem;
 import com.sahansachintha.meds.model.Product;
 
+import java.util.List;
+
 public class CartManager {
-    private static Cart cartInstance;
+    private static CartManager instance;
+    private Cart cart;
 
     private CartManager() {
-        // Private constructor to prevent instantiation
+        this.cart = loadCartFromDatabase();
     }
 
-    public static Cart getInstance() {
-        if (cartInstance == null) {
-            cartInstance = new Cart();
+    public static synchronized CartManager getInstance() {
+        if (instance == null) {
+            instance = new CartManager();
         }
-        return cartInstance;
+        return instance;
     }
 
-    public static void addProduct(Product product, int quantity) {
-        getInstance().addProduct(product, quantity);
-        Log.i("MyMedsCart", "Cart: " + getInstance().getCartItems().size());
-        Log.i("MyMedsCart", "Cart: " + getInstance().getCartItems().isEmpty());
-        Log.i("MyMedsCart", "Cart: " + getInstance().isCartEmpty());
+    public void addProduct(Product product, int quantity) {
+        try {
+            cart = new Cart.Builder()
+                    .setCartItems(cart.getCartItems())  // ✅ Preserve existing items
+                    .addProduct(product, quantity)
+                    .build();
+            saveCartToDatabase();
+        } catch (IllegalArgumentException e) {
+            Log.w("CartManager", e.getMessage());
+        }
     }
 
-    public static void updateQuantity(Product product, int quantity) {
-        getInstance().setProductQuantity(product, quantity);
+    public void updateQuantity(Product product, int quantity) {
+        try {
+            cart = new Cart.Builder()
+                    .setCartItems(cart.getCartItems())  // ✅ Preserve existing items
+                    .updateQuantity(product, quantity)
+                    .build();
+            saveCartToDatabase();
+        } catch (IllegalArgumentException e) {
+            Log.w("CartManager", e.getMessage());
+        }
     }
 
-    public static void removeProduct(int productId) {
-        getInstance().removeProduct(productId);
+    public void removeProduct(int productId) {
+        cart = new Cart.Builder()
+                .setCartItems(cart.getCartItems())  // ✅ Preserve existing items
+                .removeProduct(productId)
+                .build();
+        saveCartToDatabase();
     }
 
-    public static double getTotalPrice() {
-        return getInstance().calculateTotalPrice();
+    public List<ProductItem> getCartItems() {
+        return cart.getCartItems();
     }
 
-    public static boolean isCartEmpty() {
-        return getInstance().getCartItems().isEmpty();
+    public double getTotalPrice() {
+        return cart.calculateTotal();
+    }
+
+    public boolean isCartEmpty() {
+        return cart.isCartEmpty();
+    }
+
+    public void clearCart() {
+        cart.clearCart();
+        cart = new Cart.Builder().build();  // ✅ Empty cart
+        deleteCartFromDatabase();
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    private void saveCartToDatabase() {
+        DatabaseHelper.updateCart(cart);
+    }
+
+    private Cart loadCartFromDatabase() {
+        Cart loadedCart = DatabaseHelper.loadCart();
+        return (loadedCart != null) ? loadedCart : new Cart.Builder().build();
+    }
+
+    private void deleteCartFromDatabase() {
+        DatabaseHelper.deleteCart();
     }
 }

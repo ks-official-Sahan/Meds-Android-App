@@ -62,6 +62,7 @@
         <attr name="colorNeutral900" format="color" />
 
         <attr name="colorAccent" format="color" />
+        <attr name="colorError" format="color" />
 
         <attr name="colorCard" format="color" />
     </declare-styleable>

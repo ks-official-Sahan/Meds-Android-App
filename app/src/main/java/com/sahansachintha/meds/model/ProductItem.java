@@ -4,11 +4,11 @@ import android.util.Log;
 
 import java.io.Serializable;
 
-public class CartItem implements Serializable {
+public class ProductItem implements Serializable {
     private Product product;
     private int quantity;
 
-    public CartItem(Product product, int quantity) {
+    public ProductItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
     }

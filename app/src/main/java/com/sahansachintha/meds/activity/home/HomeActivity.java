@@ -1,4 +1,4 @@
-package com.sahansachintha.meds.activity;
+package com.sahansachintha.meds.activity.home;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
@@ -21,9 +22,17 @@ import com.sahansachintha.meds.helper.PermissionHelper;
 public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+    private static NavigationView navigationView;
     private FragmentManager fragmentManager;
-    private BottomNavigationView bottomNavigationView;
+    private static BottomNavigationView bottomNavigationView;
+
+    public static BottomNavigationView getBottomNavigationView() {
+        return bottomNavigationView;
+    }
+
+    public static NavigationView getNavigationView() {
+        return navigationView;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         //setupFloatingButton();
 
         setupFragmentManagement();
-        
+
         /* Navigations */
         setupNavigationListeners();
         setupNavigationViewColors();
@@ -64,7 +73,28 @@ public class HomeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //showFragment(HomeFragment.class);
-        showFragment(NavigationHelper.getInstance().getFragmentById(getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_home)));
+        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_home);
+//        if (NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
+//            showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
+//        } else {
+//            bottomNavigationView.setSelectedItemId(fragmentId);
+//        }
+
+        showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
+//        if (fragmentId != R.id.menu_item_home) {
+//            if (!NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
+//                bottomNavigationView.setSelectedItemId(fragmentId);
+//            }
+//        }
+
+        //        int itemId = getSelectedMenuId();
+//        if (itemId != R.id.nav_item_home && NavigationHelper.getInstance().homeFragments.containsKey(itemId)) {
+//            if (itemId == R.id.nav_item_reminders) {
+//                bottomNavigationView.setSelectedItemId(R.id.menu_item_reminders);
+//            } else if (itemId == R.id.nav_item_medications) {
+//                bottomNavigationView.setSelectedItemId(R.id.menu_item_medications);
+//            }
+//        }
     }
 
     private void showFragment(Class<? extends Fragment> fragmentClass) {
@@ -154,6 +184,7 @@ public class HomeActivity extends AppCompatActivity {
         public HomeOnBackPressedCallback() {
             super(true);
         }
+
         @Override
         public void handleOnBackPressed() {
             if (drawerLayout.isDrawerOpen(navigationView)) {
