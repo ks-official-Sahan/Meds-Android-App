@@ -23,4 +23,5 @@ public class AddReminderActivity extends AppCompatActivity {
             return insets;
         });
     }
+
 }

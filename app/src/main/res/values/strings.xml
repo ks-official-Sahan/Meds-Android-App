@@ -128,4 +128,11 @@
     <string name="customer_">Customer:</string>
     <string name="order_details">Order Details</string>
     <string name="order_complete">Order Complete</string>
+    <string name="cancel">Cancel</string>
+    <string name="time">Time</string>
+    <string name="repeat_count">Repeat Count</string>
+    <string name="date">Date</string>
+    <string name="new_reminder">New Reminder</string>
+    <string name="end_date">End Date</string>
+    <string name="end_date_">End Date:</string>
 </resources>

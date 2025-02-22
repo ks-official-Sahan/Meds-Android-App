@@ -13,6 +13,8 @@ public class Medication implements Serializable {
 
     private String image; // Store Image URL instead of binary data
 
+    private String status = "Active";
+
 //    private long timeInMillis;
 //    private Calendar calendar;
 
@@ -31,6 +33,14 @@ public class Medication implements Serializable {
         this.instructions = instructions;
         this.frequency = frequency;
         this.image = image;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getId() {
