@@ -10,7 +10,7 @@ import com.sahansachintha.meds.model.Product;
 import java.util.List;
 
 public class CartManager {
-    private static CartManager instance;
+    private static volatile CartManager instance;
     private Cart cart;
 
     private CartManager() {

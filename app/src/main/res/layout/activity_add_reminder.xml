@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/new_reminder"
         android:fontFamily="@font/montserrat_semi_bold"
+        android:text="@string/new_reminder"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -68,6 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:focusable="false"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout8"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout8"
@@ -77,9 +78,10 @@
             app:startIconTint="?attr/colorTintHigh">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_reminder_time"
+                android:id="@+id/add_reminder_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="false"
                 android:hint="@string/date"
                 android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,6 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:focusable="false"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout9"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout9"
@@ -98,58 +101,82 @@
             app:startIconTint="?attr/colorTintHigh">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_reminder_repeat"
+                android:id="@+id/add_reminder_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="false"
                 android:hint="@string/time"
                 android:inputType="time" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout11"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout10"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout10"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout10"
-            app:startIconCheckable="true"
-            app:startIconDrawable="@drawable/ic_repeat"
-            app:startIconTint="?attr/colorTintHigh">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout10">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/repeat_count"
-                android:inputType="numberDecimal"
-                android:text="@string/_1" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:focusable="false"
+                android:visibility="visible"
+                app:hintEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconCheckable="true"
+                app:startIconDrawable="@drawable/ic_repeat"
+                app:startIconTint="?attr/colorTintHigh"
+                tools:visibility="visible">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_reminder_repeat1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/repeat_count"
+                    android:inputType="numberDecimal"
+                    android:text="@string/_0" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <NumberPicker
+                android:id="@+id/add_reminder_repeat2"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/end_date_"
             android:textSize="16sp"
-            android:fontFamily="@font/montserrat_medium"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
         <TextView
             android:id="@+id/add_reminder_end_date"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            tools:text="2025/02/30"
-            android:textSize="16sp"
             android:fontFamily="@font/montserrat_semi_bold"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView18"
             app:layout_constraintStart_toEndOf="@+id/textView18"
-            app:layout_constraintTop_toTopOf="@+id/textView18" />
+            app:layout_constraintTop_toTopOf="@+id/textView18"
+            tools:text="2025/02/30" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class OrderManager {
-    private static OrderManager instance;
+    private static volatile OrderManager instance;
     private final List<Order> orders;
 
     private OrderManager() {

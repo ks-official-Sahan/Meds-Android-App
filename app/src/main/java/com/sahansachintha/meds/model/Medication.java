@@ -1,5 +1,7 @@
 package com.sahansachintha.meds.model;
 
+import com.sahansachintha.meds.helper.data.MedicationManager;
+
 import java.io.Serializable;
 
 public class Medication implements Serializable {
@@ -33,6 +35,16 @@ public class Medication implements Serializable {
         this.instructions = instructions;
         this.frequency = frequency;
         this.image = image;
+    }
+
+    public Medication(int id, String name, String dosage, String instructions, String frequency, String image, String status) {
+        this.id = id;
+        this.name = name;
+        this.dosage = dosage;
+        this.instructions = instructions;
+        this.frequency = frequency;
+        this.image = image;
+        this.status = status;
     }
 
     public String getStatus() {

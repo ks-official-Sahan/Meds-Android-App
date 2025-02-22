@@ -37,12 +37,17 @@ public class ReminderManager {
     }
 
     public boolean addReminder(int id, String title, int year, int month, int day, int hour, int minute, String notes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, hour, minute);
+
+        return addReminder(id, title, calendar.getTimeInMillis(), notes);
+    }
+
+    public boolean addReminder(int id, String title, long timeInMillis, String notes) {
         if (getReminderById(id).isPresent()) {
             return false; // Prevent duplicate IDs
         }
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, hour, minute);
-        return reminders.add(new Reminder(id, title, calendar.getTimeInMillis(), notes));
+        return reminders.add(new Reminder(id, title, timeInMillis, notes));
     }
 
     public boolean updateReminder(int id, String title, long timeInMillis, String notes) {
@@ -80,5 +85,11 @@ public class ReminderManager {
         return Instant.ofEpochMilli(timeInMillis)
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
+    }
+
+    public static int generateReminderId() {
+        long timestamp = System.currentTimeMillis() / 10000; // Shorter Unix timestamp
+        int randomPart = (int) (Math.random() * 9000) + 1001; // 4-digit random number
+        return Integer.parseInt(String.format(Locale.US, "%d%d", timestamp, randomPart));
     }
 }

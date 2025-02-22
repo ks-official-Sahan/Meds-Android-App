@@ -135,4 +135,13 @@
     <string name="new_reminder">New Reminder</string>
     <string name="end_date">End Date</string>
     <string name="end_date_">End Date:</string>
+    <string name="new_medication">New Medication</string>
+    <string name="name">Name</string>
+    <string name="dosage_ex">Dosage (ex: 500mg, 1pc)</string>
+    <string name="instructions">Instructions</string>
+    <string name="frequency">Frequency</string>
+    <string name="frequency_ex">Frequency (ex: Once a Day, Twice a Day)</string>
+    <string name="instructions_ex">Instructions (ex: After Eating, Before Eating)</string>
+    <string name="status">Status</string>
+    <string name="status_ex">Status (ex: Active/Inactive)</string>
 </resources>

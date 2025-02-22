@@ -4,6 +4,7 @@ import com.sahansachintha.meds.model.Medication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class MedicationManager {
@@ -65,5 +66,11 @@ public class MedicationManager {
 
     private Optional<Medication> getMedicationById(int id) {
         return medications.stream().filter(medication -> medication.getId() == id).findFirst();
+    }
+
+    public static int generateMedicationId() {
+        long timestamp = System.currentTimeMillis() / 10000; // Shorter Unix timestamp
+        int randomPart = (int) (Math.random() * 9000) + 1000; // 4-digit random number
+        return Integer.parseInt(String.format(Locale.US, "%d%d", timestamp, randomPart));
     }
 }
