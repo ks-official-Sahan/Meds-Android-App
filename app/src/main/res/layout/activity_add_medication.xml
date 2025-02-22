@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_medication_title"
+                android:id="@+id/add_medication_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout12">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_medication_description"
+                android:id="@+id/add_medication_dosage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/dosage_ex"
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_medication_date"
+                android:id="@+id/add_medication_instructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/instructions_ex"
@@ -90,7 +90,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_medication_time"
+                android:id="@+id/add_medication_frequency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/frequency_ex"
@@ -127,6 +127,30 @@
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/image_optional"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+        <ImageView
+            android:id="@+id/add_medication_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/title_medications"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
+            app:layout_constraintStart_toStartOf="@+id/textView15"
+            app:layout_constraintTop_toBottomOf="@+id/textView15"
+            app:srcCompat="@drawable/ic_medication" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

@@ -211,6 +211,7 @@ public class AddReminderActivity extends AppCompatActivity {
         Calendar startCalender = Calendar.getInstance();
         startCalender.set(this.year, this.month, this.day, this.hour, this.minute);
 
+        boolean isSuccess = false;
         if (!("0").equalsIgnoreCase(repeatText.getText().toString())) {
             try {
                 Date endDate = DateFormat.getDateInstance().parse(endDateText.getText().toString());
@@ -221,16 +222,22 @@ public class AddReminderActivity extends AppCompatActivity {
                 endCalendar.getTimeInMillis();
 
                 // TODO implement repeat
-                ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.toString());
+                isSuccess = ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.toString());
             } catch (ParseException e) {
                 Log.e("MyMedsAddReminder", "End Date Parse Error");
             }
         } else {
-            ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.toString());
+            isSuccess = ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.toString());
             //ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), this.year, this.month, this.day, this.hour, this.minute, descriptionText.toString());
         }
 
-        Toast.makeText(this, "Reminder saved! ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, isSuccess ? "Reminder saved!" : "Reminder not saved!", Toast.LENGTH_SHORT).show();
+        if (isSuccess) {
+            Toast.makeText(this, "Reminder saved!", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "Reminder not saved!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
