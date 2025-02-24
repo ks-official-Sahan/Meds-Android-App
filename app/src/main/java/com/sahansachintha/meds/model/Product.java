@@ -1,11 +1,10 @@
 package com.sahansachintha.meds.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class Product implements Serializable {
 
-    private int id;
+    private String id;
 
     private String name;
     private String title;
@@ -28,7 +27,7 @@ public class Product implements Serializable {
     private String manufacturer;
     private String expiryDate;
 
-    public Product(int id, String name, String title, String description, String image, String categoryName, String dosage, String price, int quantity) {
+    public Product(String id, String name, String title, String description, String image, String categoryName, String dosage, String price, int quantity) {
         this.id = id;
         this.name = name;
         this.title = title;
@@ -48,11 +47,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

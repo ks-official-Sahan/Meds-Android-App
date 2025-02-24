@@ -8,6 +8,7 @@ import com.sahansachintha.meds.model.ProductItem;
 import com.sahansachintha.meds.model.Product;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CartManager {
     private static volatile CartManager instance;
@@ -32,7 +33,7 @@ public class CartManager {
                     .build();
             saveCartToDatabase();
         } catch (IllegalArgumentException e) {
-            Log.w("CartManager", e.getMessage());
+            Log.w("CartManager", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -44,11 +45,11 @@ public class CartManager {
                     .build();
             saveCartToDatabase();
         } catch (IllegalArgumentException e) {
-            Log.w("CartManager", e.getMessage());
+            Log.w("CartManager", Objects.requireNonNull(e.getMessage()));
         }
     }
 
-    public void removeProduct(int productId) {
+    public void removeProduct(String productId) {
         cart = new Cart.Builder()
                 .setCartItems(cart.getCartItems())  // ✅ Preserve existing items
                 .removeProduct(productId)

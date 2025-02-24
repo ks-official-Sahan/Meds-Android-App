@@ -1,6 +1,7 @@
 [versions]
 agp = "8.8.1"
-compiler = "4.16.0"
+#compiler = "4.16.0"
+firebaseAuth = "23.2.0"
 firebaseBom = "33.9.0"
 glide = "4.16.0"
 gson = "2.11.0"
@@ -21,11 +22,14 @@ annotation = "1.9.1"
 lifecycleLivedataKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
 payhereAndroidSdk = "v3.0.17"
+retrofit = "2.4.0"
 playServicesLocation = "21.3.0"
+playServicesMaps = "19.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+#compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
@@ -45,7 +49,9 @@ androidx-annotation = { group = "androidx.annotation", name = "annotation", vers
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 payhere-android-sdk = { module = "com.github.PayHereDevs:payhere-android-sdk", version.ref = "payhereAndroidSdk" }
-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

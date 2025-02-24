@@ -3,22 +3,29 @@ package com.sahansachintha.meds.model;
 import java.io.Serializable;
 
 public class Category implements Serializable {
-    private int id;
+    private String id;
     private String name;
-    private int imgId;
+    private int imgId = -1;
+    private String image;
 
-    public Category(int id, String name, int imgId) {
+    public Category(String id, String name, int imgId) {
         this.id = id;
         this.name = name;
         this.imgId = imgId;
     }
 
+    public Category(String id, String name, String image) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+    }
+
     // Getters and setters for id, name, and imgId+
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -36,5 +43,13 @@ public class Category implements Serializable {
 
     public void setImgId(int imgId) {
         this.imgId = imgId;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -67,14 +67,10 @@ public class AddMedicationActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, items);
         statusSelectorView.setAdapter(adapter);
 
-        statusSelectorView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                String selectedItem = parent.getItemAtPosition(position).toString();
-                status = selectedItem;
-                Toast.makeText(AddMedicationActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
-            }
+        statusSelectorView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedItem = parent.getItemAtPosition(position).toString();
+            status = selectedItem;
+            //Toast.makeText(AddMedicationActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -106,7 +102,8 @@ public class AddMedicationActivity extends AppCompatActivity {
     }
 
     private void loadImageFromStorage() {
-        File imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyMeds/prescription.jpg");
+        File imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyMeds/" + fileName);
+        img = imageFile.getAbsolutePath();
         if (imageFile.exists()) {
             Glide.with(this)
                     .load(imageFile)
@@ -114,14 +111,19 @@ public class AddMedicationActivity extends AppCompatActivity {
                     .placeholder(R.drawable.placeholder_image)
                     .error(R.drawable.error_image)
                     .into(medicationImgView);
+
+            medicationImgView.setBackgroundResource(R.color.transparent);
         }
     }
+
+    private String fileName;
+    private String img;
 
     private File saveImageToStorage(Uri imageUri) throws IOException {
         File directory = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyMeds");
         if (!directory.exists()) directory.mkdirs();
 
-        String fileName = "prescription_" + System.currentTimeMillis() + ".jpg";
+        fileName = "medication_" + System.currentTimeMillis() + ".jpg";
         File imageFile = new File(directory, fileName);
 
         try (InputStream inputStream = getContentResolver().openInputStream(imageUri);
@@ -129,7 +131,9 @@ public class AddMedicationActivity extends AppCompatActivity {
 
             byte[] buffer = new byte[4096];
             int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
+            while (true) {
+                assert inputStream != null;
+                if ((bytesRead = inputStream.read(buffer)) == -1) break;
                 fos.write(buffer, 0, bytesRead);
             }
             fos.flush();
@@ -155,11 +159,19 @@ public class AddMedicationActivity extends AppCompatActivity {
             return;
         }
 
-        MedicationManager.getInstance().addMedication(MedicationManager.generateMedicationId(), name, dosage, frequency, instructions);
-        //MedicationManager.getInstance().addMedication(MedicationManager.generateMedicationId(), name, dosage, frequency, instructions, status);
-        //MedicationManager.getInstance().addMedication(MedicationManager.generateMedicationId(), name, dosage, frequency, instructions, status, img);
+        boolean isSuccess = false;
+        if (img != null) {
+            isSuccess = MedicationManager.getInstance().addMedication(MedicationManager.generateMedicationId(), name, dosage, frequency, instructions, img, status);
+        } else {
+            //MedicationManager.getInstance().addMedication(MedicationManager.generateMedicationId(), name, dosage, frequency, instructions);
+            isSuccess = MedicationManager.getInstance().addMedication(MedicationManager.generateMedicationId(), name, dosage, frequency, instructions, status);
+        }
 
-        Toast.makeText(this, "Medication saved successfully", Toast.LENGTH_SHORT).show();
-        finish();
+        if (isSuccess) {
+            Toast.makeText(this, "Medication saved successfully", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "Failed to save medication", Toast.LENGTH_SHORT).show();
+        }
     }
 }

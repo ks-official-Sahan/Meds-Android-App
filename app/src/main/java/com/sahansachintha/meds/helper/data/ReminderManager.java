@@ -1,5 +1,12 @@
 package com.sahansachintha.meds.helper.data;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.sahansachintha.meds.helper.firestore.FirestoreReminderManager;
 import com.sahansachintha.meds.model.Reminder;
 
 import java.time.Instant;
@@ -12,10 +19,13 @@ public class ReminderManager {
 
     private static volatile ReminderManager instance;
     private final List<Reminder> reminders;
+    private final FirestoreReminderManager firestoreReminderManager;
 
     private ReminderManager() {
         this.reminders = new ArrayList<>();
+        this.firestoreReminderManager = new FirestoreReminderManager();
         initializeSampleData();
+        updateReminderListFromFirebase();
     }
 
     public static ReminderManager getInstance() {
@@ -47,7 +57,25 @@ public class ReminderManager {
         if (getReminderById(id).isPresent()) {
             return false; // Prevent duplicate IDs
         }
-        return reminders.add(new Reminder(id, title, timeInMillis, notes));
+        Reminder reminder = new Reminder(id, title, timeInMillis, notes);
+        boolean added = reminders.add(reminder);
+        if (added) {
+            saveReminderToFirestore(reminder);
+        }
+        return added;
+    }
+
+    public void updateReminderListFromFirebase() {
+        firestoreReminderManager.loadReminders(firestoreReminders -> {
+            synchronized (reminders) {
+                reminders.clear();
+                reminders.addAll(firestoreReminders);
+            }
+        }, e -> {
+            //e.printStackTrace();
+            Log.e("MyMedsReminders", "Error loading reminders from Firestore: " + e.getMessage());
+            initializeSampleData(); // Optionally, fallback to sample data if loading fails.
+        });
     }
 
     public boolean updateReminder(int id, String title, long timeInMillis, String notes) {
@@ -57,24 +85,31 @@ public class ReminderManager {
             reminder.setTitle(title);
             reminder.setTimeInMillis(timeInMillis);
             reminder.setNotes(notes);
+            updateReminderInFirestore(reminder);
             return true;
         }
         return false; // Reminder not found
     }
 
     public boolean removeReminder(int id) {
-        return reminders.removeIf(reminder -> reminder.getId() == id);
+        Optional<Reminder> reminderOpt = getReminderById(id);
+        if (reminderOpt.isPresent()) {
+            boolean removed = reminders.removeIf(reminder -> reminder.getId() == id);
+            if (removed) {
+                removeReminderFromFirestore(id);
+            }
+            return removed;
+        }
+        return false;
     }
 
     public List<Reminder> getAllReminders() {
         //return Collections.unmodifiableList(reminders);
-        return  new ArrayList<>(reminders);
+        return new ArrayList<>(reminders);
     }
 
     public List<Reminder> getRemindersForDate(LocalDate date) {
-        return reminders.stream()
-                .filter(reminder -> convertToLocalDate(reminder.getTimeInMillis()).equals(date))
-                .collect(Collectors.toList());
+        return reminders.stream().filter(reminder -> convertToLocalDate(reminder.getTimeInMillis()).equals(date)).collect(Collectors.toList());
     }
 
     private Optional<Reminder> getReminderById(int id) {
@@ -82,14 +117,51 @@ public class ReminderManager {
     }
 
     private LocalDate convertToLocalDate(long timeInMillis) {
-        return Instant.ofEpochMilli(timeInMillis)
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
+        return Instant.ofEpochMilli(timeInMillis).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public static int generateReminderId() {
         long timestamp = System.currentTimeMillis() / 10000; // Shorter Unix timestamp
         int randomPart = (int) (Math.random() * 9000) + 1001; // 4-digit random number
-        return Integer.parseInt(String.format(Locale.US, "%d%d", timestamp, randomPart));
+        //return Integer.parseInt(String.format(Locale.US, "%d%d", timestamp, randomPart));
+        return (int) (timestamp + randomPart);
     }
+
+    private void saveReminderToFirestore(Reminder reminder) {
+        firestoreReminderManager.saveReminder(reminder, unused -> {
+            Log.i("MyMedsReminders", "Reminder saved to Firestore successfully.");
+        }, e -> {
+            //e.printStackTrace();
+            Log.e("MyMedsReminders", "Error saving reminder to Firestore: " + e.getMessage());
+        });
+    }
+
+    private void updateReminderInFirestore(Reminder reminder) {
+        saveReminderToFirestore(reminder); // Overwrite existing document using set()
+    }
+
+    private void removeReminderFromFirestore(int id) {
+        firestoreReminderManager.deleteReminder(id, unused -> {
+            Log.i("MyMedsReminders", "Reminder deleted from Firestore successfully.");
+        }, e -> {
+            //e.printStackTrace();
+            Log.e("MyMedsReminders", "Error deleting reminder from Firestore: " + e.getMessage());
+        });
+    }
+
+    // New method to refresh the local list from Firestore
+    public void loadRemindersFromFirestore(OnSuccessListener<List<Reminder>> onSuccessListener,
+                                           OnFailureListener onFailureListener) {
+        firestoreReminderManager.loadReminders(onSuccessListener, onFailureListener);
+    }
+
+//    public void loadRemindersFromFirestore(OnSuccessListener<List<Reminder>> onSuccessListener, OnFailureListener onFailureListener) {
+//        firestoreReminderManager.loadReminders(firestoreReminders -> {
+//            // Update the local list with the data from Firestore
+//            reminders.clear();
+//            reminders.addAll(firestoreReminders);
+//            // Return a copy of the updated list
+//            onSuccessListener.onSuccess(new ArrayList<>(reminders));
+//        }, onFailureListener);
+//    }
 }

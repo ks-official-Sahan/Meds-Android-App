@@ -1,20 +1,28 @@
 package com.sahansachintha.meds.helper.data;
 
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.sahansachintha.meds.helper.firestore.FirestoreMedicationManager;
 import com.sahansachintha.meds.model.Medication;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class MedicationManager {
 
     private static volatile MedicationManager instance;
     private final List<Medication> medications;
+    private final FirestoreMedicationManager firestoreMedicationManager;
 
     private MedicationManager() {
         this.medications = new ArrayList<>();
+        this.firestoreMedicationManager = new FirestoreMedicationManager();
         initializeSampleData();
+        updateMedicationListFromFirebase();
     }
 
     public static MedicationManager getInstance() {
@@ -29,22 +37,44 @@ public class MedicationManager {
     }
 
     private void initializeSampleData() {
-        addMedication(1, "Paracetamol", "500mg", "Once per day", "After Eating");
-        addMedication(2, "Ibuprofen", "200mg", "Twice per day", "Before Eating");
-        addMedication(3, "Amoxicillin", "500mg", "Once per day", "After Eating");
-        addMedication(4, "Aspirin", "300mg", "Twice per day", "Before Eating");
+        addMedication(1, "Paracetamol", "500mg", "Once per day", "After Eating", "https://picsum.photos/700/815", "Active");
+        addMedication(2, "Ibuprofen", "200mg", "Twice per day", "Before Eating", "https://picsum.photos/700/816", "Active");
+        addMedication(3, "Amoxicillin", "500mg", "Once per day", "After Eating", "https://picsum.photos/700/817", "Active");
+        addMedication(4, "Aspirin", "300mg", "Twice per day", "Before Eating", "https://picsum.photos/700/818", "Inactive");
     }
 
     public List<Medication> getAllMedications() {
-        //return Collections.unmodifiableList(medications);
-        return  new ArrayList<>(medications);
+        return new ArrayList<>(medications);
     }
 
-    public boolean addMedication(int id, String name, String dosage, String frequency, String instructions) {
+    public List<Medication> getActiveMedications() {
+        return medications.stream()
+                .filter(medication -> "Active".equalsIgnoreCase(medication.getStatus()))
+                .collect(Collectors.toList());
+    }
+
+    public boolean addMedication(int id, String name, String dosage, String frequency, String instructions, String status) {
         if (getMedicationById(id).isPresent()) {
-            return false; // ID already exists, prevent duplicate
+            return false; // Prevent duplicate IDs
         }
-        return medications.add(new Medication(id, name, dosage, frequency, instructions));
+        Medication medication = new Medication(id, name, dosage, frequency, instructions, status);
+        boolean added = medications.add(medication);
+        if (added) {
+            saveMedicationToFirestore(medication);
+        }
+        return added;
+    }
+
+    public boolean addMedication(int id, String name, String dosage, String frequency, String instructions, String image, String status) {
+        if (getMedicationById(id).isPresent()) {
+            return false; // Prevent duplicate IDs
+        }
+        Medication medication = new Medication(id, name, dosage, frequency, instructions, image, status);
+        boolean added = medications.add(medication);
+        if (added) {
+            saveMedicationToFirestore(medication);
+        }
+        return added;
     }
 
     public boolean updateMedication(int id, String name, String dosage, String frequency, String instructions) {
@@ -55,13 +85,18 @@ public class MedicationManager {
             medication.setDosage(dosage);
             medication.setFrequency(frequency);
             medication.setInstructions(instructions);
+            updateMedicationInFirestore(medication);
             return true;
         }
-        return false; // Medication with ID not found
+        return false; // Medication with the given ID not found
     }
 
     public boolean removeMedication(int id) {
-        return medications.removeIf(medication -> medication.getId() == id);
+        boolean removed = medications.removeIf(medication -> medication.getId() == id);
+        if (removed) {
+            removeMedicationFromFirestore(id);
+        }
+        return removed;
     }
 
     private Optional<Medication> getMedicationById(int id) {
@@ -71,6 +106,43 @@ public class MedicationManager {
     public static int generateMedicationId() {
         long timestamp = System.currentTimeMillis() / 10000; // Shorter Unix timestamp
         int randomPart = (int) (Math.random() * 9000) + 1000; // 4-digit random number
-        return Integer.parseInt(String.format(Locale.US, "%d%d", timestamp, randomPart));
+        return (int) (timestamp + randomPart);
+    }
+
+    // --- Firestore Integration Methods ---
+
+    private void saveMedicationToFirestore(Medication medication) {
+        firestoreMedicationManager.saveMedication(medication,
+                unused -> Log.i("MyMedsMedications", "Medication saved to Firestore successfully."),
+                e -> Log.e("MyMedsMedications", "Error saving medication to Firestore: " + e.getMessage())
+        );
+    }
+
+    private void updateMedicationInFirestore(Medication medication) {
+        // For simplicity, re-save the medication (overwriting the existing document)
+        saveMedicationToFirestore(medication);
+    }
+
+    private void removeMedicationFromFirestore(int id) {
+        firestoreMedicationManager.deleteMedication(id,
+                unused -> Log.i("MyMedsMedications", "Medication deleted from Firestore successfully."),
+                e -> Log.e("MyMedsMedications", "Error deleting medication from Firestore: " + e.getMessage())
+        );
+    }
+
+    /**
+     * Loads medications from Firestore during initialization and updates the local list.
+     */
+    private void updateMedicationListFromFirebase() {
+        firestoreMedicationManager.loadMedications(firestoreMedications -> {
+            synchronized (medications) {
+                medications.clear();
+                medications.addAll(firestoreMedications);
+            }
+        }, e -> {
+            //e.printStackTrace();
+            Log.e("MyMedsMedications", "Error loading medications from Firestore: " + e.getMessage());
+            initializeSampleData(); // Optionally, reinitialize sample data on failure
+        });
     }
 }

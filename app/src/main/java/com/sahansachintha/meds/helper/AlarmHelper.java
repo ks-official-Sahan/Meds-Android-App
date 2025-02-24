@@ -33,5 +33,4 @@ public class AlarmHelper {
         calendar.add(field, amount);
         AlarmScheduler.scheduleReminder(context, reminderId, calendar);
     }
-
 }

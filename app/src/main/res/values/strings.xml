@@ -5,6 +5,8 @@
     <string name="logo">App Logo</string>
     <string name="menu">Menu</string>
 
+    <string name="google_maps_key" translatable="false">AIzaSyCsQKbCE6iRLAeDAQWVBjGA67lrjEkMZ0U</string>
+
     <!--  Menu  -->
     <string name="title_home">Home</string>
     <string name="title_reminders">Reminders</string>
@@ -145,4 +147,7 @@
     <string name="status">Status</string>
     <string name="status_ex">Status (ex: Active/Inactive)</string>
     <string name="image_optional">Image (Optional)</string>
+    <string name="location">Location</string>
+    <string name="location_optional">Location (Optional)</string>
+    <string name="select_location">Select Location</string>
 </resources>

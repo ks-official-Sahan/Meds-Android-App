@@ -65,9 +65,7 @@ public class RemindersFragment extends Fragment {
 
         setClickListener(R.id.reminders_view_all, this::viewAll);
         setClickListener(R.id.reminders_refresh, this::viewAll);
-        setClickListener(R.id.fab_add_reminders, () -> {
-            NavigationHelper.getInstance().openIntent(requireContext(), AddReminderActivity.class);
-        });
+        setClickListener(R.id.fab_add_reminders, () -> NavigationHelper.getInstance().openIntent(requireContext(), AddReminderActivity.class));
         view.findViewById(R.id.fab_add_reminders).setOnLongClickListener(v -> {
             toggleView(R.id.add_reminders_container, true);
             toggleView(R.id.reminders_container, false);
@@ -101,7 +99,7 @@ public class RemindersFragment extends Fragment {
         dateAdapter = new DateAdapter(getContext(), calendarData, selectedDate, this::onDateSelected);
         dateRecycler.setAdapter(dateAdapter);
 
-        scrollToPositionSmooth(calendarData.indexOf(selectedDate));
+        dateRecycler.post(() -> scrollToPositionSmooth(calendarData.indexOf(selectedDate)));
     }
 
     private void initReminderRecycler() {

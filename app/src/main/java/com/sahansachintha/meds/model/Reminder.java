@@ -40,9 +40,9 @@ public class Reminder implements Serializable {
     private int repeatCount;
     private String image;
 
-    private String medicationName;
-    private String dosage;
-    private String time;
+//    private String medicationName;
+//    private String dosage;
+//    private String time;
 
     public Reminder(int id, String title, long timeInMillis) {
         this.id = id;

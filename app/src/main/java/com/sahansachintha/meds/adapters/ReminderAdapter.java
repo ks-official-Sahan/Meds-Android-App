@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.model.Reminder;
@@ -60,11 +61,16 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         holder.reminderTitle.setText(reminder.getTitle());
         holder.reminderNote.setText(reminder.getNotes());
         holder.reminderTime.setText(getFormattedTime(reminder.getCalendar().getTime()));
-        //if (reminder.getImg()) {
-        //} else {
+        if (reminder.getImage()!=null) {
+            Glide.with(context)
+                    .load(reminder.getImage())
+                    .placeholder(R.drawable.med_asset_03)
+                    .error(R.drawable.error_image)
+                    .into(holder.reminderImg);
+        } else {
             holder.reminderImg.setImageResource(R.drawable.ic_reminder);
             holder.reminderImg.setImageTintMode(PorterDuff.Mode.SRC_IN);
-        //}
+        }
         holder.reminderHolderCard.setOnClickListener(v -> {
             Toast.makeText(context, reminder.getTitle(), Toast.LENGTH_SHORT).show();
             if (listener != null) {

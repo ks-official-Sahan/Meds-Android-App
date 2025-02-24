@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.sahansachintha.meds.helper.data.ReminderManager;
 import com.sahansachintha.meds.model.Reminder;
 import com.sahansachintha.meds.utils.AlarmScheduler;
 
@@ -40,9 +41,10 @@ public class BootReceiver extends BroadcastReceiver {
 
     private List<Reminder> getSavedReminders(Context context) {
         ArrayList<Reminder> reminderList = new ArrayList<>();
+        //ArrayList<Reminder> reminderList = (ArrayList<Reminder>) ReminderManager.getInstance().getAllReminders();
 
+        // TODO Load Reminders from Database
         /* Load reminders from SharedPreferences, Room Database, or SQLite */
-        //reminderList.add(new Reminder());
 
         return reminderList;
     }

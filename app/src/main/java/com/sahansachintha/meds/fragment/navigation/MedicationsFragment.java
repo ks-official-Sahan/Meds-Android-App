@@ -10,9 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sahansachintha.meds.R;
+import com.sahansachintha.meds.activity.home.AddMedicationActivity;
 import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.adapters.MedicationAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
@@ -40,8 +40,8 @@ public class MedicationsFragment extends Fragment {
         initMedicationRecycler();
 
         view.findViewById(R.id.fab_add_medications).setOnClickListener(v -> {
-            //NavigationHelper.getInstance().openIntent(requireContext(), AddMedicationActivity.class);
-            Toast.makeText(getContext(), "Add Medication", Toast.LENGTH_SHORT).show();
+            NavigationHelper.getInstance().openIntent(requireContext(), AddMedicationActivity.class);
+            //Toast.makeText(getContext(), "Add Medication", Toast.LENGTH_SHORT).show();
         });
 
         return view;

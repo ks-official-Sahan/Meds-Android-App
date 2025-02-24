@@ -21,10 +21,10 @@
         android:layout_gravity="top|end"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="80dp"
-        tools:text="ID"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        tools:text="ID" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,8 +37,8 @@
         android:paddingVertical="8dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center_vertical"
             android:outlineAmbientShadowColor="?attr/colorNeutral200"
             android:outlineSpotShadowColor="?attr/colorNeutral200"
@@ -49,14 +49,13 @@
 
             <ImageView
                 android:id="@+id/medication_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/title_medications"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_medicine"
-                android:tintMode="multiply"
-                app:tint="?attr/colorTintMid" />
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_medicine" />
         </com.google.android.material.card.MaterialCardView>
 
 
@@ -71,11 +70,11 @@
                 android:id="@+id/medication_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Title"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Title" />
 
             <TextView
                 android:id="@+id/medication_dosage"
@@ -83,31 +82,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                tools:text="Dossage"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/medication_note"
-                app:layout_constraintTop_toBottomOf="@+id/medication_name" />
+                app:layout_constraintTop_toBottomOf="@+id/medication_name"
+                tools:text="Dossage" />
 
             <TextView
                 android:id="@+id/medication_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="Note"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/medication_name" />
+                app:layout_constraintTop_toBottomOf="@+id/medication_name"
+                tools:text="Note" />
 
             <TextView
                 android:id="@+id/medication_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Frequency"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Frequency" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

@@ -110,6 +110,7 @@
                 android:id="@+id/medication_status_container"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
+                app:endIconMode="dropdown_menu"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -118,12 +119,14 @@
                 app:layout_constraintVertical_bias="0.5">
 
                 <AutoCompleteTextView
-                    android:paddingHorizontal="16dp"
                     android:id="@+id/medication_status_selector"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:focusable="false"
                     android:hint="@string/status_ex"
-                    android:labelFor="@+id/medication_status_container" />
+                    android:inputType="none"
+                    android:labelFor="@+id/medication_status_container"
+                    android:paddingHorizontal="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -132,9 +135,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="18sp"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/image_optional"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
@@ -150,7 +153,8 @@
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
             app:layout_constraintStart_toStartOf="@+id/textView15"
             app:layout_constraintTop_toBottomOf="@+id/textView15"
-            app:srcCompat="@drawable/ic_medication" />
+            android:background="@drawable/ic_medication"
+            android:backgroundTint="?attr/colorTintHigh" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

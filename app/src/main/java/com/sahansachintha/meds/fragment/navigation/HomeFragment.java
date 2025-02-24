@@ -148,7 +148,8 @@ public class HomeFragment extends Fragment {
         medicationRecycler = view.findViewById(R.id.medication_recycler);
         medicationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        medicationData = MedicationManager.getInstance().getAllMedications();
+        //medicationData = MedicationManager.getInstance().getAllMedications();
+        medicationData = MedicationManager.getInstance().getActiveMedications();
         medicationAdapter = new MedicationAdapter(medicationData, getContext());
         medicationRecycler.setAdapter(medicationAdapter);
 

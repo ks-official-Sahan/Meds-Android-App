@@ -43,11 +43,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
+import com.sahansachintha.meds.activity.home.HomeActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
 import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
@@ -71,6 +74,9 @@ public class SplashActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        findViewById(R.id.imageView).setScaleX(0.3f);
+        findViewById(R.id.imageView).setScaleY(0.3f);
 
         runSplash();
 
@@ -170,6 +176,7 @@ public class SplashActivity extends AppCompatActivity {
         }
         return PendingIntent.getActivity(context, requestCode, intent, flags);
     }
+
     public PendingIntent createMutablePendingIntent(Context context, int requestCode, Intent intent) {
         int flags;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -378,7 +385,7 @@ public class SplashActivity extends AppCompatActivity {
             springForce.setFinalPosition(0f);
             isReset.set(false);
         } else {
-            springForce.setFinalPosition(400f);
+            springForce.setFinalPosition(200f);
             isReset.set(true);
         }
 
@@ -393,11 +400,37 @@ public class SplashActivity extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
+        findViewById(R.id.imageView).animate().scaleX(1f).scaleY(1f).setDuration(1000).start();
+        new Handler().postDelayed(this::runSpringAnimation, 1000);
+
         new Handler().postDelayed(() -> {
             progressBar.setVisibility(View.GONE);
-            openIntent(AuthActivity.class);
+            checkUser();
             finish();
-        }, 2000);
+        }, 2500);
+    }
+
+    private void runSpringAnimation() {
+        ImageView imageView = findViewById(R.id.imageView);
+
+        SpringAnimation springAnimation = new SpringAnimation(imageView, DynamicAnimation.TRANSLATION_Y);
+
+        SpringForce springForce = new SpringForce();
+        springForce.setStiffness(SpringForce.STIFFNESS_LOW);
+        springForce.setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+        springForce.setFinalPosition(200f);
+
+        springAnimation.setSpring(springForce);
+        springAnimation.start();
+    }
+
+    private void checkUser() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+        } else {
+            startActivity(new Intent(SplashActivity.this, AuthActivity.class));
+        }
     }
 
     private void runFlingAnimation(View view) {

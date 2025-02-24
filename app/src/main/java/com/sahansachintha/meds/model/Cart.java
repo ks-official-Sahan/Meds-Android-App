@@ -45,7 +45,7 @@ public class Cart implements Serializable {
 
             boolean productExists = false;
             for (ProductItem item : productItems) {
-                if (item.getProduct().getId() == product.getId()) {
+                if (item.getProduct().getId().equalsIgnoreCase(product.getId())) {
                     int newQuantity = item.getQuantity() + quantity;
                     if (newQuantity > product.getQuantity()) {
                         throw new IllegalArgumentException("Not enough stock available.");
@@ -63,8 +63,8 @@ public class Cart implements Serializable {
             return this;
         }
 
-        public Builder removeProduct(int productId) {
-            productItems.removeIf(item -> item.getProduct().getId() == productId);
+        public Builder removeProduct(String productId) {
+            productItems.removeIf(item -> item.getProduct().getId().equalsIgnoreCase(productId));
             return this;
         }
 
@@ -74,7 +74,7 @@ public class Cart implements Serializable {
             }
 
             for (ProductItem item : productItems) {
-                if (item.getProduct().getId() == product.getId()) {
+                if (item.getProduct().getId().equalsIgnoreCase(product.getId())) {
                     if (quantity == 0) {
                         productItems.remove(item);
                     } else {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.model.Category;
@@ -53,7 +54,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.categoryTitle.setText(category.getName());
-        holder.categoryImage.setImageResource(category.getImgId());
+        if (category.getImgId() != -1) {
+            holder.categoryImage.setImageResource(category.getImgId());
+        } else if (category.getImage() != null) {
+            Glide.with(context).load(category.getImage()).placeholder(R.drawable.ic_medication).into(holder.categoryImage);
+        }
 
         if (position == selectedItem) {
             holder.categoryCard.animate().scaleX(1.1f).scaleY(1.1f).setDuration(500).start();
