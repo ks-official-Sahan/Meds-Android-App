@@ -20,11 +20,13 @@ public class ProfileService {
     private final ApiService apiService;
     private final SharedPreferences sharedPreferences;
     private final Context context;
+    private String authToken;
 
     public ProfileService(Context context) {
         this.context = context;
         this.sharedPreferences = context.getSharedPreferences("MyMedsPrefs", Context.MODE_PRIVATE);
         this.apiService = new ApiService();
+        ApiService.getToken(token -> authToken = token);
     }
 
     public interface ProfileCallback {

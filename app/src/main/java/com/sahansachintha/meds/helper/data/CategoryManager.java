@@ -186,6 +186,9 @@ public class CategoryManager {
                     List<Category> backendCategories = gson.fromJson(jsonResponse, categoryListType);
                     categories.clear();
                     categories.addAll(backendCategories);
+                    if (backendCategories.isEmpty()) {
+                        seedCategories();
+                    }
                     callback.onSuccess(new ArrayList<>(categories));
                 } else {
                     callback.onFailure("Error: " + response.code());

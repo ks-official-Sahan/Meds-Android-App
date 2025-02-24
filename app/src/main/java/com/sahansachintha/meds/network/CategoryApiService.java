@@ -17,9 +17,12 @@ public class CategoryApiService {
     private final OkHttpClient client;
     private final Gson gson;
 
+    private String token;
+
     public CategoryApiService() {
         client = new OkHttpClient();
         gson = new Gson();
+        ApiService.getToken(token1 -> token = token1);
     }
 
     // GET /categories – load all categories.
@@ -28,6 +31,7 @@ public class CategoryApiService {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -40,6 +44,7 @@ public class CategoryApiService {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -52,6 +57,7 @@ public class CategoryApiService {
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
         client.newCall(request).enqueue(callback);
     }

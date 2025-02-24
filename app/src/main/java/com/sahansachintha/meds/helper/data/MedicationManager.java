@@ -2,8 +2,6 @@ package com.sahansachintha.meds.helper.data;
 
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.sahansachintha.meds.helper.firestore.FirestoreMedicationManager;
 import com.sahansachintha.meds.model.Medication;
 
@@ -37,10 +35,10 @@ public class MedicationManager {
     }
 
     private void initializeSampleData() {
-        addMedication(1, "Paracetamol", "500mg", "Once per day", "After Eating", "https://picsum.photos/700/815", "Active");
-        addMedication(2, "Ibuprofen", "200mg", "Twice per day", "Before Eating", "https://picsum.photos/700/816", "Active");
-        addMedication(3, "Amoxicillin", "500mg", "Once per day", "After Eating", "https://picsum.photos/700/817", "Active");
-        addMedication(4, "Aspirin", "300mg", "Twice per day", "Before Eating", "https://picsum.photos/700/818", "Inactive");
+//        addMedication(1, "Paracetamol", "500mg", "Once per day", "After Eating", "https://picsum.photos/700/800?random=15", "Active");
+//        addMedication(2, "Ibuprofen", "200mg", "Twice per day", "Before Eating", "https://picsum.photos/700/800?random=16", "Active");
+//        addMedication(3, "Amoxicillin", "500mg", "Once per day", "After Eating", "https://picsum.photos/700/800?random=17", "Active");
+//        addMedication(4, "Aspirin", "300mg", "Twice per day", "Before Eating", "https://picsum.photos/700/800?random=18", "Inactive");
     }
 
     public List<Medication> getAllMedications() {

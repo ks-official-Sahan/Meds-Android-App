@@ -29,7 +29,6 @@
             android:contentDescription="@string/title_medications"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_medicine"
-            app:tint="?attr/colorTintMid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

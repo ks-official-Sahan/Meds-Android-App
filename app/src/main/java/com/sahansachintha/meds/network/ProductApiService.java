@@ -3,6 +3,8 @@ package com.sahansachintha.meds.network;
 import com.google.gson.Gson;
 import com.sahansachintha.meds.model.Product;
 
+import java.io.IOException;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -13,6 +15,7 @@ import okhttp3.RequestBody;
 public class ProductApiService {
     private static final String BASE_URL = ApiService.getBaseUrl();
     public static final MediaType JSON_MEDIA_TYPE = ApiService.getTypeJSON();
+    private static String token;
 
     private final OkHttpClient client;
     private final Gson gson;
@@ -20,6 +23,7 @@ public class ProductApiService {
     public ProductApiService() {
         client = new OkHttpClient();
         gson = new Gson();
+        ApiService.getToken(token1 -> token = token1);
     }
 
     // GET /products - load all products
@@ -28,6 +32,7 @@ public class ProductApiService {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -41,6 +46,7 @@ public class ProductApiService {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -55,6 +61,7 @@ public class ProductApiService {
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
         client.newCall(request).enqueue(callback);
     }

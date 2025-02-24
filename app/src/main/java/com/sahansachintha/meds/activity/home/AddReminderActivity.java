@@ -222,13 +222,13 @@ public class AddReminderActivity extends AppCompatActivity {
                 endCalendar.getTimeInMillis();
 
                 // TODO implement repeat
-                isSuccess = ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.toString());
+                isSuccess = ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.getText().toString());
             } catch (ParseException e) {
                 Log.e("MyMedsAddReminder", "End Date Parse Error");
             }
         } else {
-            isSuccess = ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.toString());
-            //ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), this.year, this.month, this.day, this.hour, this.minute, descriptionText.toString());
+            isSuccess = ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), startCalender.getTimeInMillis(), descriptionText.getText().toString());
+            //ReminderManager.getInstance().addReminder(ReminderManager.generateReminderId(), titleText.getText().toString(), this.year, this.month, this.day, this.hour, this.minute, descriptionText.getText().toString());
         }
 
         //Toast.makeText(this, isSuccess ? "Reminder saved!" : "Reminder not saved!", Toast.LENGTH_SHORT).show();

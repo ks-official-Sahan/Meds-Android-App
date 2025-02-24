@@ -50,6 +50,7 @@ public class Order implements Serializable {
 
     public static class Builder {
         private String orderId = OrderManager.generateOrderId();
+        //private String orderId;
         private List<ProductItem> orderItems = new ArrayList<>();
         private double totalPrice;
         private String status = "Pending";

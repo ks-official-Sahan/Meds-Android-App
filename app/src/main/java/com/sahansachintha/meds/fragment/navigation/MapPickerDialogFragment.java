@@ -65,7 +65,7 @@ public class MapPickerDialogFragment extends DialogFragment implements OnMapRead
     public void onMapReady(@NonNull GoogleMap googleMap) {
         gMap = googleMap;
         if (initialLocation == null) {
-            initialLocation = new LatLng(37.4219999, -122.0840575);
+            initialLocation = new LatLng(6.02141120037861, 80.76286582133982);
         }
         marker = gMap.addMarker(new MarkerOptions().position(initialLocation).draggable(true));
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 15));

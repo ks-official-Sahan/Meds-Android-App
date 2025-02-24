@@ -136,6 +136,11 @@ public class ProductManager {
                     List<Product> backendProducts = gson.fromJson(jsonResponse, productListType);
                     products.clear();
                     products.addAll(backendProducts);
+
+                    if (backendProducts.isEmpty()) {
+                        seedProducts();
+                    }
+
                     callback.onSuccess(new ArrayList<>(products));
                 } else {
                     callback.onFailure("Error: " + response.code());
@@ -208,7 +213,7 @@ public class ProductManager {
                 "Paracetamol",
                 "Paracetamol 500mg Tablets – Pain & Fever Relief",
                 "A widely used pain reliever and fever reducer. Effective for headaches, muscle pain, colds, and flu. Safe for most ages when taken as directed.",
-                "https://picsum.photos/600/801",
+                "https://picsum.photos/600/800?random=1",
                 "Pain Killer",
                 "500mg",
                 "320",
@@ -217,7 +222,7 @@ public class ProductManager {
                 "Aspirin",
                 "Aspirin 75mg – Pain Relief & Heart Health",
                 "Aspirin is used for pain relief, fever reduction, and blood-thinning to support heart health. Consult a doctor before long-term use.",
-                "https://picsum.photos/600/802",
+                "https://picsum.photos/600/800?random=2",
                 "Pain Killer",
                 "75mg",
                 "280",
@@ -226,7 +231,7 @@ public class ProductManager {
                 "Amoxicillin",
                 "Amoxicillin 500mg Capsules – Antibiotic for Infections",
                 "A broad-spectrum antibiotic used for respiratory, urinary, and skin infections. Must be taken as prescribed by a doctor.",
-                "https://picsum.photos/600/799",
+                "https://picsum.photos/600/800?random=3",
                 "Antibiotic",
                 "500mg",
                 "540",
@@ -235,7 +240,7 @@ public class ProductManager {
                 "Cetirizine",
                 "Cetirizine 10mg Tablets – Allergy Relief",
                 "An effective antihistamine that relieves sneezing, runny nose, itchy eyes, and skin allergies. Provides 24-hour relief.",
-                "https://picsum.photos/600/804",
+                "https://picsum.photos/600/800?random=4",
                 "Allergy Relief",
                 "10mg",
                 "250",
@@ -244,7 +249,7 @@ public class ProductManager {
                 "Omeprazole",
                 "Omeprazole 20mg – Acid Reflux & Ulcer Treatment",
                 "A highly effective acid reducer used for GERD, stomach ulcers, and heartburn. Best taken before meals.",
-                "https://picsum.photos/600/805",
+                "https://picsum.photos/600/800?random=5",
                 "Digestive Health",
                 "20mg",
                 "460",
@@ -253,7 +258,7 @@ public class ProductManager {
                 "Metformin",
                 "Metformin 500mg – Blood Sugar Control",
                 "An essential medication for type 2 diabetes, helping regulate blood sugar and improve insulin response.",
-                "https://picsum.photos/600/806",
+                "https://picsum.photos/600/800?random=6",
                 "Diabetes Care",
                 "500mg",
                 "620",
@@ -262,7 +267,7 @@ public class ProductManager {
                 "Ibuprofen",
                 "Ibuprofen 400mg Tablets – Pain & Inflammation Relief",
                 "A powerful pain reliever and anti-inflammatory medication for headaches, arthritis, and muscle pain. Take with food.",
-                "https://picsum.photos/600/807",
+                "https://picsum.photos/600/800?random=7",
                 "Pain Killer",
                 "400mg",
                 "350",
@@ -271,7 +276,7 @@ public class ProductManager {
                 "Losartan",
                 "Losartan 50mg – Blood Pressure Control",
                 "Used to manage high blood pressure and reduce stroke risk. May also help kidney protection in diabetics.",
-                "https://picsum.photos/600/808",
+                "https://picsum.photos/600/800?random=8",
                 "Heart Health",
                 "50mg",
                 "540",
@@ -280,7 +285,7 @@ public class ProductManager {
                 "Atorvastatin",
                 "Atorvastatin 10mg – Cholesterol Control",
                 "A statin that lowers cholesterol and reduces the risk of heart disease. Best taken at night.",
-                "https://picsum.photos/600/809",
+                "https://picsum.photos/600/800?random=9",
                 "Heart Health",
                 "10mg",
                 "850",
@@ -289,7 +294,7 @@ public class ProductManager {
                 "Salbutamol",
                 "Salbutamol 100mcg Inhaler – Fast Asthma Relief",
                 "A bronchodilator that quickly relieves asthma and COPD symptoms like shortness of breath and wheezing.",
-                "https://picsum.photos/600/810",
+                "https://picsum.photos/600/800?random=10",
                 "Respiratory Care",
                 "100mcg per dose",
                 "1200",

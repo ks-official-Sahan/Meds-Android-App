@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sahansachintha.meds.model.Reminder;
+import com.sahansachintha.meds.network.ApiService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +20,11 @@ public class FirestoreReminderManager {
 
     private static final String COLLECTION_REMINDERS = "reminders";
     private final FirebaseFirestore db;
+    private String token;
 
     public FirestoreReminderManager() {
         db = FirebaseFirestore.getInstance();
+        ApiService.getToken(token1 -> token = token1);
     }
 
     // Save a reminder to Firestore
@@ -33,6 +36,7 @@ public class FirestoreReminderManager {
         data.put("title", reminder.getTitle());
         data.put("timeInMillis", reminder.getTimeInMillis());
         data.put("notes", reminder.getNotes());
+        data.put("user_token", token);
         // You can add additional fields as needed
 
         db.collection(COLLECTION_REMINDERS)
@@ -46,6 +50,7 @@ public class FirestoreReminderManager {
     public void loadReminders(OnSuccessListener<List<Reminder>> onSuccessListener,
                               OnFailureListener onFailureListener) {
         db.collection(COLLECTION_REMINDERS)
+                .whereEqualTo("user_token", token)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Reminder> reminders = new ArrayList<>();

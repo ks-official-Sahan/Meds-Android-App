@@ -5,7 +5,7 @@
     <string name="logo">App Logo</string>
     <string name="menu">Menu</string>
 
-    <string name="google_maps_key" translatable="false">AIzaSyCsQKbCE6iRLAeDAQWVBjGA67lrjEkMZ0U</string>
+    <string name="google_maps_key" translatable="false">AIzaSyAB2gzXQk_8nWWfOMhSHgiKEV3Q2h4uk4w</string>
 
     <!--  Menu  -->
     <string name="title_home">Home</string>

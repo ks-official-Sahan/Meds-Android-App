@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sahansachintha.meds.model.Medication;
+import com.sahansachintha.meds.network.ApiService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,9 +19,11 @@ public class FirestoreMedicationManager {
 
     private static final String COLLECTION_MEDICATIONS = "medications";
     private final FirebaseFirestore db;
+    private String token;
 
     public FirestoreMedicationManager() {
         db = FirebaseFirestore.getInstance();
+        ApiService.getToken(token1 -> token = token1);
     }
 
     // Save a medication to Firestore
@@ -35,6 +38,7 @@ public class FirestoreMedicationManager {
         data.put("instructions", medication.getInstructions());
         data.put("image", medication.getImage());
         data.put("status", medication.getStatus());
+        data.put("user_token", token);
         // Add any additional fields if needed
 
         db.collection(COLLECTION_MEDICATIONS)
@@ -48,6 +52,7 @@ public class FirestoreMedicationManager {
     public void loadMedications(OnSuccessListener<List<Medication>> onSuccessListener,
                                 OnFailureListener onFailureListener) {
         db.collection(COLLECTION_MEDICATIONS)
+                .whereEqualTo("user_token", token)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Medication> medications = new ArrayList<>();

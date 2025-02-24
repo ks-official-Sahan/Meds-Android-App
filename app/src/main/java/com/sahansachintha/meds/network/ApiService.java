@@ -1,5 +1,8 @@
 package com.sahansachintha.meds.network;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -69,5 +72,21 @@ public class ApiService {
                 .addHeader("Authorization", "Bearer " + token)
                 .build();
         client.newCall(request).enqueue(callback);
+    }
+
+    public static void getToken(TokenCallback callback) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            currentUser.getIdToken(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    String token = task.getResult().getToken();
+                    callback.handleToken(token);
+                }
+            });
+        }
+    }
+
+    public interface TokenCallback {
+        void handleToken(String token);
     }
 }

@@ -40,10 +40,10 @@ public class ReminderManager {
     }
 
     private void initializeSampleData() {
-        addReminder(1, "Morning Medicine", 2025, Calendar.FEBRUARY, 12, 8, 30, "Take on an empty stomach.");
-        addReminder(2, "Afternoon Medication", 2025, Calendar.FEBRUARY, 12, 14, 0, "Take with food.");
-        addReminder(3, "Evening Dose", 2025, Calendar.FEBRUARY, 13, 20, 0, "Avoid caffeine after this dose.");
-        addReminder(4, "Night Supplement", 2025, Calendar.FEBRUARY, 14, 22, 0, "Drink plenty of water.");
+//        addReminder(1, "Morning Medicine", 2025, Calendar.FEBRUARY, 12, 8, 30, "Take on an empty stomach.");
+//        addReminder(2, "Afternoon Medication", 2025, Calendar.FEBRUARY, 12, 14, 0, "Take with food.");
+//        addReminder(3, "Evening Dose", 2025, Calendar.FEBRUARY, 13, 20, 0, "Avoid caffeine after this dose.");
+//        addReminder(4, "Night Supplement", 2025, Calendar.FEBRUARY, 14, 22, 0, "Drink plenty of water.");
     }
 
     public boolean addReminder(int id, String title, int year, int month, int day, int hour, int minute, String notes) {
