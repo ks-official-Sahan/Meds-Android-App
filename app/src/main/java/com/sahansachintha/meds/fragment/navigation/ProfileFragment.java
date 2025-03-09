@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProfileFragment extends Fragment {
 
+    public static final String TAG = "MyMedsProfileFragment";
     private View view;
     private EditText email, name, address, city, country, mobile, location, password;
     private ImageView profile_img;
@@ -135,11 +136,11 @@ public class ProfileFragment extends Fragment {
             public void onSuccess(User user) {
                 if (getActivity() == null) return;
                 getActivity().runOnUiThread(() -> {
-                    Log.d("ProfileFragment", "User data: " + user);
                     if (user == null) {
                         Toast.makeText(getContext(), "User data is null", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    Log.d(TAG, "User data: " + user);
                     email.setText(user.getEmail());
                     nameText.setText(user.getEmail());
                     if (user.getName() != null) {

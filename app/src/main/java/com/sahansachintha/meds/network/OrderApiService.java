@@ -1,6 +1,8 @@
 package com.sahansachintha.meds.network;
 
 import com.google.gson.Gson;
+import com.sahansachintha.meds.MyMeds;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.model.Order;
 
 import okhttp3.Callback;
@@ -16,14 +18,12 @@ public class OrderApiService {
     private final OkHttpClient client;
     private final Gson gson;
 
-    private String token;
+    private final String token;
 
     public OrderApiService() {
         client = new OkHttpClient();
         gson = new Gson();
-        ApiService.fetchToken(token1 -> {
-            token = token1;
-        });
+        token = AppHelper.getInstance().getToken(MyMeds.getInstance().getApplicationContext());
     }
 
     // Create a new order on the server.
