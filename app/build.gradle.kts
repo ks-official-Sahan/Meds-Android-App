@@ -42,6 +42,11 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.work.runtime)
+    //implementation("androidx.work:work-runtime:2.10.0")
+    implementation(libs.guava)
+    //implementation("com.google.guava:guava:32.1.3-android")
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.messaging)

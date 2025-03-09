@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.sahansachintha.meds.service.ReminderReschedulerService;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
+import com.sahansachintha.meds.worker.ReminderReschedulerWorker;
+
 
 public class BootReceiver extends BroadcastReceiver {
 
@@ -15,9 +19,9 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "BootReceiver triggered");
         if (intent != null && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            Intent serviceIntent = new Intent(context, ReminderReschedulerService.class);
-            context.startService(serviceIntent);
-            Log.i(TAG, "ReminderReschedulerService started on boot");
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(ReminderReschedulerWorker.class).build();
+            WorkManager.getInstance(context).enqueue(workRequest);
+            Log.i("MyMedsBroadcast", "ReminderReschedulerWorker enqueued on boot");
         } else {
             Log.e(TAG, "Unexpected intent: " + (intent != null ? intent.getAction() : "null"));
         }
