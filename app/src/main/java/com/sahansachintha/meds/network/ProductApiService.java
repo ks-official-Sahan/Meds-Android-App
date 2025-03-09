@@ -1,6 +1,8 @@
 package com.sahansachintha.meds.network;
 
 import com.google.gson.Gson;
+import com.sahansachintha.meds.MyMeds;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.model.Product;
 
 import okhttp3.Callback;
@@ -20,7 +22,7 @@ public class ProductApiService {
     public ProductApiService() {
         client = new OkHttpClient();
         gson = new Gson();
-        ApiService.fetchToken(token1 -> token = token1);
+        token = AppHelper.getInstance().getToken(MyMeds.getInstance().getApplicationContext());
     }
 
     // GET /products - load all products

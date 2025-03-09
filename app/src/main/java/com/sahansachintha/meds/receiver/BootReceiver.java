@@ -13,7 +13,7 @@ import com.sahansachintha.meds.worker.ReminderReschedulerWorker;
 
 public class BootReceiver extends BroadcastReceiver {
 
-    public static final String TAG = "MyMedsBroadcast";
+    public static final String TAG = "MyMedsBootReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -21,7 +21,7 @@ public class BootReceiver extends BroadcastReceiver {
         if (intent != null && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(ReminderReschedulerWorker.class).build();
             WorkManager.getInstance(context).enqueue(workRequest);
-            Log.i("MyMedsBroadcast", "ReminderReschedulerWorker enqueued on boot");
+            Log.i(TAG, "ReminderReschedulerWorker enqueued on boot");
         } else {
             Log.e(TAG, "Unexpected intent: " + (intent != null ? intent.getAction() : "null"));
         }

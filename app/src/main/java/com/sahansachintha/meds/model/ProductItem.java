@@ -36,7 +36,7 @@ public class ProductItem implements Serializable {
             return Double.parseDouble(product.getPrice()) * quantity;
         } catch (NumberFormatException e) {
             //e.printStackTrace();
-            Log.e("MyMedsCartItem", "Error parsing price: " + e.getMessage());
+            Log.e("MyMedsProductItem", "Error parsing price: " + e.getMessage());
             return 0.0;
         }
     }

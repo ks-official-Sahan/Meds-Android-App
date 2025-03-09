@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
 
@@ -38,8 +39,6 @@ public class HomeActivity extends AppCompatActivity {
     public static NavigationView getNavigationView() {
         return navigationView;
     }
-
-    private static final String PREFS_NAME = "MyMedsPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private static SharedPreferences getPrefs(Context context) {
-        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return context.getSharedPreferences(AppHelper.SHARED_PREFERENCE_TAG, Context.MODE_PRIVATE);
     }
 
     private void initViews() {
@@ -84,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //showFragment(HomeFragment.class);
-        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_home);
+        int fragmentId = getIntent().getIntExtra(NavigationHelper.FRAGMENT_ID_EXTRA, R.id.menu_item_home);
 //        if (NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
 //            showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
 //        } else {
@@ -188,7 +187,7 @@ public class HomeActivity extends AppCompatActivity {
     /* Request Permissions */
 
     private void logNavigation(int itemID) {
-        Log.i("MyMedsNavigation", String.valueOf(itemID));
+        Log.i(NavigationHelper.TAG, String.valueOf(itemID));
     }
 
     private class HomeOnBackPressedCallback extends OnBackPressedCallback {

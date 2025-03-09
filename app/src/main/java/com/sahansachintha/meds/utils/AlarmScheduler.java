@@ -10,11 +10,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.sahansachintha.meds.helper.PermissionHelper;
+import com.sahansachintha.meds.helper.data.ReminderManager;
 import com.sahansachintha.meds.receiver.AlarmReceiver;
 
 import java.util.Calendar;
 
 public class AlarmScheduler {
+
+    public static final String TAG = "MyMedsAlarmScheduler";
 
     @SuppressLint("ScheduleExactAlarm")
     public static void scheduleReminder(Context context, int id, Calendar calendar) {
@@ -25,8 +28,8 @@ public class AlarmScheduler {
 
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         alarmIntent.setAction(context.getPackageName() + ".ALARM_TRIGGERED");
-        alarmIntent.putExtra("reminderId", id);
-        alarmIntent.putExtra("scheduledTime", calendar.getTimeInMillis());
+        alarmIntent.putExtra(ReminderManager.REMINDER_ID_EXTRA, id);
+        alarmIntent.putExtra(ReminderManager.SCHEDULED_TIME_EXTRA, calendar.getTimeInMillis());
         alarmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         int flags = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
@@ -43,14 +46,14 @@ public class AlarmScheduler {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
                     Toast.makeText(context, "Alarm at " + calendar.getTime() + " scheduled successfully", Toast.LENGTH_SHORT).show();
-                    Log.d("MyMedsAlarmScheduler", "Exact alarm at " + calendar.getTime() + " scheduled successfully.");
+                    Log.d(TAG, "Exact alarm at " + calendar.getTime() + " scheduled successfully.");
                 } else {
-                    Log.w("MyMedsAlarmScheduler", "Exact alarm scheduling not permitted.");
+                    Log.w(TAG, "Exact alarm scheduling not permitted.");
                     Toast.makeText(context, "Exact alarm scheduling not permitted.", Toast.LENGTH_SHORT).show();
                 }
             } catch (SecurityException e) {
                 Toast.makeText(context, "SecurityException: Cannot schedule exact alarms", Toast.LENGTH_SHORT).show();
-                Log.e("MyMedsAlarmScheduler", "SecurityException: Cannot schedule exact alarms", e);
+                Log.e(TAG, "SecurityException: Cannot schedule exact alarms", e);
             }
         }
     }
@@ -60,7 +63,7 @@ public class AlarmScheduler {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             if (alarmManager != null) {
                 boolean canSchedule = alarmManager.canScheduleExactAlarms();
-                Log.d("MyMedsAlarmUtils", "Can Schedule Exact Alarms: " + canSchedule);
+                Log.d(TAG, "Can Schedule Exact Alarms: " + canSchedule);
                 if (!canSchedule) {
                     PermissionHelper.requestExactAlarmPermission(context);
                 }

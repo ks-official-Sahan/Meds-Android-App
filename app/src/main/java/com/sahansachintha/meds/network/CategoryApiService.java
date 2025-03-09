@@ -1,6 +1,8 @@
 package com.sahansachintha.meds.network;
 
 import com.google.gson.Gson;
+import com.sahansachintha.meds.MyMeds;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.model.Category;
 
 import okhttp3.Callback;
@@ -21,7 +23,7 @@ public class CategoryApiService {
     public CategoryApiService() {
         client = new OkHttpClient();
         gson = new Gson();
-        ApiService.fetchToken(token1 -> token = token1);
+        token = AppHelper.getInstance().getToken(MyMeds.getInstance().getApplicationContext());
     }
 
     // GET /categories – load all categories.

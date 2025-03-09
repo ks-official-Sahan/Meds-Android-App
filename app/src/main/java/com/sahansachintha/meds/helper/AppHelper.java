@@ -7,7 +7,7 @@ import android.util.TypedValue;
 public class AppHelper {
 
     private static AppHelper instance;
-    private static final String SHARED_PREFERENCE_TAG = "MyMedsPrefs";
+    public static final String SHARED_PREFERENCE_TAG = "MyMedsPrefs";
     public static final String FIREBASE_TOKEN_TAG = "firebase_token";
 
     private AppHelper() {

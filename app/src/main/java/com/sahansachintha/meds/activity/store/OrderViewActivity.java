@@ -24,6 +24,7 @@ import java.util.Locale;
 
 public class OrderViewActivity extends AppCompatActivity {
 
+    public static final String TAG = "MyMedsOrderView";
     private Order order;
     private RecyclerView orderRecycler;
 
@@ -52,9 +53,9 @@ public class OrderViewActivity extends AppCompatActivity {
 
     private void setOrder() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            order = getIntent().getSerializableExtra("order", Order.class);
+            order = getIntent().getSerializableExtra(NavigationHelper.ORDER_EXTRA, Order.class);
         } else {
-            order = (Order) getIntent().getSerializableExtra("order");
+            order = (Order) getIntent().getSerializableExtra(NavigationHelper.ORDER_EXTRA);
         }
 
         if (order != null) {
@@ -97,7 +98,7 @@ public class OrderViewActivity extends AppCompatActivity {
 
         OrderItemAdapter orderItemAdapter = new OrderItemAdapter(order.getOrderItems(),
                 OrderViewActivity.this, item -> {
-            Log.i("MyMeds", item.getProduct().getTitle());
+            Log.i(TAG, item.getProduct().getTitle());
         });
         orderRecycler.setAdapter(orderItemAdapter);
 
