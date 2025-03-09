@@ -85,13 +85,13 @@ public class ReminderManager {
                 reminders.addAll(firestoreReminders);
             }
 
-            Context appContext = MyMeds.getInstance().getApplicationContext();
-            for (Reminder reminder : firestoreReminders) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(reminder.getTimeInMillis());
-                AlarmScheduler.scheduleReminder(appContext, reminder.getId(), calendar);
-            }
-            Log.i(TAG, "Reminders updated from Firestore and alarms scheduled.");
+//            Context appContext = MyMeds.getInstance().getApplicationContext();
+//            for (Reminder reminder : firestoreReminders) {
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.setTimeInMillis(reminder.getTimeInMillis());
+//                AlarmScheduler.scheduleReminder(appContext, reminder.getId(), calendar);
+//            }
+            Log.i(TAG, "Reminders updated from Firestore");
         }, e -> {
             Log.e(TAG, "Error loading reminders from Firestore: " + e.getMessage());
         });
