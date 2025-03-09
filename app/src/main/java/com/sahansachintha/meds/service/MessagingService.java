@@ -15,21 +15,24 @@ import com.sahansachintha.meds.MainActivity;
 
 public class MessagingService extends FirebaseMessagingService {
 
+    public static final String TAG = "MyMedsMessagingService";
+    public static final String CHANNEL_ID_1 = "channelID1";
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
-        Log.i("App31Log", message.getNotification().getTitle());
-        Log.i("App31Log", message.getNotification().getBody());
+        Log.i(TAG, message.getNotification().getTitle());
+        Log.i(TAG, message.getNotification().getBody());
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel("channelID1", "Push Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID_1, "Push Notifications", NotificationManager.IMPORTANCE_DEFAULT);
 
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        Notification notification = new NotificationCompat.Builder(new MainActivity(), "channelID1")
+        Notification notification = new NotificationCompat.Builder(new MainActivity(), CHANNEL_ID_1)
                 .setContentTitle(message.getNotification().getTitle())
                 .setContentText(message.getNotification().getBody())
                 .build();

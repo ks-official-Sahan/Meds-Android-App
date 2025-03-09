@@ -84,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //showFragment(HomeFragment.class);
-        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_home);
+        int fragmentId = getIntent().getIntExtra(NavigationHelper.FRAGMENT_ID_EXTRA, R.id.menu_item_home);
 //        if (NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
 //            showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
 //        } else {
@@ -188,7 +188,7 @@ public class HomeActivity extends AppCompatActivity {
     /* Request Permissions */
 
     private void logNavigation(int itemID) {
-        Log.i("MyMedsNavigation", String.valueOf(itemID));
+        Log.i(NavigationHelper.TAG, String.valueOf(itemID));
     }
 
     private class HomeOnBackPressedCallback extends OnBackPressedCallback {

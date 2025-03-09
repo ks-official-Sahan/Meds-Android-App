@@ -36,6 +36,10 @@ import java.util.Objects;
 
 public class NavigationHelper {
 
+    public static final String FRAGMENT_ID_EXTRA = "FRAGMENT_ID";
+    public static final String ORDER_EXTRA = "order";
+    public static final String PRODUCT_EXTRA = "product";
+    public static final String TAG = "MyMedsNavigation";
     private static NavigationHelper navigationHelper;
 
     private NavigationHelper() {
@@ -59,7 +63,7 @@ public class NavigationHelper {
                     .addToBackStack(fragmentClass.getSimpleName())
                     .commit();
         } catch (IllegalAccessException | InstantiationException e) {
-            Log.e("MyMedsFragments", "Error creating fragment", e);
+            Log.e(TAG, "Error creating fragment", e);
         }
     }
     /* Fragment Management */
@@ -72,49 +76,49 @@ public class NavigationHelper {
 
     public void openIntent(@NonNull Context context, @NonNull Class<?> activity, int fragmentId) {
         Intent intent = new Intent(context, activity);
-        intent.putExtra("FRAGMENT_ID", fragmentId);
+        intent.putExtra(FRAGMENT_ID_EXTRA, fragmentId);
         context.startActivity(intent);
     }
 
     public void viewProduct(@NonNull Context context, @NonNull Product product) {
         Intent intent = new Intent(context, ProductViewActivity.class);
-        intent.putExtra("product", product);
+        intent.putExtra(PRODUCT_EXTRA, product);
         context.startActivity(intent);
     }
 
     public void viewProfile(@NonNull Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.putExtra("FRAGMENT_ID", R.id.nav_item_profile);
+        intent.putExtra(FRAGMENT_ID_EXTRA, R.id.nav_item_profile);
         context.startActivity(intent);
     }
 
     public void viewSettings(@NonNull Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.putExtra("FRAGMENT_ID", R.id.nav_item_setting);
+        intent.putExtra(FRAGMENT_ID_EXTRA, R.id.nav_item_setting);
         context.startActivity(intent);
     }
 
     public void viewCart(@NonNull Context context) {
         Intent intent = new Intent(context, StoreActivity.class);
-        intent.putExtra("FRAGMENT_ID", R.id.menu_item_cart);
+        intent.putExtra(FRAGMENT_ID_EXTRA, R.id.menu_item_cart);
         context.startActivity(intent);
     }
 
     public void viewOrders(@NonNull Context context) {
         Intent intent = new Intent(context, StoreActivity.class);
-        intent.putExtra("FRAGMENT_ID", R.id.menu_item_orders);
+        intent.putExtra(FRAGMENT_ID_EXTRA, R.id.menu_item_orders);
         context.startActivity(intent);
     }
 
     public void viewOrderComplete(@NonNull Context context, @NonNull Order order) {
         Intent intent = new Intent(context, OrderCompleteActivity.class);
-        intent.putExtra("order", order);
+        intent.putExtra(ORDER_EXTRA, order);
         context.startActivity(intent);
     }
 
     public void viewOrderDetails(@NonNull Context context, @NonNull Order order) {
         Intent intent = new Intent(context, OrderViewActivity.class);
-        intent.putExtra("order", order);
+        intent.putExtra(ORDER_EXTRA, order);
         context.startActivity(intent);
     }
 

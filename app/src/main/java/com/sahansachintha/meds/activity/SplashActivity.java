@@ -47,6 +47,8 @@ import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.activity.home.HomeActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
+import com.sahansachintha.meds.helper.data.MedicationManager;
+import com.sahansachintha.meds.helper.data.ReminderManager;
 import com.sahansachintha.meds.utils.TokenRefresher;
 import com.sahansachintha.meds.helper.data.CategoryManager;
 import com.sahansachintha.meds.helper.data.ProductManager;
@@ -403,8 +405,14 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(this::runSpringAnimation, 1000);
 
         new Thread(() -> {
-            ProductManager.getInstance().updateProductListFromServer();
-            CategoryManager.getInstance().updateCategoryListFromServer();
+            //ProductManager.getInstance().updateProductListFromServer();
+            //CategoryManager.getInstance().updateCategoryListFromServer();
+            //ReminderManager.getInstance().updateReminderListFromFirebase();
+            //MedicationManager.getInstance().updateMedicationListFromFirebase();
+            ProductManager.getInstance();
+            CategoryManager.getInstance();
+            ReminderManager.getInstance();
+            MedicationManager.getInstance();
         }).start();
 
         new Handler().postDelayed(() -> {

@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 public class ReminderManager {
 
     public static final String TAG = "MyMedsReminders";
+    public static final String REMINDER_ID_EXTRA = "reminderId";
+    public static final String SCHEDULED_TIME_EXTRA = "scheduledTime";
     private static volatile ReminderManager instance;
     private final List<Reminder> reminders;
     private final FirestoreReminderManager firestoreReminderManager;

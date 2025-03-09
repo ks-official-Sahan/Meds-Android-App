@@ -11,13 +11,16 @@ import android.widget.Toast;
 import com.sahansachintha.meds.activity.home.HomeActivity;
 
 public class BroadcastReceiverIMPL extends BroadcastReceiver {
+
+    public static final String TAG = "MyMedsBroadcast";
+
     //@SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("MyMedsBroadcast", "Working");
+        Log.i(TAG, "Working");
 
         if (intent == null || intent.getAction() == null) {
-            Log.e("MyMedsBroadcast", "Received null or empty intent action");
+            Log.e(TAG, "Received null or empty intent action");
             return;
         }
 
@@ -39,7 +42,7 @@ public class BroadcastReceiverIMPL extends BroadcastReceiver {
             //    Toast.makeText(context, "State False", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Log.e("App28Log", "Received intent with unexpected action: ${intent.getAction()}");
+            Log.e(TAG, "Received intent with unexpected action: ${intent.getAction()}");
         }
     }
 }

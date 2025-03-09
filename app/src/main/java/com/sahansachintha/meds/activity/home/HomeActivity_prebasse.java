@@ -85,7 +85,7 @@ public class HomeActivity_prebasse extends AppCompatActivity {
 
         /* Handle Drawer Navigation */
         navigationView.setNavigationItemSelectedListener(item -> {
-            Log.i("MyMedsNavigation", item.toString());
+            Log.i(NavigationHelper.TAG, item.toString());
             drawerLayout.closeDrawers();
             return runNavigation(item.getItemId());
         });
@@ -93,7 +93,7 @@ public class HomeActivity_prebasse extends AppCompatActivity {
 
         /* Handle Bottom Navigation */
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            Log.i("MyMedsNavigation", item.toString());
+            Log.i(NavigationHelper.TAG, item.toString());
             return runNavigation(item.getItemId());
         });
         /* Handle Bottom Navigation */

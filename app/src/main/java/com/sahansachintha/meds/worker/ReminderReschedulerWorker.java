@@ -17,6 +17,8 @@ import java.util.List;
 
 public class ReminderReschedulerWorker extends Worker {
 
+    public final String TAG = "ReminderRescheduleWorker";
+
     public ReminderReschedulerWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -24,7 +26,7 @@ public class ReminderReschedulerWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.i("ReminderReschedulerWorker", "Worker started for rescheduling reminders");
+        Log.i(TAG, "Worker started for rescheduling reminders");
         ReminderManager reminderManager = ReminderManager.getInstance();
         List<Reminder> reminders = reminderManager.getAllReminders();
         Context appContext = MyMeds.getInstance().getApplicationContext();
@@ -33,7 +35,7 @@ public class ReminderReschedulerWorker extends Worker {
             calendar.setTimeInMillis(reminder.getTimeInMillis());
             AlarmScheduler.scheduleReminder(appContext, reminder.getId(), calendar);
         }
-        Log.i("ReminderReschedulerWorker", "All reminders have been rescheduled.");
+        Log.i(TAG, "All reminders have been rescheduled.");
         return Result.success();
     }
 }

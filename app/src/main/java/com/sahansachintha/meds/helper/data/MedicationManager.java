@@ -129,10 +129,7 @@ public class MedicationManager {
         );
     }
 
-    /**
-     * Loads medications from Firestore during initialization and updates the local list.
-     */
-    private void updateMedicationListFromFirebase() {
+    public void updateMedicationListFromFirebase() {
         firestoreMedicationManager.loadMedications(firestoreMedications -> {
             synchronized (medications) {
                 medications.clear();
