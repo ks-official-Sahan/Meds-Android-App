@@ -96,7 +96,8 @@ public class PermissionHelper {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
-    }    /* Alarm */
+    }
+    /* Alarm */
 
     /* Overlay */
     public static void requestOverlayPermission(Activity activity) {

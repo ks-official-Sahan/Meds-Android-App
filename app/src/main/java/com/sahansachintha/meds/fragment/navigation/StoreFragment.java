@@ -59,7 +59,7 @@ public class StoreFragment extends Fragment implements SensorEventListener {
         view.findViewById(R.id.store_container).setAlpha(0);
         view.findViewById(R.id.store_container).setScaleX(0.1f);
         view.findViewById(R.id.store_container).setScaleY(0.1f);
-        view.findViewById(R.id.store_container).animate().alpha(1f).scaleY(1f).scaleX(1f).setDuration(1000).start();
+        view.findViewById(R.id.store_container).animate().alpha(1f).scaleY(1f).scaleX(1f).setDuration(1500).start();
 
         initUI();
         setupSearchListener();

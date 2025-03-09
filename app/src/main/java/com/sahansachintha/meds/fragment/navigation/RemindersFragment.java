@@ -110,7 +110,7 @@ public class RemindersFragment extends Fragment {
         reminderData = new ArrayList<>(ReminderManager.getInstance().getAllReminders());
         toggleView(R.id.reminders_empty_view, reminderData.isEmpty());
 
-        reminderAdapter = new ReminderAdapter(reminderData, getContext());
+        reminderAdapter = new ReminderAdapter(ReminderManager.getInstance().getAllReminders(), getContext());
         reminderRecycler.setAdapter(reminderAdapter);
     }
 
