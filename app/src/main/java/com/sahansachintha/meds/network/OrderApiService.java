@@ -2,7 +2,7 @@ package com.sahansachintha.meds.network;
 
 import com.google.gson.Gson;
 import com.sahansachintha.meds.model.Order;
-import okhttp3.Call;
+
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -21,7 +21,7 @@ public class OrderApiService {
     public OrderApiService() {
         client = new OkHttpClient();
         gson = new Gson();
-        ApiService.getToken(token1 -> {
+        ApiService.fetchToken(token1 -> {
             token = token1;
         });
     }

@@ -1,8 +1,10 @@
-package com.sahansachintha.meds.helper;
+package com.sahansachintha.meds.utils;
 
 import android.os.Handler;
 import android.os.Looper;
 
+import com.sahansachintha.meds.MyMeds;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.network.ApiService;
 
 public class TokenRefresher {
@@ -11,13 +13,9 @@ public class TokenRefresher {
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            // Execute API call
-            ApiService.getToken((token) -> {
-                //AppHelper.getInstance().setToken(SplashActivity.this, token);
-            });
+            ApiService.fetchToken((token) -> AppHelper.getInstance().setToken(MyMeds.getInstance().getApplicationContext(), token));
 
-            // Schedule next execution
-            handler.postDelayed(this, INTERVAL);
+            handler.postDelayed(this, INTERVAL); // Schedule next execution
         }
     };
 

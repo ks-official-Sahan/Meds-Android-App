@@ -114,7 +114,6 @@
             </intent-filter>
         </service>
 
-        <!--<service android:name=".service.ReminderReschedulerService" />-->
         <!-- Services -->
         <!-- Receivers -->
         <receiver

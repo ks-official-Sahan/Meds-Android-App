@@ -13,6 +13,9 @@ public class MyMeds extends Application {
     }
 
     public static MyMeds getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("MyMeds is not initialized.");
+        }
         return instance;
     }
 }

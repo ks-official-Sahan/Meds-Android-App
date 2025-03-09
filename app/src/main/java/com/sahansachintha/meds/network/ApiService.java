@@ -1,7 +1,5 @@
 package com.sahansachintha.meds.network;
 
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -76,26 +74,25 @@ public class ApiService {
         client.newCall(request).enqueue(callback);
     }
 
-    public static String getToken(TokenCallback callback) {
+    public static void fetchToken(TokenCallback callback) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             currentUser.getIdToken(true).addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
                     String token = task.getResult().getToken();
                     callback.handleToken(token);
+                } else {
+                    callback.handleToken(null);
                 }
             });
-            return currentUser.getUid();
+        } else {
+            callback.handleToken(null);
         }
-        return null;
     }
 
-    public static String getUID() {
+    public static String getUserId() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getUid();
-        }
-        return null;
+        return (currentUser != null) ? currentUser.getUid() : null;
     }
 
     public interface TokenCallback {

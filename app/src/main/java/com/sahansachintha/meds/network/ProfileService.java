@@ -1,12 +1,11 @@
 package com.sahansachintha.meds.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.sahansachintha.meds.MyMeds;
 import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.model.User;
 import com.sahansachintha.meds.model.dto.UpdateProfileRequest;
@@ -20,13 +19,11 @@ import okhttp3.Response;
 public class ProfileService {
     private static final String TAG = "MyMedsProfileService";
     private final ApiService apiService;
-    private final Context context;
     private final String token;
 
-    public ProfileService(Context context) {
-        this.context = context;
+    public ProfileService() {
         this.apiService = new ApiService();
-        token = AppHelper.getInstance().getToken(context);
+        token = AppHelper.getInstance().getToken(MyMeds.getInstance().getApplicationContext());
     }
 
     public interface ProfileCallback {
@@ -51,6 +48,7 @@ public class ProfileService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "Response successful");
+                    assert response.body() != null;
                     String jsonResponse = response.body().string();
 
                     Gson gson = new Gson();
@@ -95,13 +93,14 @@ public class ProfileService {
 
         apiService.updateProfile(token, jsonBody, new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 callback.onFailure(e.getMessage());
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     String jsonResponse = response.body().string();
                     User updatedUser = gson.fromJson(jsonResponse, User.class);
                     callback.onSuccess(updatedUser);

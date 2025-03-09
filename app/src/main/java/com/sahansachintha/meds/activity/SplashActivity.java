@@ -16,20 +16,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -42,7 +37,6 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,11 +46,10 @@ import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.activity.home.HomeActivity;
-import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.helper.SQLiteHelper;
+import com.sahansachintha.meds.utils.TokenRefresher;
 import com.sahansachintha.meds.helper.data.CategoryManager;
 import com.sahansachintha.meds.helper.data.ProductManager;
-import com.sahansachintha.meds.network.ApiService;
 import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
 import java.io.File;
@@ -438,11 +431,9 @@ public class SplashActivity extends AppCompatActivity {
     private void checkUser() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-//            ApiService.getToken((token) -> {
-//                AppHelper.getInstance().setToken(SplashActivity.this, token);
-//            });
             tokenRefresher = new TokenRefresher();
             tokenRefresher.start();
+
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
         } else {
             startActivity(new Intent(SplashActivity.this, AuthActivity.class));
@@ -596,29 +587,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onDestroy();
         if (tokenRefresher != null) {
             tokenRefresher.stop();
-        }
-    }
-
-    class TokenRefresher {
-        private static final long INTERVAL = 60 * 60 * 1000; // 1 hour in milliseconds
-        private final Handler handler = new Handler(Looper.getMainLooper());
-        private final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                ApiService.getToken((token) -> {
-                    AppHelper.getInstance().setToken(SplashActivity.this, token);
-                });
-
-                handler.postDelayed(this, INTERVAL); // Schedule next execution
-            }
-        };
-
-        public void start() {
-            handler.postDelayed(runnable, INTERVAL); // Start execution
-        }
-
-        public void stop() {
-            handler.removeCallbacks(runnable); // Stop execution
         }
     }
 

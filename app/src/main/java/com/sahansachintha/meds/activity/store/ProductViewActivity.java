@@ -65,7 +65,7 @@ public class ProductViewActivity extends AppCompatActivity {
         findViewById(R.id.product_view_buy_btn).setOnClickListener(v -> {
             if (product != null) {
                 int quantity = Integer.parseInt(quantityField.getText().toString());
-                CartManager.getInstance(ProductViewActivity.this).addProduct(product, quantity);
+                CartManager.getInstance().addProduct(product, quantity);
                 Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show();
             }
         });
@@ -128,7 +128,7 @@ public class ProductViewActivity extends AppCompatActivity {
         List<Product> productList = new ArrayList<>(ProductManager.getInstance().getAllProducts());
 
         if (product != null) {
-            productList.removeIf(p -> p.getId() == product.getId());
+            productList.removeIf(p -> p.getId().equals(product.getId()));
         }
 
         return productList;

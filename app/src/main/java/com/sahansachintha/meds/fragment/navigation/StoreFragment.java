@@ -9,16 +9,13 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,9 +83,7 @@ public class StoreFragment extends Fragment implements SensorEventListener {
     }
 
     private void setupSearchListener() {
-        search.setOnFocusChangeListener((v, hasFocus) -> {
-            toggleCategorySection(hasFocus);
-        });
+        search.setOnFocusChangeListener((v, hasFocus) -> toggleCategorySection(hasFocus));
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -266,8 +261,8 @@ public class StoreFragment extends Fragment implements SensorEventListener {
                     updateProducts(ProductManager.getInstance().getAllProducts());
                     search.clearFocus();
                     hideKeyboard();
-                } else if (getActivity() != null) {
-                    // getActivity().getOnBackPressedDispatcher().onBackPressed();
+                } else {
+                    //if (getActivity() != null) getActivity().getOnBackPressedDispatcher().onBackPressed();
                 }
             }
 

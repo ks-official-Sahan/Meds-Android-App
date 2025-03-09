@@ -3,9 +3,6 @@ package com.sahansachintha.meds.network;
 import com.google.gson.Gson;
 import com.sahansachintha.meds.model.Product;
 
-import java.io.IOException;
-
-import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -23,7 +20,7 @@ public class ProductApiService {
     public ProductApiService() {
         client = new OkHttpClient();
         gson = new Gson();
-        ApiService.getToken(token1 -> token = token1);
+        ApiService.fetchToken(token1 -> token = token1);
     }
 
     // GET /products - load all products

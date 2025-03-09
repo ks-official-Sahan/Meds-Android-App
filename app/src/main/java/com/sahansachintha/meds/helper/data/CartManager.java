@@ -1,7 +1,6 @@
 // CartManager.java
 package com.sahansachintha.meds.helper.data;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,29 +11,25 @@ import com.sahansachintha.meds.model.Cart;
 import com.sahansachintha.meds.model.Product;
 import com.sahansachintha.meds.model.ProductItem;
 import com.sahansachintha.meds.network.CartApiService;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 public class CartManager {
+    public static final String TAG = "MyMedsCartManager";
     private static volatile CartManager instance;
     private Cart cart;
-    private CartApiService cartApiService;
+    private final CartApiService cartApiService;
     private final Gson gson;
 
     private CartManager() {
         this.cart = loadCartFromDatabase();
         cartApiService = new CartApiService();
-        gson = new Gson();
-        syncCartFromServer(); // Optionally sync on startup.
-    }
-
-    private CartManager(Context context) {
-        this.cart = loadCartFromDatabase();
-        cartApiService = new CartApiService(context);
         gson = new Gson();
         syncCartFromServer(); // Optionally sync on startup.
     }
@@ -46,13 +41,6 @@ public class CartManager {
         return instance;
     }
 
-    public static synchronized CartManager getInstance(Context context) {
-        if (instance == null) {
-            instance = new CartManager(context);
-        }
-        instance.cartApiService = new CartApiService(context);
-        return instance;
-    }
 
     // Add a product locally and sync with the server.
     public void addProduct(Product product, int quantity) {
@@ -61,21 +49,23 @@ public class CartManager {
                     .setCartItems(cart.getCartItems()) // Preserve existing items.
                     .addProduct(product, quantity)
                     .build();
-            //saveCartToDatabase();
+            // Optionally, persist cart locally.
+            // saveCartToDatabase();
             // Call backend API.
             cartApiService.addProduct(product.getId(), quantity, new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    Log.e("CartManager", "Error adding product to server: " + e.getMessage());
+                    Log.e(TAG, "Error adding product to server: " + e.getMessage());
                 }
+
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    Log.i("CartManager", "Product added to server successfully.");
+                    Log.i(TAG, "Product added to server successfully.");
                     response.close();
                 }
             });
         } catch (IllegalArgumentException e) {
-            Log.w("CartManager", Objects.requireNonNull(e.getMessage()));
+            Log.w(TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -90,16 +80,17 @@ public class CartManager {
             cartApiService.updateProduct(product.getId(), quantity, new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    Log.e("CartManager", "Error updating product on server: " + e.getMessage());
+                    Log.e(TAG, "Error updating product on server: " + e.getMessage());
                 }
+
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    Log.i("CartManager", "Product updated on server successfully.");
+                    Log.i(TAG, "Product updated on server successfully.");
                     response.close();
                 }
             });
         } catch (IllegalArgumentException e) {
-            Log.w("CartManager", Objects.requireNonNull(e.getMessage()));
+            Log.w(TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -113,11 +104,12 @@ public class CartManager {
         cartApiService.removeProduct(productId, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("CartManager", "Error removing product on server: " + e.getMessage());
+                Log.e(TAG, "Error removing product on server: " + e.getMessage());
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                Log.i("CartManager", "Product removed on server successfully.");
+                Log.i(TAG, "Product removed on server successfully.");
                 response.close();
             }
         });
@@ -142,12 +134,13 @@ public class CartManager {
         deleteCartFromDatabase();
         cartApiService.clearCart(new Callback() {
             @Override
-            public void onFailure(@NonNull Call call, IOException e) {
-                Log.e("CartManager", "Error clearing cart on server: " + e.getMessage());
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e(TAG, "Error clearing cart on server: " + e.getMessage());
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                Log.i("CartManager", "Cart cleared on server successfully.");
+                Log.i(TAG, "Cart cleared on server successfully.");
                 response.close();
             }
         });
@@ -176,24 +169,25 @@ public class CartManager {
         cartApiService.getCart(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("CartManager", "Error fetching cart from server: " + e.getMessage());
+                Log.e(TAG, "Error fetching cart from server: " + e.getMessage());
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     String jsonResponse = response.body().string();
-                    Log.i("CartManager", "Fetched cart from server: " + jsonResponse);
+                    Log.i(TAG, "Fetched cart from server: " + jsonResponse);
                     // Assuming the backend returns a JSON matching your Cart model.
                     Cart serverCart = gson.fromJson(jsonResponse, Cart.class);
-                    Log.i("CartManager", "Fetched cart from server: " + serverCart);
+                    Log.i(TAG, "Fetched cart from server: " + serverCart);
                     if (serverCart != null) {
                         cart = serverCart;
                         //saveCartToDatabase();
-                        Log.i("CartManager", "Cart synchronized from server.");
+                        Log.i(TAG, "Cart synchronized from server.");
                     }
                 } else {
-                    Log.e("CartManager", "Failed to fetch cart from server, HTTP code: " + response.code());
+                    Log.e(TAG, "Failed to fetch cart from server, HTTP code: " + response.code());
                 }
                 response.close();
             }

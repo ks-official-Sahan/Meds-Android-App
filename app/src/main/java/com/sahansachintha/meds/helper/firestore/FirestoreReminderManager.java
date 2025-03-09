@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sahansachintha.meds.model.Reminder;
 import com.sahansachintha.meds.network.ApiService;
 
@@ -22,12 +21,12 @@ public class FirestoreReminderManager {
     public static final String TAG = "MyMedsFirestoreReminderManager";
     private final FirebaseFirestore db;
     //private String token;
-    private String uid;
+    private final String uid;
 
     public FirestoreReminderManager() {
         db = FirebaseFirestore.getInstance();
         //ApiService.getToken(token1 -> token = token1);
-        uid = ApiService.getUID();
+        uid = ApiService.getUserId();
     }
 
     // Save a reminder to Firestore

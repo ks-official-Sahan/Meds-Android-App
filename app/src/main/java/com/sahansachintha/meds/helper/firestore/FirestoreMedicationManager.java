@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sahansachintha.meds.model.Medication;
 import com.sahansachintha.meds.network.ApiService;
 
@@ -22,12 +21,12 @@ public class FirestoreMedicationManager {
     public static final String TAG = "MyMedsFirestoreMedicationManager";
     private final FirebaseFirestore db;
     //private String token;
-    private String uid;
+    private final String uid;
 
     public FirestoreMedicationManager() {
         db = FirebaseFirestore.getInstance();
         //ApiService.getToken(token1 -> token = token1);
-        uid = ApiService.getUID();
+        uid = ApiService.getUserId();
     }
 
     // Save a medication to Firestore

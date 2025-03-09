@@ -65,7 +65,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             return;
         }
 
-        productItems = CartManager.getInstance(requireContext()).getCartItems();
+        productItems = CartManager.getInstance().getCartItems();
 
         view.findViewById(R.id.cart_empty_view).setVisibility(productItems.isEmpty() ? View.VISIBLE : View.GONE);
 
@@ -82,7 +82,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     private void updateTotalPrice() {
-        String totalValue = String.format(Locale.US, "LKR %.2f", CartManager.getInstance(getContext()).getTotalPrice());
+        String totalValue = String.format(Locale.US, "LKR %.2f", CartManager.getInstance().getTotalPrice());
         totalPrice.setText(totalValue);
     }
 

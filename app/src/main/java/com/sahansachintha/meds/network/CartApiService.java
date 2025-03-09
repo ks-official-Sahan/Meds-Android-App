@@ -1,50 +1,42 @@
-// CartApiService.java
 package com.sahansachintha.meds.network;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.sahansachintha.meds.MyMeds;
 import com.sahansachintha.meds.helper.AppHelper;
 
-import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-
-import java.io.IOException;
 
 public class CartApiService {
     // Base URL points to your NestJS cart endpoint (adjust as needed)
     private static final String BASE_URL = ApiService.getBaseUrl() + "/cart";
     public static final MediaType JSON_MEDIA_TYPE = ApiService.getTypeJSON();
 
+    private static final String TAG = "MyMedsCartApiService";
+
     private final OkHttpClient client;
     private final Gson gson;
 
-    private String token;
+    private final String token;
 
     public CartApiService() {
         client = new OkHttpClient();
         gson = new Gson();
-        ApiService.getToken(token1 -> token = token1);
-    }
-
-    public CartApiService(Context context) {
-        client = new OkHttpClient();
-        gson = new Gson();
-        //ApiService.getToken(token1 -> token = token1);
-        token = AppHelper.getInstance().getToken(context);
+        token = AppHelper.getInstance().getToken(MyMeds.getInstance().getApplicationContext());
+        if (token == null) {
+            Log.e(TAG, "No token available in CartApiService constructor");
+        }
     }
 
     // GET /cart: Fetch the current cart for the user.
     public void getCart(Callback callback) {
-        String url = BASE_URL;
         Request request = new Request.Builder()
-                .url(url)
+                .url(BASE_URL)
                 .get()
                 .addHeader("Authorization", "Bearer " + token)
                 .build();

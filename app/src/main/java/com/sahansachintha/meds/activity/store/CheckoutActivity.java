@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Locale;
-import java.util.UUID;
 
 import lk.payhere.androidsdk.PHConfigs;
 import lk.payhere.androidsdk.PHConstants;
@@ -175,7 +174,7 @@ public class CheckoutActivity extends AppCompatActivity {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("image", imageFile.getName(),
-                        RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
+                        RequestBody.create(imageFile, MediaType.parse("image/jpeg")))
                 .build();
 
         Request request = new Request.Builder()
@@ -203,8 +202,7 @@ public class CheckoutActivity extends AppCompatActivity {
         orderRecycler
                 .setLayoutManager(new LinearLayoutManager(CheckoutActivity.this, LinearLayoutManager.VERTICAL, false));
 
-        OrderItemAdapter orderItemAdapter = new OrderItemAdapter(CartManager.getInstance(
-                CheckoutActivity.this).getCartItems(),
+        OrderItemAdapter orderItemAdapter = new OrderItemAdapter(CartManager.getInstance().getCartItems(),
                 CheckoutActivity.this, item -> {
                     Log.i(TAG, item.getProduct().getTitle());
                 });
@@ -214,8 +212,7 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void updateTotalPrice() {
-        String subTotal = String.format(Locale.US, "LKR %.2f", CartManager.getInstance(
-                CheckoutActivity.this).getTotalPrice());
+        String subTotal = String.format(Locale.US, "LKR %.2f", CartManager.getInstance().getTotalPrice());
         TextView subTotalText = findViewById(R.id.checkout_subtotal);
         subTotalText.setText(subTotal);
 
@@ -223,7 +220,7 @@ public class CheckoutActivity extends AppCompatActivity {
         TextView deliveryText = findViewById(R.id.checkout_delivery);
         deliveryText.setText(delivery);
 
-        double totalValue = CartManager.getInstance(CheckoutActivity.this).getTotalPrice() + DELIVERY;
+        double totalValue = CartManager.getInstance().getTotalPrice() + DELIVERY;
         String total = String.format(Locale.US, "LKR %.2f", totalValue);
         TextView totalText = findViewById(R.id.checkout_total);
         totalText.setText(total);
@@ -234,7 +231,7 @@ public class CheckoutActivity extends AppCompatActivity {
             InitRequest req = new InitRequest();
             req.setMerchantId(MERCHANT_ID);
             req.setCurrency("LKR");
-            req.setAmount(CartManager.getInstance(CheckoutActivity.this).getTotalPrice() + DELIVERY);
+            req.setAmount(CartManager.getInstance().getTotalPrice() + DELIVERY);
             req.setOrderId(ORDER_ID);
 
             req.setItemsDescription("MyMeds Order");
@@ -248,7 +245,7 @@ public class CheckoutActivity extends AppCompatActivity {
             req.setNotifyUrl("https://evisionit.lk/api/payment/callback");
 
             req.getItems().clear();
-            for (ProductItem item : CartManager.getInstance(CheckoutActivity.this).getCartItems()) {
+            for (ProductItem item : CartManager.getInstance().getCartItems()) {
                 // req.getItems().add(new Item(null, item.getProduct().getTitle(),
                 // item.getQuantity(), item.getTotalPrice().doubleValue()));
                 req.getItems()
@@ -308,13 +305,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
                                     Order order = new Order.Builder()
                                             .setOrderId(ORDER_ID)
-                                            .setOrderItems(CartManager.getInstance(
-                                                    CheckoutActivity.this).getCartItems())
+                                            .setOrderItems(CartManager.getInstance().getCartItems())
                                             .setStatus("Paid")
                                             .setDelivery(DELIVERY)
                                             .build();
                                     OrderManager.getInstance().addOrder(order);
-                                    CartManager.getInstance(CheckoutActivity.this).clearCart();
+                                    CartManager.getInstance().clearCart();
 
                                     NavigationHelper.getInstance().viewOrderComplete(this, order);
                                     // Run Order Save API here

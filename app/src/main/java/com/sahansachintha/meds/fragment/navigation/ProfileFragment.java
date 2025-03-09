@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.fragment.navigation.MapPickerDialogFragment;
 import com.sahansachintha.meds.model.User;
 import com.sahansachintha.meds.network.ProfileService;
 
@@ -72,7 +71,7 @@ public class ProfileFragment extends Fragment {
                 // For simplicity, profileImage remains an empty string or can be set accordingly.
                 String newProfileImage = "";
 
-                ProfileService profileService = new ProfileService(requireContext());
+                ProfileService profileService = new ProfileService();
                 profileService.updateProfile(newName, newMobile, newAddress, newCity, newCountry, newProfileImage, new ProfileService.UpdateProfileCallback() {
                     @Override
                     public void onSuccess(User updatedUser) {
@@ -130,7 +129,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserProfile() {
-        ProfileService profileService = new ProfileService(requireContext());
+        ProfileService profileService = new ProfileService();
         profileService.loadProfile(new ProfileService.ProfileCallback() {
             @Override
             public void onSuccess(User user) {
