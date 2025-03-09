@@ -102,7 +102,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private void updateQuantity(int position, ProductItem productItem, int change) {
         int newQuantity = productItem.getQuantity() + change;
         if (newQuantity > 0) {
-            CartManager.getInstance().updateQuantity(productItem.getProduct(), newQuantity);
+            CartManager.getInstance(context).updateQuantity(productItem.getProduct(), newQuantity);
             productItem.setQuantity(newQuantity);
             notifyItemChanged(position);
 //        } else {
@@ -113,7 +113,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     // Remove item from cart
     private void removeItem(int position) {
-        CartManager.getInstance().removeProduct(productItems.get(position).getProduct().getId());
+        CartManager.getInstance(context).removeProduct(productItems.get(position).getProduct().getId());
         Log.i("MyMedsCartAdapter", "CartItems" + productItems.size());
         //cartItems.remove(position);
         notifyItemRemoved(position);

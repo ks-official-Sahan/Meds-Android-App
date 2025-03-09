@@ -1,5 +1,7 @@
 package com.sahansachintha.meds.network;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -10,7 +12,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class ApiService {
-    private static final String DOMAIN = "https://f138-103-21-165-194.ngrok-free.app";
+    private static final String DOMAIN = "https://2fae-2402-d000-8128-197c-6452-e649-aa9-6840.ngrok-free.app";
     private static final String BASE_URL = DOMAIN + "/api";
     private final OkHttpClient client;
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -74,7 +76,7 @@ public class ApiService {
         client.newCall(request).enqueue(callback);
     }
 
-    public static void getToken(TokenCallback callback) {
+    public static String getToken(TokenCallback callback) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             currentUser.getIdToken(true).addOnCompleteListener(task -> {
@@ -83,10 +85,21 @@ public class ApiService {
                     callback.handleToken(token);
                 }
             });
+            return currentUser.getUid();
         }
+        return null;
+    }
+
+    public static String getUID() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUid();
+        }
+        return null;
     }
 
     public interface TokenCallback {
+
         void handleToken(String token);
     }
 }

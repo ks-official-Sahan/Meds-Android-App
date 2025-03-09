@@ -16,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,11 @@ import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.activity.home.HomeActivity;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.helper.SQLiteHelper;
+import com.sahansachintha.meds.helper.data.CategoryManager;
+import com.sahansachintha.meds.helper.data.ProductManager;
+import com.sahansachintha.meds.network.ApiService;
 import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
 import java.io.File;
@@ -62,6 +67,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
+    private TokenRefresher tokenRefresher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -403,6 +409,11 @@ public class SplashActivity extends AppCompatActivity {
         findViewById(R.id.imageView).animate().scaleX(1f).scaleY(1f).setDuration(1000).start();
         new Handler().postDelayed(this::runSpringAnimation, 1000);
 
+        new Thread(() -> {
+            ProductManager.getInstance().updateProductListFromServer();
+            CategoryManager.getInstance().updateCategoryListFromServer();
+        }).start();
+
         new Handler().postDelayed(() -> {
             progressBar.setVisibility(View.GONE);
             checkUser();
@@ -427,6 +438,11 @@ public class SplashActivity extends AppCompatActivity {
     private void checkUser() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
+//            ApiService.getToken((token) -> {
+//                AppHelper.getInstance().setToken(SplashActivity.this, token);
+//            });
+            tokenRefresher = new TokenRefresher();
+            tokenRefresher.start();
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
         } else {
             startActivity(new Intent(SplashActivity.this, AuthActivity.class));
@@ -574,8 +590,41 @@ public class SplashActivity extends AppCompatActivity {
 //        unregisterReceiver(broadcastReceiverIMPL);
 //    }
     /* Receivers */
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (tokenRefresher != null) {
+            tokenRefresher.stop();
+        }
+    }
+
+    class TokenRefresher {
+        private static final long INTERVAL = 60 * 60 * 1000; // 1 hour in milliseconds
+        private final Handler handler = new Handler(Looper.getMainLooper());
+        private final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                ApiService.getToken((token) -> {
+                    AppHelper.getInstance().setToken(SplashActivity.this, token);
+                });
+
+                handler.postDelayed(this, INTERVAL); // Schedule next execution
+            }
+        };
+
+        public void start() {
+            handler.postDelayed(runnable, INTERVAL); // Start execution
+        }
+
+        public void stop() {
+            handler.removeCallbacks(runnable); // Stop execution
+        }
+    }
+
 }
 
+/*
 class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
 
     ArrayList<String> stringArrayList;
@@ -595,10 +644,9 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull StringViewHolder holder, int position) {
         String contact = stringArrayList.get(position);
-        //holder.textViewLetter.setText(String.valueOf(contact.getFirstName().charAt(0)));
         holder.textViewName.setText(contact);
 
-//        holder.button.setOnClickListener(view -> {
+//        holder.textViewName.setOnClickListener(view -> {
 //            Intent i = new Intent(Intent.ACTION_DIAL);
 //            i.setData(Uri.parse("tel:" + contact));
 //            view.getContext().startActivity(i);
@@ -614,12 +662,11 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
 class StringViewHolder extends RecyclerView.ViewHolder {
 
     TextView textViewName;
-    //Button button;
 
     public StringViewHolder(@NonNull View itemView) {
         super(itemView);
         textViewName = itemView.findViewById(R.id.medication_name);
-        //button = itemView.findViewById(R.id.btn_today);
     }
 
 }
+*/

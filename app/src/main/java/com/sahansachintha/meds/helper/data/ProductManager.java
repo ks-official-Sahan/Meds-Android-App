@@ -33,7 +33,7 @@ public class ProductManager {
         this.products = new CopyOnWriteArrayList<>();
         this.apiService = new ProductApiService();
         this.gson = new Gson();
-        initializeSampleData(); // Optional: local fallback/sample data.
+        //initializeSampleData(); // Optional: local fallback/sample data.
         updateProductListFromServer(); // Load products from backend on initialization.
     }
 
@@ -94,6 +94,9 @@ public class ProductManager {
     }
 
     public List<Product> getAllProducts() {
+        if (products.isEmpty()) {
+            updateProductListFromServer();
+        }
         return new ArrayList<>(products);
     }
 
@@ -103,16 +106,30 @@ public class ProductManager {
                 .collect(Collectors.toList());
     }
 
+    public List<Product> getProductsByName(String name) {
+        name = name.trim().toLowerCase();
+        String finalName = name;
+        return products.stream()
+                .filter(product -> product.getName().trim().toLowerCase().contains(finalName) || product.getTitle().trim().toLowerCase().contains(finalName))
+                .collect(Collectors.toList());
+    }
+
     private Optional<Product> getProductById(String id) {
         return products.stream().filter(product -> product.getId().equalsIgnoreCase(id)).findFirst();
     }
 
-    private void updateProductListFromServer() {
+    public void updateProductListFromServer() {
+        updateProductListFromServer(() -> {});
+    }
+
+    public void updateProductListFromServer(Runnable callback) {
         loadProductsFromBackend(new LoadProductsCallback() {
             @Override
             public void onSuccess(List<Product> products) {
                 Log.i("MyMedsProducts", "Loaded products from backend successfully.");
+                callback.run();
             }
+
             @Override
             public void onFailure(String errorMessage) {
                 Log.e("MyMedsProducts", "Error loading products from backend: " + errorMessage);
@@ -127,13 +144,20 @@ public class ProductManager {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 callback.onFailure(e.getMessage());
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     String jsonResponse = response.body().string();
-                    Type productListType = new TypeToken<List<Product>>() {}.getType();
+                    Log.i("MyMedsProducts", "Response: " + jsonResponse);
+
+                    Type productListType = new TypeToken<List<Product>>() {
+                    }.getType();
                     List<Product> backendProducts = gson.fromJson(jsonResponse, productListType);
+
+                    Log.i("MyMedsProducts", "Response: " + backendProducts.size());
+
                     products.clear();
                     products.addAll(backendProducts);
 
@@ -158,6 +182,7 @@ public class ProductManager {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("MyMedsProducts", "Error saving product: " + e.getMessage());
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -182,6 +207,7 @@ public class ProductManager {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("MyMedsProducts", "Error updating product: " + e.getMessage());
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -197,11 +223,13 @@ public class ProductManager {
     // Callback interface for loading products.
     public interface LoadProductsCallback {
         void onSuccess(List<Product> products);
+
         void onFailure(String errorMessage);
     }
 
     public interface AddProductCallback {
         void onSuccess(Product product);
+
         void onFailure(String errorMessage);
     }
 
@@ -310,6 +338,7 @@ public class ProductManager {
 
     public interface SeedProductsCallback {
         void onSuccess(List<Product> seededProducts);
+
         void onFailure(String errorMessage);
     }
 
@@ -319,6 +348,7 @@ public class ProductManager {
             public void onSuccess(List<Product> seededProducts) {
                 Log.i("MyMedsProducts", "Products seeded successfully.");
             }
+
             @Override
             public void onFailure(String errorMessage) {
                 Log.e("MyMedsProducts", "Error seeding products: " + errorMessage);

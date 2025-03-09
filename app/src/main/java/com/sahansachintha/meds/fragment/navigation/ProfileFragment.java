@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,11 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        view.findViewById(R.id.profile_container).setAlpha(0.1f);
+        view.findViewById(R.id.profile_container).setScaleX(0.2f);
+        view.findViewById(R.id.profile_container).setScaleY(0.2f);
+        view.findViewById(R.id.profile_container).animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(1500).start();
+
         email = view.findViewById(R.id.profile_email);
         name = view.findViewById(R.id.profile_name_field);
         address = view.findViewById(R.id.profile_address);
@@ -48,6 +54,7 @@ public class ProfileFragment extends Fragment {
 
         location = view.findViewById(R.id.profile_location);
         password = view.findViewById(R.id.profile_password);
+        view.findViewById(R.id.textInputLayout2).setVisibility(View.GONE);
 
         nameText = view.findViewById(R.id.profile_name);
 
@@ -75,6 +82,7 @@ public class ProfileFragment extends Fragment {
                             // Optionally update UI elements with updatedUser data
                         });
                     }
+
                     @Override
                     public void onFailure(String errorMessage) {
                         if (getActivity() == null) return;
@@ -108,7 +116,8 @@ public class ProfileFragment extends Fragment {
                         double lat = Double.parseDouble(parts[0].trim());
                         double lng = Double.parseDouble(parts[1].trim());
                         mapDialog.setInitialLocation(new LatLng(lat, lng));
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException ignored) {
+                    }
                 }
             }
             mapDialog.setOnLocationSelectedListener(latLng ->
@@ -127,6 +136,11 @@ public class ProfileFragment extends Fragment {
             public void onSuccess(User user) {
                 if (getActivity() == null) return;
                 getActivity().runOnUiThread(() -> {
+                    Log.d("ProfileFragment", "User data: " + user);
+                    if (user == null) {
+                        Toast.makeText(getContext(), "User data is null", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     email.setText(user.getEmail());
                     nameText.setText(user.getEmail());
                     if (user.getName() != null) {
@@ -154,9 +168,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(String errorMessage) {
                 if (getActivity() == null) return;
-                getActivity().runOnUiThread(() ->
-                        Toast.makeText(getContext(), "Failed to load profile: " + errorMessage, Toast.LENGTH_SHORT).show()
-                );
+                getActivity().runOnUiThread(() -> {
+                    if (errorMessage.trim().toLowerCase().contains("HTTP code: 401".trim().toLowerCase())) {
+                        Toast.makeText(getContext(), "Your login has been expired: Please Login Again.", Toast.LENGTH_SHORT).show();
+                    }
+                    Toast.makeText(getContext(), "Failed to load profile: " + errorMessage, Toast.LENGTH_SHORT).show();
+                });
             }
         });
     }

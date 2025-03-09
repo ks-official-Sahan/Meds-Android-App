@@ -1,7 +1,12 @@
 // CartApiService.java
 package com.sahansachintha.meds.network;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.google.gson.Gson;
+import com.sahansachintha.meds.helper.AppHelper;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -26,6 +31,13 @@ public class CartApiService {
         client = new OkHttpClient();
         gson = new Gson();
         ApiService.getToken(token1 -> token = token1);
+    }
+
+    public CartApiService(Context context) {
+        client = new OkHttpClient();
+        gson = new Gson();
+        //ApiService.getToken(token1 -> token = token1);
+        token = AppHelper.getInstance().getToken(context);
     }
 
     // GET /cart: Fetch the current cart for the user.

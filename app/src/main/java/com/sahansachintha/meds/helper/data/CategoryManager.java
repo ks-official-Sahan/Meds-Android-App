@@ -44,7 +44,7 @@ public class CategoryManager {
         this.categories = new CopyOnWriteArrayList<>();
         this.apiService = new CategoryApiService();
         this.gson = new Gson();
-        initializeSampleData(); // Local fallback/sample data.
+        //initializeSampleData(); // Local fallback/sample data.
         updateCategoryListFromServer(); // Synchronize with backend.
     }
 
@@ -129,6 +129,9 @@ public class CategoryManager {
 
     // Get all categories.
     public List<Category> getAllCategories() {
+        if (categories.isEmpty()) {
+            updateCategoryListFromServer();
+        }
         return new ArrayList<>(categories);
     }
 
@@ -157,11 +160,16 @@ public class CategoryManager {
                 .findFirst();
     }
 
-    private void updateCategoryListFromServer() {
+    public void updateCategoryListFromServer() {
+        updateCategoryListFromServer(() -> {});
+    }
+
+    public void updateCategoryListFromServer(Runnable callback) {
         loadCategoriesFromBackend(new LoadCategoriesCallback() {
             @Override
             public void onSuccess(List<Category> categories) {
                 Log.i("MyMedsCategories", "Loaded categories from backend successfully.");
+                callback.run();
             }
             @Override
             public void onFailure(String errorMessage) {
@@ -182,14 +190,19 @@ public class CategoryManager {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     String jsonResponse = response.body().string();
+
                     Type categoryListType = new TypeToken<List<Category>>() {}.getType();
                     List<Category> backendCategories = gson.fromJson(jsonResponse, categoryListType);
+                    Log.i("MyMedsCategories", "Loaded " + backendCategories.size() + " categories from backend.");
+
                     categories.clear();
                     categories.addAll(backendCategories);
+
                     if (backendCategories.isEmpty()) {
                         seedCategories();
                     }
-                    callback.onSuccess(new ArrayList<>(categories));
+                    //callback.onSuccess(new ArrayList<>(categories));
+                    callback.onSuccess(new ArrayList<>(backendCategories));
                 } else {
                     callback.onFailure("Error: " + response.code());
                 }

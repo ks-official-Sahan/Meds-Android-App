@@ -150,4 +150,5 @@
     <string name="location">Location</string>
     <string name="location_optional">Location (Optional)</string>
     <string name="select_location">Select Location</string>
+    <string name="no_products_found">No Products Found</string>
 </resources>

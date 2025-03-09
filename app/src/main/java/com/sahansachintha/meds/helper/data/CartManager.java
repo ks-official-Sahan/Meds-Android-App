@@ -1,6 +1,7 @@
 // CartManager.java
 package com.sahansachintha.meds.helper.data;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,12 +22,19 @@ import java.util.Objects;
 public class CartManager {
     private static volatile CartManager instance;
     private Cart cart;
-    private final CartApiService cartApiService;
+    private CartApiService cartApiService;
     private final Gson gson;
 
     private CartManager() {
         this.cart = loadCartFromDatabase();
         cartApiService = new CartApiService();
+        gson = new Gson();
+        syncCartFromServer(); // Optionally sync on startup.
+    }
+
+    private CartManager(Context context) {
+        this.cart = loadCartFromDatabase();
+        cartApiService = new CartApiService(context);
         gson = new Gson();
         syncCartFromServer(); // Optionally sync on startup.
     }
@@ -38,6 +46,14 @@ public class CartManager {
         return instance;
     }
 
+    public static synchronized CartManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new CartManager(context);
+        }
+        instance.cartApiService = new CartApiService(context);
+        return instance;
+    }
+
     // Add a product locally and sync with the server.
     public void addProduct(Product product, int quantity) {
         try {
@@ -45,7 +61,7 @@ public class CartManager {
                     .setCartItems(cart.getCartItems()) // Preserve existing items.
                     .addProduct(product, quantity)
                     .build();
-            saveCartToDatabase();
+            //saveCartToDatabase();
             // Call backend API.
             cartApiService.addProduct(product.getId(), quantity, new Callback() {
                 @Override
@@ -167,11 +183,13 @@ public class CartManager {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     String jsonResponse = response.body().string();
+                    Log.i("CartManager", "Fetched cart from server: " + jsonResponse);
                     // Assuming the backend returns a JSON matching your Cart model.
                     Cart serverCart = gson.fromJson(jsonResponse, Cart.class);
+                    Log.i("CartManager", "Fetched cart from server: " + serverCart);
                     if (serverCart != null) {
                         cart = serverCart;
-                        saveCartToDatabase();
+                        //saveCartToDatabase();
                         Log.i("CartManager", "Cart synchronized from server.");
                     }
                 } else {

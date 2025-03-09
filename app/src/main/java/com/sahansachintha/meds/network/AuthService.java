@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.sahansachintha.meds.helper.AppHelper;
 
 import java.io.IOException;
 
@@ -19,13 +20,11 @@ import okhttp3.Response;
 public class AuthService {
     private static final String TAG = "MyMedsAuthService";
     private final FirebaseAuth auth;
-    private final SharedPreferences sharedPreferences;
     private final ApiService apiService;
     private final Context context;
 
     public AuthService(Context context) {
         this.auth = FirebaseAuth.getInstance();
-        this.sharedPreferences = context.getSharedPreferences("MyMedsPrefs", Context.MODE_PRIVATE);
         this.apiService = new ApiService();
         this.context = context;
     }
@@ -96,7 +95,7 @@ public class AuthService {
 
     public void logout() {
         auth.signOut();
-        sharedPreferences.edit().remove("firebase_token").apply();
+        AppHelper.getInstance().removeToken(context);
         Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show();
     }
 
@@ -114,7 +113,7 @@ public class AuthService {
     }
 
     private void saveToken(String token) {
-        sharedPreferences.edit().putString("firebase_token", token).apply();
+        AppHelper.getInstance().setToken(context, token);
     }
 
     private void sendTokenToBackend(String token) {

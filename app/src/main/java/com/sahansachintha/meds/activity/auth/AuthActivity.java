@@ -21,7 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseUser;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.home.HomeActivity;
-import com.sahansachintha.meds.helper.GeneralHelper;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.network.AuthService;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -181,7 +181,7 @@ public class AuthActivity extends AppCompatActivity {
     /* Activity Open */
 
     private int getThemeColor(Context context, int attribute) {
-        return GeneralHelper.getInstance().getThemeColor(context, attribute);
+        return AppHelper.getInstance().getThemeColor(context, attribute);
     }
 
     private void initActivity() {

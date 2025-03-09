@@ -62,7 +62,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private static final String MERCHANT_ID = "1221502";
     private static final String PAYHERE_SANDBOX_URL = PHConfigs.SANDBOX_URL;
 
-    //public static final String ORDER_ID = UUID.randomUUID().toString();
+    // public static final String ORDER_ID = UUID.randomUUID().toString();
     public static final String ORDER_ID = OrderManager.generateOrderId();
     public static final double DELIVERY = 200;
 
@@ -102,8 +102,8 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     /* ImageSelection */
-    private final ActivityResultLauncher<Intent> imagePickerLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     Uri selectedImageUri = result.getData().getData();
                     if (selectedImageUri != null) {
@@ -144,13 +144,14 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private File saveImageToStorage(Uri imageUri) throws IOException {
         File directory = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyMeds");
-        if (!directory.exists()) directory.mkdirs();
+        if (!directory.exists())
+            directory.mkdirs();
 
         String fileName = "prescription_" + System.currentTimeMillis() + ".jpg";
         File imageFile = new File(directory, fileName);
 
         try (InputStream inputStream = getContentResolver().openInputStream(imageUri);
-             FileOutputStream fos = new FileOutputStream(imageFile)) {
+                FileOutputStream fos = new FileOutputStream(imageFile)) {
 
             byte[] buffer = new byte[4096];
             int bytesRead;
@@ -196,22 +197,25 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
-
     private void initOrderRecycler() {
         orderRecycler = findViewById(R.id.checkout_recycler);
 
-        orderRecycler.setLayoutManager(new LinearLayoutManager(CheckoutActivity.this, LinearLayoutManager.VERTICAL, false));
+        orderRecycler
+                .setLayoutManager(new LinearLayoutManager(CheckoutActivity.this, LinearLayoutManager.VERTICAL, false));
 
-        OrderItemAdapter orderItemAdapter = new OrderItemAdapter(CartManager.getInstance().getCartItems(), CheckoutActivity.this, item -> {
-            Log.i(TAG, item.getProduct().getTitle());
-        });
+        OrderItemAdapter orderItemAdapter = new OrderItemAdapter(CartManager.getInstance(
+                CheckoutActivity.this).getCartItems(),
+                CheckoutActivity.this, item -> {
+                    Log.i(TAG, item.getProduct().getTitle());
+                });
         orderRecycler.setAdapter(orderItemAdapter);
 
         updateTotalPrice();
     }
 
     private void updateTotalPrice() {
-        String subTotal = String.format(Locale.US, "LKR %.2f", CartManager.getInstance().getTotalPrice());
+        String subTotal = String.format(Locale.US, "LKR %.2f", CartManager.getInstance(
+                CheckoutActivity.this).getTotalPrice());
         TextView subTotalText = findViewById(R.id.checkout_subtotal);
         subTotalText.setText(subTotal);
 
@@ -219,19 +223,18 @@ public class CheckoutActivity extends AppCompatActivity {
         TextView deliveryText = findViewById(R.id.checkout_delivery);
         deliveryText.setText(delivery);
 
-        double totalValue = CartManager.getInstance().getTotalPrice() + DELIVERY;
+        double totalValue = CartManager.getInstance(CheckoutActivity.this).getTotalPrice() + DELIVERY;
         String total = String.format(Locale.US, "LKR %.2f", totalValue);
         TextView totalText = findViewById(R.id.checkout_total);
         totalText.setText(total);
     }
-
 
     private void initPayment() {
         try {
             InitRequest req = new InitRequest();
             req.setMerchantId(MERCHANT_ID);
             req.setCurrency("LKR");
-            req.setAmount(CartManager.getInstance().getTotalPrice() + DELIVERY);
+            req.setAmount(CartManager.getInstance(CheckoutActivity.this).getTotalPrice() + DELIVERY);
             req.setOrderId(ORDER_ID);
 
             req.setItemsDescription("MyMeds Order");
@@ -245,9 +248,11 @@ public class CheckoutActivity extends AppCompatActivity {
             req.setNotifyUrl("https://evisionit.lk/api/payment/callback");
 
             req.getItems().clear();
-            for (ProductItem item : CartManager.getInstance().getCartItems()) {
-                //req.getItems().add(new Item(null, item.getProduct().getTitle(), item.getQuantity(), item.getTotalPrice().doubleValue()));
-                req.getItems().add(new Item(null, item.getProduct().getTitle(), item.getQuantity(), item.getTotalPrice()));
+            for (ProductItem item : CartManager.getInstance(CheckoutActivity.this).getCartItems()) {
+                // req.getItems().add(new Item(null, item.getProduct().getTitle(),
+                // item.getQuantity(), item.getTotalPrice().doubleValue()));
+                req.getItems()
+                        .add(new Item(null, item.getProduct().getTitle(), item.getQuantity(), item.getTotalPrice()));
             }
 
             Intent intent = new Intent(this, PHMainActivity.class);
@@ -283,51 +288,53 @@ public class CheckoutActivity extends AppCompatActivity {
         }
     }
 
-    private final ActivityResultLauncher<Intent> payHereLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-            Intent data = result.getData();
-            if (data.hasExtra(PHConstants.INTENT_EXTRA_RESULT)) {
-                Serializable serializable = data.getSerializableExtra(PHConstants.INTENT_EXTRA_RESULT);
-                if (serializable instanceof PHResponse<?>) {
-                    PHResponse<?> genericResponse = (PHResponse<?>) serializable;
-                    Object responseData = genericResponse.getData();
+    private final ActivityResultLauncher<Intent> payHereLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Intent data = result.getData();
+                    if (data.hasExtra(PHConstants.INTENT_EXTRA_RESULT)) {
+                        Serializable serializable = data.getSerializableExtra(PHConstants.INTENT_EXTRA_RESULT);
+                        if (serializable instanceof PHResponse<?>) {
+                            PHResponse<?> genericResponse = (PHResponse<?>) serializable;
+                            Object responseData = genericResponse.getData();
 
-                    if (responseData instanceof StatusResponse) {
-                        @SuppressWarnings("unchecked")
-                        PHResponse<StatusResponse> response = (PHResponse<StatusResponse>) genericResponse;
+                            if (responseData instanceof StatusResponse) {
+                                @SuppressWarnings("unchecked")
+                                PHResponse<StatusResponse> response = (PHResponse<StatusResponse>) genericResponse;
 
-                        if (response.isSuccess()) {
-                            Log.d(TAG, "Payment Success: " + response.getData());
-                            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+                                if (response.isSuccess()) {
+                                    Log.d(TAG, "Payment Success: " + response.getData());
+                                    Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
 
-                            Order order = new Order.Builder()
-                                    .setOrderId(ORDER_ID)
-                                    .setOrderItems(CartManager.getInstance().getCartItems())
-                                    .setStatus("Paid")
-                                    .setDelivery(DELIVERY)
-                                    .build();
-                            OrderManager.getInstance().addOrder(order);
-                            CartManager.getInstance().clearCart();
+                                    Order order = new Order.Builder()
+                                            .setOrderId(ORDER_ID)
+                                            .setOrderItems(CartManager.getInstance(
+                                                    CheckoutActivity.this).getCartItems())
+                                            .setStatus("Paid")
+                                            .setDelivery(DELIVERY)
+                                            .build();
+                                    OrderManager.getInstance().addOrder(order);
+                                    CartManager.getInstance(CheckoutActivity.this).clearCart();
 
-                            NavigationHelper.getInstance().viewOrderComplete(this, order);
-                            // Run Order Save API here
+                                    NavigationHelper.getInstance().viewOrderComplete(this, order);
+                                    // Run Order Save API here
+                                } else {
+                                    Log.e(TAG, "Payment Failed: " + response);
+                                    Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
+
+                                    NavigationHelper.getInstance().viewCart(this);
+                                    // Run Order Fail API here
+                                }
+                            } else {
+                                Log.e(TAG, "Unexpected response type: " + responseData);
+                            }
                         } else {
-                            Log.e(TAG, "Payment Failed: " + response);
-                            Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
-
-                            NavigationHelper.getInstance().viewCart(this);
-                            // Run Order Fail API here
+                            Log.e(TAG, "Unexpected result type: " + serializable);
                         }
-                    } else {
-                        Log.e(TAG, "Unexpected response type: " + responseData);
                     }
-                } else {
-                    Log.e(TAG, "Unexpected result type: " + serializable);
+                } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
+                    Log.w(TAG, "Payment Cancelled");
+                    Toast.makeText(this, "Payment Cancelled", Toast.LENGTH_SHORT).show();
                 }
-            }
-        } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
-            Log.w(TAG, "Payment Cancelled");
-            Toast.makeText(this, "Payment Cancelled", Toast.LENGTH_SHORT).show();
-        }
-    });
+            });
 }

@@ -82,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:text="Note"
+                android:maxLines="1"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/store_container"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:padding="2dp"
@@ -126,6 +127,47 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/store_products_text" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/products_empty_view"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/store_products_recycler"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/empty_products_img"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="20dp"
+                    android:contentDescription="@string/no_products_found"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_shop"
+                    app:tint="?attr/colorTintHigh"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_products_found"
+                    android:textSize="25sp"
+                    android:textStyle="italic"
+                    android:textColor="?attr/colorTintHigh"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/empty_products_img" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

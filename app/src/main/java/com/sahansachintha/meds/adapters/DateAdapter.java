@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
-import com.sahansachintha.meds.helper.GeneralHelper;
+import com.sahansachintha.meds.helper.AppHelper;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -114,7 +114,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder
     }
 
     private int getThemeColor(Context context, int attribute) {
-        return GeneralHelper.getInstance().getThemeColor(context, attribute);
+        return AppHelper.getInstance().getThemeColor(context, attribute);
     }
 
     @Override

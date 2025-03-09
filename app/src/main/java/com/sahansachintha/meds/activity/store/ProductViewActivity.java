@@ -65,7 +65,7 @@ public class ProductViewActivity extends AppCompatActivity {
         findViewById(R.id.product_view_buy_btn).setOnClickListener(v -> {
             if (product != null) {
                 int quantity = Integer.parseInt(quantityField.getText().toString());
-                CartManager.getInstance().addProduct(product, quantity);
+                CartManager.getInstance(ProductViewActivity.this).addProduct(product, quantity);
                 Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show();
             }
         });
