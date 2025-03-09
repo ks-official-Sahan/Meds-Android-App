@@ -15,11 +15,11 @@ import com.sahansachintha.meds.utils.AlarmScheduler;
 import java.util.Calendar;
 import java.util.List;
 
-public class ReminderReschedulerWorker extends Worker {
+public class ReminderRescheduleWorker extends Worker {
 
     public final String TAG = "ReminderRescheduleWorker";
 
-    public ReminderReschedulerWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public ReminderRescheduleWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
@@ -32,8 +32,11 @@ public class ReminderReschedulerWorker extends Worker {
         Context appContext = MyMeds.getInstance().getApplicationContext();
         for (Reminder reminder : reminders) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(reminder.getTimeInMillis());
-            AlarmScheduler.scheduleReminder(appContext, reminder.getId(), calendar);
+
+            if (calendar.getTimeInMillis() > reminder.getTimeInMillis()) {
+                calendar.setTimeInMillis(reminder.getTimeInMillis());
+                AlarmScheduler.scheduleReminder(appContext, reminder.getId(), calendar);
+            }
         }
         Log.i(TAG, "All reminders have been rescheduled.");
         return Result.success();

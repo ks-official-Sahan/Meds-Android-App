@@ -8,7 +8,7 @@ import android.util.Log;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.sahansachintha.meds.worker.ReminderReschedulerWorker;
+import com.sahansachintha.meds.worker.ReminderRescheduleWorker;
 
 
 public class BootReceiver extends BroadcastReceiver {
@@ -19,7 +19,7 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "BootReceiver triggered");
         if (intent != null && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(ReminderReschedulerWorker.class).build();
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(ReminderRescheduleWorker.class).build();
             WorkManager.getInstance(context).enqueue(workRequest);
             Log.i(TAG, "ReminderReschedulerWorker enqueued on boot");
         } else {
