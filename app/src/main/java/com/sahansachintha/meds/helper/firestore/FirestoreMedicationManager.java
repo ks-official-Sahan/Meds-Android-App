@@ -14,16 +14,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class FirestoreMedicationManager {
 
     private static final String COLLECTION_MEDICATIONS = "medications";
+    public static final String TAG = "MyMedsFirestoreMedicationManager";
     private final FirebaseFirestore db;
-    private String token;
+    //private String token;
+    private String uid;
 
     public FirestoreMedicationManager() {
         db = FirebaseFirestore.getInstance();
-        ApiService.getToken(token1 -> token = token1);
+        //ApiService.getToken(token1 -> token = token1);
+        uid = ApiService.getUID();
     }
 
     // Save a medication to Firestore
@@ -38,7 +42,8 @@ public class FirestoreMedicationManager {
         data.put("instructions", medication.getInstructions());
         data.put("image", medication.getImage());
         data.put("status", medication.getStatus());
-        data.put("user_token", token);
+        //data.put("user_token", token);
+        data.put("user_id", uid);
         // Add any additional fields if needed
 
         db.collection(COLLECTION_MEDICATIONS)
@@ -52,13 +57,14 @@ public class FirestoreMedicationManager {
     public void loadMedications(OnSuccessListener<List<Medication>> onSuccessListener,
                                 OnFailureListener onFailureListener) {
         db.collection(COLLECTION_MEDICATIONS)
-                .whereEqualTo("user_token", token)
+                //.whereEqualTo("user_token", token)
+                .whereEqualTo("user_id", uid)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Medication> medications = new ArrayList<>();
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         try {
-                            int id = doc.getLong("id").intValue();
+                            int id = Objects.requireNonNull(doc.getLong("id")).intValue();
                             String name = doc.getString("name");
                             String dosage = doc.getString("dosage");
                             String frequency = doc.getString("frequency");
@@ -69,7 +75,7 @@ public class FirestoreMedicationManager {
                             Medication medication = new Medication(id, name, dosage, instructions, frequency, image, status);
                             medications.add(medication);
                         } catch (Exception e) {
-                            Log.e("MyMedsFirestoreMedicationManager", "Error converting medication data. " + e.getMessage());
+                            Log.e(TAG, "Error converting medication data. " + e.getMessage());
                         }
                     }
                     onSuccessListener.onSuccess(medications);

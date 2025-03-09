@@ -1,13 +1,12 @@
 package com.sahansachintha.meds.helper.data;
 
+import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.sahansachintha.meds.MyMeds;
 import com.sahansachintha.meds.helper.firestore.FirestoreReminderManager;
 import com.sahansachintha.meds.model.Reminder;
+import com.sahansachintha.meds.utils.AlarmScheduler;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class ReminderManager {
 
+    public static final String TAG = "MyMedsReminders";
     private static volatile ReminderManager instance;
     private final List<Reminder> reminders;
     private final FirestoreReminderManager firestoreReminderManager;
@@ -24,7 +24,7 @@ public class ReminderManager {
     private ReminderManager() {
         this.reminders = new ArrayList<>();
         this.firestoreReminderManager = new FirestoreReminderManager();
-        initializeSampleData();
+        //initializeSampleData();
         updateReminderListFromFirebase();
     }
 
@@ -50,17 +50,30 @@ public class ReminderManager {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day, hour, minute);
 
-        return addReminder(id, title, calendar.getTimeInMillis(), notes);
+        return addReminder(id, title, calendar, notes);
     }
 
     public boolean addReminder(int id, String title, long timeInMillis, String notes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeInMillis);
+
+        return addReminder(id, title, calendar, notes);
+    }
+
+    public boolean addReminder(int id, String title, Calendar calendar, String notes) {
         if (getReminderById(id).isPresent()) {
             return false; // Prevent duplicate IDs
         }
-        Reminder reminder = new Reminder(id, title, timeInMillis, notes);
+        Reminder reminder = new Reminder(id, title, calendar.getTimeInMillis(), notes);
         boolean added = reminders.add(reminder);
         if (added) {
             saveReminderToFirestore(reminder);
+
+            Context appContext = MyMeds.getInstance().getApplicationContext();
+            AlarmScheduler.scheduleReminder(appContext, id, calendar);
+            Log.i(TAG, "Reminder added and alarm scheduled successfully.");
+        } else {
+            Log.e(TAG, "Failed to add reminder.");
         }
         return added;
     }
@@ -71,10 +84,16 @@ public class ReminderManager {
                 reminders.clear();
                 reminders.addAll(firestoreReminders);
             }
+
+            Context appContext = MyMeds.getInstance().getApplicationContext();
+            for (Reminder reminder : firestoreReminders) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(reminder.getTimeInMillis());
+                AlarmScheduler.scheduleReminder(appContext, reminder.getId(), calendar);
+            }
+            Log.i(TAG, "Reminders updated from Firestore and alarms scheduled.");
         }, e -> {
-            //e.printStackTrace();
-            Log.e("MyMedsReminders", "Error loading reminders from Firestore: " + e.getMessage());
-            initializeSampleData(); // Optionally, fallback to sample data if loading fails.
+            Log.e(TAG, "Error loading reminders from Firestore: " + e.getMessage());
         });
     }
 
@@ -88,7 +107,7 @@ public class ReminderManager {
             updateReminderInFirestore(reminder);
             return true;
         }
-        return false; // Reminder not found
+        return false;
     }
 
     public boolean removeReminder(int id) {
@@ -129,10 +148,10 @@ public class ReminderManager {
 
     private void saveReminderToFirestore(Reminder reminder) {
         firestoreReminderManager.saveReminder(reminder, unused -> {
-            Log.i("MyMedsReminders", "Reminder saved to Firestore successfully.");
+            Log.i(TAG, "Reminder saved to Firestore successfully.");
         }, e -> {
             //e.printStackTrace();
-            Log.e("MyMedsReminders", "Error saving reminder to Firestore: " + e.getMessage());
+            Log.e(TAG, "Error saving reminder to Firestore: " + e.getMessage());
         });
     }
 
@@ -142,26 +161,10 @@ public class ReminderManager {
 
     private void removeReminderFromFirestore(int id) {
         firestoreReminderManager.deleteReminder(id, unused -> {
-            Log.i("MyMedsReminders", "Reminder deleted from Firestore successfully.");
+            Log.i(TAG, "Reminder deleted from Firestore successfully.");
         }, e -> {
             //e.printStackTrace();
-            Log.e("MyMedsReminders", "Error deleting reminder from Firestore: " + e.getMessage());
+            Log.e(TAG, "Error deleting reminder from Firestore: " + e.getMessage());
         });
     }
-
-    // New method to refresh the local list from Firestore
-    public void loadRemindersFromFirestore(OnSuccessListener<List<Reminder>> onSuccessListener,
-                                           OnFailureListener onFailureListener) {
-        firestoreReminderManager.loadReminders(onSuccessListener, onFailureListener);
-    }
-
-//    public void loadRemindersFromFirestore(OnSuccessListener<List<Reminder>> onSuccessListener, OnFailureListener onFailureListener) {
-//        firestoreReminderManager.loadReminders(firestoreReminders -> {
-//            // Update the local list with the data from Firestore
-//            reminders.clear();
-//            reminders.addAll(firestoreReminders);
-//            // Return a copy of the updated list
-//            onSuccessListener.onSuccess(new ArrayList<>(reminders));
-//        }, onFailureListener);
-//    }
 }

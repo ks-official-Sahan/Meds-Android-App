@@ -33,4 +33,8 @@ public class AlarmHelper {
         calendar.add(field, amount);
         AlarmScheduler.scheduleReminder(context, reminderId, calendar);
     }
+
+    public void scheduleReminder(Context context, int id, Calendar calendar) {
+        AlarmScheduler.scheduleReminder(context, id, calendar);
+    }
 }

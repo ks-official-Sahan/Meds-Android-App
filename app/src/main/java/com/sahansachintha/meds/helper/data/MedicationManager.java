@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class MedicationManager {
 
+    public static final String TAG = "MyMedsMedications";
     private static volatile MedicationManager instance;
     private final List<Medication> medications;
     private final FirestoreMedicationManager firestoreMedicationManager;
@@ -19,7 +20,7 @@ public class MedicationManager {
     private MedicationManager() {
         this.medications = new ArrayList<>();
         this.firestoreMedicationManager = new FirestoreMedicationManager();
-        initializeSampleData();
+        //initializeSampleData();
         updateMedicationListFromFirebase();
     }
 
@@ -111,8 +112,8 @@ public class MedicationManager {
 
     private void saveMedicationToFirestore(Medication medication) {
         firestoreMedicationManager.saveMedication(medication,
-                unused -> Log.i("MyMedsMedications", "Medication saved to Firestore successfully."),
-                e -> Log.e("MyMedsMedications", "Error saving medication to Firestore: " + e.getMessage())
+                unused -> Log.i(TAG, "Medication saved to Firestore successfully."),
+                e -> Log.e(TAG, "Error saving medication to Firestore: " + e.getMessage())
         );
     }
 
@@ -123,8 +124,8 @@ public class MedicationManager {
 
     private void removeMedicationFromFirestore(int id) {
         firestoreMedicationManager.deleteMedication(id,
-                unused -> Log.i("MyMedsMedications", "Medication deleted from Firestore successfully."),
-                e -> Log.e("MyMedsMedications", "Error deleting medication from Firestore: " + e.getMessage())
+                unused -> Log.i(TAG, "Medication deleted from Firestore successfully."),
+                e -> Log.e(TAG, "Error deleting medication from Firestore: " + e.getMessage())
         );
     }
 
@@ -139,7 +140,7 @@ public class MedicationManager {
             }
         }, e -> {
             //e.printStackTrace();
-            Log.e("MyMedsMedications", "Error loading medications from Firestore: " + e.getMessage());
+            Log.e(TAG, "Error loading medications from Firestore: " + e.getMessage());
             initializeSampleData(); // Optionally, reinitialize sample data on failure
         });
     }

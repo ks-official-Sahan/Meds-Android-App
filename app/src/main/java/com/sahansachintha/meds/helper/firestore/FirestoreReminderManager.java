@@ -19,12 +19,15 @@ import java.util.Objects;
 public class FirestoreReminderManager {
 
     private static final String COLLECTION_REMINDERS = "reminders";
+    public static final String TAG = "MyMedsFirestoreReminderManager";
     private final FirebaseFirestore db;
-    private String token;
+    //private String token;
+    private String uid;
 
     public FirestoreReminderManager() {
         db = FirebaseFirestore.getInstance();
-        ApiService.getToken(token1 -> token = token1);
+        //ApiService.getToken(token1 -> token = token1);
+        uid = ApiService.getUID();
     }
 
     // Save a reminder to Firestore
@@ -36,7 +39,8 @@ public class FirestoreReminderManager {
         data.put("title", reminder.getTitle());
         data.put("timeInMillis", reminder.getTimeInMillis());
         data.put("notes", reminder.getNotes());
-        data.put("user_token", token);
+        //data.put("user_token", token);
+        data.put("user_id", uid);
         // You can add additional fields as needed
 
         db.collection(COLLECTION_REMINDERS)
@@ -50,7 +54,8 @@ public class FirestoreReminderManager {
     public void loadReminders(OnSuccessListener<List<Reminder>> onSuccessListener,
                               OnFailureListener onFailureListener) {
         db.collection(COLLECTION_REMINDERS)
-                .whereEqualTo("user_token", token)
+                //.whereEqualTo("user_token", token)
+                .whereEqualTo("user_id", uid)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Reminder> reminders = new ArrayList<>();
@@ -65,7 +70,7 @@ public class FirestoreReminderManager {
                             Reminder reminder = new Reminder(id, title, timeInMillis, notes);
                             reminders.add(reminder);
                         } catch (NullPointerException e) {
-                            Log.e("MyMedsFirestoreReminderManager", "Error converting reminder data. " + e.getMessage());
+                            Log.e(TAG, "Error converting reminder data. " + e.getMessage());
                         }
                     }
                     onSuccessListener.onSuccess(reminders);
