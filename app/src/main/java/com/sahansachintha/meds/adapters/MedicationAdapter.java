@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.model.Medication;
@@ -58,11 +59,26 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         holder.medicationTime.setText(medication.getFrequency());
         holder.medicationDosage.setText(medication.getDosage());
 
-        //if (medication.getImg()) {
-        //} else {
+        if (medication.getImage() != null) {
+            Glide.with(context)
+                    .load(medication.getImage())
+                    .placeholder(R.drawable.med_asset_03)
+                    .error(R.drawable.error_image)
+                    .into(holder.medicationImg);
+        } else {
             holder.medicationImg.setImageResource(R.drawable.ic_medicine);
             holder.medicationImg.setImageTintMode(PorterDuff.Mode.SRC_IN);
-        //}
+        }
+
+        if (medication.getStatus().equalsIgnoreCase("Active")) {
+            //holder.medicationHolderCard.setCardBackgroundColor(context.getResources().getColor(R.color.green_500, null));
+            holder.medicationHolderCard.setStrokeColor(context.getResources().getColor(R.color.success_dark, null));
+            holder.medicationHolderCard.setStrokeWidth(2);
+        } else {
+            holder.medicationHolderCard.setStrokeColor(context.getResources().getColor(R.color.neutral_500, null));
+            holder.medicationHolderCard.setStrokeWidth(0);
+            //holder.medicationHolderCard.setCardBackgroundColor(context.getResources().getColor(R.color.red_500, null));
+        }
 
         holder.medicationHolderCard.setOnClickListener(v -> {
             Toast.makeText(context, medication.getName(), Toast.LENGTH_SHORT).show();

@@ -2,33 +2,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Camera -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Phone -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
+    <!--  Sensor  -->
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="false" />
+    <!-- Phone -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-feature
         android:name="android.hardware.telephony"
-        android:required="false" /> <!-- Location -->
+        android:required="false" />
+
+    <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Internet -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Alarm Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!-- Internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Alarm Permissions -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" /> <!-- Notification -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Bluetooth -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- Notification -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
+        android:name=".MyMeds"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
@@ -39,24 +49,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Meds"
         tools:targetApi="33">
-        <activity
-            android:name=".activity.home.AddMedicationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.home.AddReminderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.store.OrderViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.store.OrderCompleteActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.store.CheckoutActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.store.ProductViewActivity"
-            android:exported="false" /> <!-- Activities -->
+        <!-- Activities -->
         <activity
             android:name=".activity.home.AlarmActivity"
             android:excludeFromRecents="true"
@@ -86,11 +79,32 @@
         <activity
             android:name=".activity.store.StoreActivity"
             android:exported="false"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_store" />
+        <activity
+            android:name=".activity.home.AddMedicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.home.AddReminderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.store.OrderViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.store.OrderCompleteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.store.CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.store.ProductViewActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:label="@string/title_activity_main" /> <!-- Activities -->
+            android:label="@string/title_activity_main" />
+        <!-- Activities -->
+
         <!-- Services -->
         <service
             android:name=".service.MessagingService"
@@ -98,7 +112,9 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- Services -->
+        </service>
+
+        <!-- Services -->
         <!-- Receivers -->
         <receiver
             android:name=".receiver.BootReceiver"
@@ -115,6 +131,13 @@
                 <action android:name="com.sahansachintha.meds.ALARM_TRIGGERED" />
             </intent-filter>
         </receiver>
+        <!-- Receivers -->
+
+        <!-- GMaps -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <!-- GMaps -->
     </application>
 
 </manifest>

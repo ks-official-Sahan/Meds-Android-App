@@ -1,17 +1,32 @@
+// OrderManager.java
 package com.sahansachintha.meds.helper.data;
 
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
 import com.sahansachintha.meds.model.Order;
+import com.sahansachintha.meds.network.OrderApiService;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class OrderManager {
-    private static OrderManager instance;
+    private static volatile OrderManager instance;
     private final List<Order> orders;
+    private final OrderApiService orderApiService;
+    private final Gson gson;
 
     private OrderManager() {
         this.orders = new ArrayList<>();
+        orderApiService = new OrderApiService();
+        gson = new Gson();
+        loadOrdersFromServer(); // Synchronize orders on startup.
     }
 
     public static synchronized OrderManager getInstance() {
@@ -21,9 +36,21 @@ public class OrderManager {
         return instance;
     }
 
+    // Add a new order locally and on the server.
     public void addOrder(Order order) {
         orders.add(order);
         saveOrderToDatabase(order);
+        orderApiService.createOrder(order, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e("OrderManager", "Error creating order on server: " + e.getMessage());
+            }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                Log.i("OrderManager", "Order created on server: " + order.getOrderId());
+                response.close();
+            }
+        });
     }
 
     public Order getOrderById(String orderId) {
@@ -39,8 +66,10 @@ public class OrderManager {
         return new ArrayList<>(orders);
     }
 
+    // Update an order's status locally and remotely.
     public void updateOrderStatus(String orderId, String newStatus) {
-        for (Order order : orders) {
+        for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
             if (order.getOrderId().equals(orderId)) {
                 Order updatedOrder = new Order.Builder()
                         .setOrderId(order.getOrderId())
@@ -50,18 +79,68 @@ public class OrderManager {
                         .setStatus(newStatus)
                         .setTimestamp(order.getTimestamp())
                         .build();
-
-                orders.remove(order);
+                orders.remove(i);
                 orders.add(updatedOrder);
                 updateOrderInDatabase(updatedOrder);
+                orderApiService.updateOrderStatus(orderId, newStatus, new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        Log.e("OrderManager", "Error updating order status on server: " + e.getMessage());
+                    }
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        Log.i("OrderManager", "Order status updated on server: " + orderId);
+                        response.close();
+                    }
+                });
                 break;
             }
         }
     }
 
+    // Remove an order locally and remotely.
     public void removeOrder(String orderId) {
         orders.removeIf(order -> order.getOrderId().equals(orderId));
         deleteOrderFromDatabase(orderId);
+        orderApiService.deleteOrder(orderId, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e("OrderManager", "Error deleting order on server: " + e.getMessage());
+            }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                Log.i("OrderManager", "Order deleted on server: " + orderId);
+                response.close();
+            }
+        });
+    }
+
+    // Load orders from your backend server.
+    public void loadOrdersFromServer() {
+        orderApiService.getOrders(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e("OrderManager", "Error loading orders from server: " + e.getMessage());
+            }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful() && response.body() != null) {
+                    String jsonResponse = response.body().string();
+                    // Assuming the server returns a JSON array matching your Order model.
+                    Order[] serverOrders = gson.fromJson(jsonResponse, Order[].class);
+                    orders.clear();
+                    if (serverOrders != null) {
+                        for (Order o : serverOrders) {
+                            orders.add(o);
+                        }
+                    }
+                    Log.i("OrderManager", "Orders synchronized from server.");
+                } else {
+                    Log.e("OrderManager", "Failed to load orders, HTTP code: " + response.code());
+                }
+                response.close();
+            }
+        });
     }
 
     public static String generateOrderId() {
@@ -70,24 +149,19 @@ public class OrderManager {
         return String.format(Locale.US, "%d-%d", timestamp, randomPart);
     }
 
-    // Database operations (Assuming NestJS with Prisma or Firebase)
+    // Local persistence methods (to be implemented as needed).
     private void saveOrderToDatabase(Order order) {
-        Log.d("OrderManager", "Saving order to database: " + order.getOrderId());
-        // TODO: Implement actual DB logic (NestJS/Firebase)
+        Log.d("OrderManager", "Saving order locally: " + order.getOrderId());
+        // TODO: Implement local DB storage if needed.
     }
 
     private void updateOrderInDatabase(Order order) {
-        Log.d("OrderManager", "Updating order in database: " + order.getOrderId());
-        // TODO: Implement actual DB logic
+        Log.d("OrderManager", "Updating order locally: " + order.getOrderId());
+        // TODO: Implement local DB update if needed.
     }
 
     private void deleteOrderFromDatabase(String orderId) {
-        Log.d("OrderManager", "Deleting order from database: " + orderId);
-        // TODO: Implement actual DB logic
-    }
-
-    public void loadOrdersFromDatabase() {
-        Log.d("OrderManager", "Loading orders from database...");
-        // TODO: Implement actual DB loading logic
+        Log.d("OrderManager", "Deleting order locally: " + orderId);
+        // TODO: Implement local DB deletion if needed.
     }
 }

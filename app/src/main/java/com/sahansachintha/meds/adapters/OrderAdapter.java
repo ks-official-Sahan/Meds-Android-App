@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sahansachintha.meds.R;
-import com.sahansachintha.meds.helper.GeneralHelper;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.model.Order;
 
 import java.text.SimpleDateFormat;
@@ -98,7 +98,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         }
 
         private int getThemeColor(Context context, int attribute) {
-            return GeneralHelper.getInstance().getThemeColor(context, attribute);
+            return AppHelper.getInstance().getThemeColor(context, attribute);
         }
     }
 

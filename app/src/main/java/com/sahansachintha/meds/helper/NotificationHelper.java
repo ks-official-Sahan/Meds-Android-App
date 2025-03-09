@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.home.HomeActivity;
+import com.sahansachintha.meds.helper.data.ReminderManager;
 
 public class NotificationHelper {
 
@@ -67,7 +68,7 @@ public class NotificationHelper {
         createNotificationChannel(context, "Missed Reminder", MISSED_ALARM_CHANNEL_ID, NotificationManager.IMPORTANCE_HIGH, "Missed Reminder Notification Channel");
 
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.putExtra("reminderId", reminderId);
+        intent.putExtra(ReminderManager.REMINDER_ID_EXTRA, reminderId);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, reminderId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MISSED_ALARM_CHANNEL_ID)

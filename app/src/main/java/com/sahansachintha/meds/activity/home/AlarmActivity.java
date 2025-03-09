@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.helper.LocationHelper;
 import com.sahansachintha.meds.helper.NotificationHelper;
+import com.sahansachintha.meds.helper.data.ReminderManager;
 import com.sahansachintha.meds.utils.AlarmScheduler;
 
 import java.text.DateFormat;
@@ -47,7 +48,7 @@ public class AlarmActivity extends AppCompatActivity {
             return insets;
         });
 
-        reminderId = getIntent().getIntExtra("reminderId", -1);
+        reminderId = getIntent().getIntExtra(ReminderManager.REMINDER_ID_EXTRA, -1);
 
         TextView timeText = findViewById(R.id.alarm_time);
         timeText.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));

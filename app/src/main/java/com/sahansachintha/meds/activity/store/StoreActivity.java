@@ -75,7 +75,7 @@ public class StoreActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //showFragment(StoreFragment.class);
-        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_store);
+        int fragmentId = getIntent().getIntExtra(NavigationHelper.FRAGMENT_ID_EXTRA, R.id.menu_item_store);
         showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
 //        if (fragmentId != R.id.menu_item_store) {
 //            if (!NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
@@ -127,7 +127,7 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     private void logNavigation(int itemID) {
-        Log.i("MyMedsNavigation", String.valueOf(itemID));
+        Log.i(NavigationHelper.TAG, String.valueOf(itemID));
     }
 
     private boolean runNavigation(int itemID) {

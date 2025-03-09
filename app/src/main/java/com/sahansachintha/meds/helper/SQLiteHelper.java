@@ -14,12 +14,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE `user` (" +
-                "  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                "  `name` VARCHAR(45) NOT NULL,\n" +
-                "  `mobile` VARCHAR(15) NOT NULL,\n" +
-                "  `city` VARCHAR(45) NOT NULL\n" +
-                "  )");
+//        sqLiteDatabase.execSQL("CREATE TABLE `user` (" +
+//                "  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+//                "  `name` VARCHAR(45) NOT NULL,\n" +
+//                "  `mobile` VARCHAR(15) NOT NULL,\n" +
+//                "  `city` VARCHAR(45) NOT NULL\n" +
+//                "  )");
     }
 
     @Override

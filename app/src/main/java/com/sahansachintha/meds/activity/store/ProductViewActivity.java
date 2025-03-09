@@ -82,9 +82,9 @@ public class ProductViewActivity extends AppCompatActivity {
 
     private void setProduct() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            product = getIntent().getSerializableExtra("product", Product.class);
+            product = getIntent().getSerializableExtra(NavigationHelper.PRODUCT_EXTRA, Product.class);
         } else {
-            product = (Product) getIntent().getSerializableExtra("product");
+            product = (Product) getIntent().getSerializableExtra(NavigationHelper.PRODUCT_EXTRA);
         }
         if (product != null) {
             //Toast.makeText(this, product.getTitle(), Toast.LENGTH_SHORT).show();
@@ -128,7 +128,7 @@ public class ProductViewActivity extends AppCompatActivity {
         List<Product> productList = new ArrayList<>(ProductManager.getInstance().getAllProducts());
 
         if (product != null) {
-            productList.removeIf(p -> p.getId() == product.getId());
+            productList.removeIf(p -> p.getId().equals(product.getId()));
         }
 
         return productList;

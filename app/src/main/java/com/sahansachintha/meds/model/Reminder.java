@@ -35,10 +35,14 @@ public class Reminder implements Serializable {
 
     private Calendar calendar;
 
-    private String medicationName;
-    private String dosage;
-    private String time;
     private String notes;
+
+    private int repeatCount;
+    private String image;
+
+//    private String medicationName;
+//    private String dosage;
+//    private String time;
 
     public Reminder(int id, String title, long timeInMillis) {
         this.id = id;
@@ -51,6 +55,39 @@ public class Reminder implements Serializable {
         this.title = title;
         this.timeInMillis = timeInMillis;
         this.notes = notes;
+    }
+
+    public Reminder(String title, int id, long timeInMillis, String notes, int repeatCount) {
+        this.title = title;
+        this.id = id;
+        this.timeInMillis = timeInMillis;
+        this.notes = notes;
+        this.repeatCount = repeatCount;
+    }
+
+    public Reminder(int id, String title, long timeInMillis, String notes, int repeatCount, String image) {
+        this.id = id;
+        this.title = title;
+        this.timeInMillis = timeInMillis;
+        this.notes = notes;
+        this.repeatCount = repeatCount;
+        this.image = image;
+    }
+
+    public int getRepeatCount() {
+        return repeatCount;
+    }
+
+    public void setRepeatCount(int repeatCount) {
+        this.repeatCount = repeatCount;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getNotes() {

@@ -1,5 +1,7 @@
 package com.sahansachintha.meds.activity.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -7,6 +9,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
 
@@ -39,11 +45,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout_home), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout_home), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         initViews();
 
@@ -62,6 +68,10 @@ public class HomeActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new HomeOnBackPressedCallback());
     }
 
+    private static SharedPreferences getPrefs(Context context) {
+        return context.getSharedPreferences(AppHelper.SHARED_PREFERENCE_TAG, Context.MODE_PRIVATE);
+    }
+
     private void initViews() {
         drawerLayout = findViewById(R.id.drawer_layout_home);
         navigationView = findViewById(R.id.navigation_view_user);
@@ -73,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //showFragment(HomeFragment.class);
-        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", R.id.menu_item_home);
+        int fragmentId = getIntent().getIntExtra(NavigationHelper.FRAGMENT_ID_EXTRA, R.id.menu_item_home);
 //        if (NavigationHelper.getInstance().sharedFragments.containsKey(fragmentId)) {
 //            showFragment(NavigationHelper.getInstance().getFragmentById(fragmentId));
 //        } else {
@@ -177,7 +187,7 @@ public class HomeActivity extends AppCompatActivity {
     /* Request Permissions */
 
     private void logNavigation(int itemID) {
-        Log.i("MyMedsNavigation", String.valueOf(itemID));
+        Log.i(NavigationHelper.TAG, String.valueOf(itemID));
     }
 
     private class HomeOnBackPressedCallback extends OnBackPressedCallback {

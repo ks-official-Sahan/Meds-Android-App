@@ -17,18 +17,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -41,14 +37,21 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
+import com.sahansachintha.meds.activity.home.HomeActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
+import com.sahansachintha.meds.helper.data.MedicationManager;
+import com.sahansachintha.meds.helper.data.ReminderManager;
+import com.sahansachintha.meds.utils.TokenRefresher;
+import com.sahansachintha.meds.helper.data.CategoryManager;
+import com.sahansachintha.meds.helper.data.ProductManager;
 import com.sahansachintha.meds.receiver.BroadcastReceiverIMPL;
 
 import java.io.File;
@@ -59,6 +62,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
+    private TokenRefresher tokenRefresher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,9 @@ public class SplashActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        findViewById(R.id.imageView).setScaleX(0.3f);
+        findViewById(R.id.imageView).setScaleY(0.3f);
 
         runSplash();
 
@@ -170,6 +177,7 @@ public class SplashActivity extends AppCompatActivity {
         }
         return PendingIntent.getActivity(context, requestCode, intent, flags);
     }
+
     public PendingIntent createMutablePendingIntent(Context context, int requestCode, Intent intent) {
         int flags;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -378,7 +386,7 @@ public class SplashActivity extends AppCompatActivity {
             springForce.setFinalPosition(0f);
             isReset.set(false);
         } else {
-            springForce.setFinalPosition(400f);
+            springForce.setFinalPosition(200f);
             isReset.set(true);
         }
 
@@ -393,11 +401,51 @@ public class SplashActivity extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
+        findViewById(R.id.imageView).animate().scaleX(1f).scaleY(1f).setDuration(1000).start();
+        new Handler().postDelayed(this::runSpringAnimation, 1000);
+
+        new Thread(() -> {
+            //ProductManager.getInstance().updateProductListFromServer();
+            //CategoryManager.getInstance().updateCategoryListFromServer();
+            //ReminderManager.getInstance().updateReminderListFromFirebase();
+            //MedicationManager.getInstance().updateMedicationListFromFirebase();
+            ProductManager.getInstance();
+            CategoryManager.getInstance();
+            ReminderManager.getInstance();
+            MedicationManager.getInstance();
+        }).start();
+
         new Handler().postDelayed(() -> {
             progressBar.setVisibility(View.GONE);
-            openIntent(AuthActivity.class);
+            checkUser();
             finish();
-        }, 2000);
+        }, 2500);
+    }
+
+    private void runSpringAnimation() {
+        ImageView imageView = findViewById(R.id.imageView);
+
+        SpringAnimation springAnimation = new SpringAnimation(imageView, DynamicAnimation.TRANSLATION_Y);
+
+        SpringForce springForce = new SpringForce();
+        springForce.setStiffness(SpringForce.STIFFNESS_LOW);
+        springForce.setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+        springForce.setFinalPosition(200f);
+
+        springAnimation.setSpring(springForce);
+        springAnimation.start();
+    }
+
+    private void checkUser() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            tokenRefresher = new TokenRefresher();
+            tokenRefresher.start();
+
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+        } else {
+            startActivity(new Intent(SplashActivity.this, AuthActivity.class));
+        }
     }
 
     private void runFlingAnimation(View view) {
@@ -541,8 +589,18 @@ public class SplashActivity extends AppCompatActivity {
 //        unregisterReceiver(broadcastReceiverIMPL);
 //    }
     /* Receivers */
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (tokenRefresher != null) {
+            tokenRefresher.stop();
+        }
+    }
+
 }
 
+/*
 class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
 
     ArrayList<String> stringArrayList;
@@ -562,10 +620,9 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull StringViewHolder holder, int position) {
         String contact = stringArrayList.get(position);
-        //holder.textViewLetter.setText(String.valueOf(contact.getFirstName().charAt(0)));
         holder.textViewName.setText(contact);
 
-//        holder.button.setOnClickListener(view -> {
+//        holder.textViewName.setOnClickListener(view -> {
 //            Intent i = new Intent(Intent.ACTION_DIAL);
 //            i.setData(Uri.parse("tel:" + contact));
 //            view.getContext().startActivity(i);
@@ -581,12 +638,11 @@ class StringAdapter extends RecyclerView.Adapter<StringViewHolder> {
 class StringViewHolder extends RecyclerView.ViewHolder {
 
     TextView textViewName;
-    //Button button;
 
     public StringViewHolder(@NonNull View itemView) {
         super(itemView);
         textViewName = itemView.findViewById(R.id.medication_name);
-        //button = itemView.findViewById(R.id.btn_today);
     }
 
 }
+*/

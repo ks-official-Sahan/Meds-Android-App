@@ -39,9 +39,9 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
     private void setOrder() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            order = getIntent().getSerializableExtra("order", Order.class);
+            order = getIntent().getSerializableExtra(NavigationHelper.ORDER_EXTRA, Order.class);
         } else {
-            order = (Order) getIntent().getSerializableExtra("order");
+            order = (Order) getIntent().getSerializableExtra(NavigationHelper.ORDER_EXTRA);
         }
 
         if (order != null) {

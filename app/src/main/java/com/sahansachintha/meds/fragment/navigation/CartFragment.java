@@ -61,6 +61,10 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     public void updateCartUI() {
+        if (getContext() == null) {
+            return;
+        }
+
         productItems = CartManager.getInstance().getCartItems();
 
         view.findViewById(R.id.cart_empty_view).setVisibility(productItems.isEmpty() ? View.VISIBLE : View.GONE);

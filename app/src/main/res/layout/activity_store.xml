@@ -15,8 +15,8 @@
         android:id="@+id/coordinator_layout_store"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipChildren="false">
+        android:clipChildren="false"
+        android:fitsSystemWindows="true">
 
         <!--    Custom Toolbar    -->
         <FrameLayout
@@ -35,6 +35,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center|start"
                 android:contentDescription="@string/menu"
+                android:focusable="false"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_menu"
                 app:tint="?attr/colorNeutral500" />
@@ -46,6 +47,7 @@
                 android:layout_gravity="center|bottom"
                 android:layout_marginBottom="3dp"
                 android:contentDescription="@string/logo"
+                android:focusable="false"
                 android:importantForAccessibility="no"
                 android:paddingTop="3dp"
                 android:src="?attr/logo" />
@@ -54,6 +56,7 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="center|end"
+                android:focusable="false"
                 app:cardCornerRadius="35dp"
                 app:strokeColor="?attr/colorNeutral300"
                 app:strokeWidth="3dp">
@@ -76,9 +79,9 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
             android:paddingTop="50dp"
             android:paddingBottom="78dp"
-            android:clipChildren="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <!-- Floating Button -->
@@ -107,15 +110,15 @@
                 android:id="@+id/bottom_navigation_view_user_store"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-22dp"
                 android:background="@drawable/background_nav_bottom"
                 android:padding="0dp"
-                android:layout_marginBottom="-22dp"
                 app:itemActiveIndicatorStyle="@drawable/background_menu_item"
-                app:itemIconTint="?attr/colorNeutral500"
-                app:itemIconSize="24dp"
-                app:itemPaddingTop="8dp"
-                app:itemPaddingBottom="32dp"
                 app:itemIconPadding="0dp"
+                app:itemIconSize="24dp"
+                app:itemIconTint="?attr/colorNeutral500"
+                app:itemPaddingBottom="32dp"
+                app:itemPaddingTop="8dp"
                 app:itemTextAppearanceActive="@style/BottomNavTextAppearanceActive"
                 app:itemTextAppearanceInactive="@style/BottomNavTextAppearanceInactive"
                 app:labelVisibilityMode="labeled"

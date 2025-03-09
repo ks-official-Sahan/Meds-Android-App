@@ -6,14 +6,18 @@ import java.util.List;
 
 public class DateManager {
 
-    private static DateManager dateManager;
+    private static volatile DateManager dateManager;
 
     private DateManager() {
     }
 
     public static DateManager getInstance() {
         if (dateManager == null) {
-            dateManager = new DateManager();
+            synchronized (DateManager.class) {
+                if (dateManager == null) {
+                    dateManager = new DateManager();
+                }
+            }
         }
         return dateManager;
     }

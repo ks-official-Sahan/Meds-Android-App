@@ -5,45 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.sahansachintha.meds.model.Reminder;
-import com.sahansachintha.meds.utils.AlarmScheduler;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import com.sahansachintha.meds.worker.ReminderRescheduleWorker;
+
 
 public class BootReceiver extends BroadcastReceiver {
-    //@SuppressLint("UnsafeProtectedBroadcastReceiver")
+
+    public static final String TAG = "MyMedsBootReceiver";
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("MyMedsBroadcast", "Working");
-
-        if (intent == null || intent.getAction() == null) {
-            Log.e("MyMedsBroadcast", "Received null or empty intent action");
-            return;
-        }
-
-        /* Check if the action is correct */
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            List<Reminder> reminders = getSavedReminders(context); // Load reminders from database
-
-            for (Reminder reminder : reminders) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(reminder.getTimeInMillis());
-                AlarmScheduler.scheduleReminder(context, reminder.getId(), calendar);
-            }
-            Log.i("MyMedsBroadcast", "Reminders added after boot");
+        Log.i(TAG, "BootReceiver triggered");
+        if (intent != null && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(ReminderRescheduleWorker.class).build();
+            WorkManager.getInstance(context).enqueue(workRequest);
+            Log.i(TAG, "ReminderReschedulerWorker enqueued on boot");
         } else {
-            Log.e("App28Log", "Received intent with unexpected action: ${intent.getAction()}");
+            Log.e(TAG, "Unexpected intent: " + (intent != null ? intent.getAction() : "null"));
         }
-    }
-
-    private List<Reminder> getSavedReminders(Context context) {
-        ArrayList<Reminder> reminderList = new ArrayList<>();
-
-        /* Load reminders from SharedPreferences, Room Database, or SQLite */
-        //reminderList.add(new Reminder());
-
-        return reminderList;
     }
 }
