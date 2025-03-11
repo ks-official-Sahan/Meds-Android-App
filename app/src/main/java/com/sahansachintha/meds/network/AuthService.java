@@ -96,6 +96,7 @@ public class AuthService {
     public void logout() {
         auth.signOut();
         AppHelper.getInstance().removeToken(context);
+        AppHelper.getInstance().removeUser(context);
         Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show();
     }
 

@@ -1,8 +1,10 @@
 package com.sahansachintha.meds.activity.store;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,20 +26,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.material.snackbar.Snackbar;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.OrderItemAdapter;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
 import com.sahansachintha.meds.helper.data.OrderManager;
 import com.sahansachintha.meds.model.Order;
+import com.sahansachintha.meds.model.Product;
 import com.sahansachintha.meds.model.ProductItem;
+import com.sahansachintha.meds.model.User;
+import com.sahansachintha.meds.utils.TokenRefresher;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import lk.payhere.androidsdk.PHConfigs;
 import lk.payhere.androidsdk.PHConstants;
@@ -64,6 +74,10 @@ public class CheckoutActivity extends AppCompatActivity {
     // public static final String ORDER_ID = UUID.randomUUID().toString();
     public static final String ORDER_ID = OrderManager.generateOrderId();
     public static final double DELIVERY = 200;
+    public double totalPrice;
+
+    private ProductItem productItem;
+    private List<ProductItem> orderItems;
 
     private RecyclerView orderRecycler;
     private ImageView imgPrescription;
@@ -82,6 +96,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
         findViewById(R.id.checkout_back_btn).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
+        setProductItem();
+
         initOrderRecycler();
         getCustomer();
 
@@ -89,15 +105,27 @@ public class CheckoutActivity extends AppCompatActivity {
 
         imgPrescription = findViewById(R.id.checkout_prescription);
         imgPrescription.setOnClickListener(v -> selectImageFromGallery());
+
+        new TokenRefresher();
     }
 
+    @SuppressLint("SetTextI18n")
     private void getCustomer() {
+        User user = AppHelper.getInstance().getUserModel(CheckoutActivity.this);
+
         TextView customerName = findViewById(R.id.checkout_customer_name);
         TextView customerMobile = findViewById(R.id.checkout_customer_mobile);
         TextView address = findViewById(R.id.checkout_address);
-        customerName.setText("Sahan Sachintha");
-        customerMobile.setText("+94771234567");
-        address.setText("No.1, Galle Road, Main Street, Colombo.");
+        customerName.setText(user.getName());
+        customerMobile.setText(user.getMobile() != null ? user.getMobile() : user.getEmail());
+
+        if (user.getAddress() == null) {
+            Snackbar.make(findViewById(R.id.main), "Address not found", Snackbar.LENGTH_SHORT)
+                    .setAction("Add Address", (v) -> {
+                        NavigationHelper.getInstance().viewProfile(CheckoutActivity.this);
+                    }).show();
+        }
+        address.setText(user.getAddress() + ", " + user.getCity() + ", " + user.getCountry());
     }
 
     /* ImageSelection */
@@ -150,7 +178,7 @@ public class CheckoutActivity extends AppCompatActivity {
         File imageFile = new File(directory, fileName);
 
         try (InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                FileOutputStream fos = new FileOutputStream(imageFile)) {
+             FileOutputStream fos = new FileOutputStream(imageFile)) {
 
             byte[] buffer = new byte[4096];
             int bytesRead;
@@ -202,17 +230,35 @@ public class CheckoutActivity extends AppCompatActivity {
         orderRecycler
                 .setLayoutManager(new LinearLayoutManager(CheckoutActivity.this, LinearLayoutManager.VERTICAL, false));
 
-        OrderItemAdapter orderItemAdapter = new OrderItemAdapter(CartManager.getInstance().getCartItems(),
+        orderItems = new ArrayList<>();
+
+        if (productItem != null) {
+            orderItems.add(productItem);
+        } else {
+            orderItems.addAll(CartManager.getInstance().getCartItems());
+        }
+
+        OrderItemAdapter orderItemAdapter = new OrderItemAdapter(orderItems,
                 CheckoutActivity.this, item -> {
-                    Log.i(TAG, item.getProduct().getTitle());
-                });
+            Log.i(TAG, item.getProduct().getTitle());
+        });
         orderRecycler.setAdapter(orderItemAdapter);
 
         updateTotalPrice();
     }
 
+    private void setProductItem() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            productItem = getIntent().getSerializableExtra(NavigationHelper.PRODUCT_ITEM_EXTRA, ProductItem.class);
+        } else {
+            productItem = (ProductItem) getIntent().getSerializableExtra(NavigationHelper.PRODUCT_ITEM_EXTRA);
+        }
+    }
+
     private void updateTotalPrice() {
-        String subTotal = String.format(Locale.US, "LKR %.2f", CartManager.getInstance().getTotalPrice());
+        totalPrice = productItem != null ? Double.parseDouble(productItem.getProduct().getPrice()) * productItem.getQuantity() : CartManager.getInstance().getTotalPrice();
+
+        String subTotal = String.format(Locale.US, "LKR %.2f", totalPrice);
         TextView subTotalText = findViewById(R.id.checkout_subtotal);
         subTotalText.setText(subTotal);
 
@@ -220,7 +266,7 @@ public class CheckoutActivity extends AppCompatActivity {
         TextView deliveryText = findViewById(R.id.checkout_delivery);
         deliveryText.setText(delivery);
 
-        double totalValue = CartManager.getInstance().getTotalPrice() + DELIVERY;
+        double totalValue = totalPrice + DELIVERY;
         String total = String.format(Locale.US, "LKR %.2f", totalValue);
         TextView totalText = findViewById(R.id.checkout_total);
         totalText.setText(total);
@@ -231,7 +277,7 @@ public class CheckoutActivity extends AppCompatActivity {
             InitRequest req = new InitRequest();
             req.setMerchantId(MERCHANT_ID);
             req.setCurrency("LKR");
-            req.setAmount(CartManager.getInstance().getTotalPrice() + DELIVERY);
+            req.setAmount(totalPrice + DELIVERY);
             req.setOrderId(ORDER_ID);
 
             req.setItemsDescription("MyMeds Order");
@@ -305,15 +351,22 @@ public class CheckoutActivity extends AppCompatActivity {
 
                                     Order order = new Order.Builder()
                                             .setOrderId(ORDER_ID)
-                                            .setOrderItems(CartManager.getInstance().getCartItems())
+                                            .setOrderItems(orderItems)
+                                            .setCustomer(AppHelper.getInstance().getUserModel(CheckoutActivity.this))
                                             .setStatus("Paid")
                                             .setDelivery(DELIVERY)
                                             .build();
-                                    OrderManager.getInstance().addOrder(order);
-                                    CartManager.getInstance().clearCart();
 
-                                    NavigationHelper.getInstance().viewOrderComplete(this, order);
-                                    // Run Order Save API here
+                                    OrderManager.getInstance().addNewOrder(order).thenAccept(serverOrder -> {
+                                        if (productItem == null) {
+                                            CartManager.getInstance().clearCart();
+                                        }
+                                        NavigationHelper.getInstance().viewOrderComplete(this, serverOrder);
+                                    }).exceptionally(e -> {
+                                        Log.e("Main", "Error creating order", e);
+                                        Toast.makeText(this, "Error creating order", Toast.LENGTH_SHORT).show();
+                                        return null;
+                                    });
                                 } else {
                                     Log.e(TAG, "Payment Failed: " + response);
                                     Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();

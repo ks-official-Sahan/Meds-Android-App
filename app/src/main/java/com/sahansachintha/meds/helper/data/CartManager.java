@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.sahansachintha.meds.MyMeds;
 import com.sahansachintha.meds.helper.DatabaseHelper;
 import com.sahansachintha.meds.model.Cart;
 import com.sahansachintha.meds.model.Product;
@@ -24,14 +25,11 @@ public class CartManager {
     public static final String TAG = "MyMedsCartManager";
     private static volatile CartManager instance;
     private Cart cart;
-    private final CartApiService cartApiService;
-    private final Gson gson;
 
     private CartManager() {
+        // Initialize the local database helper (if not already initialized).
+        DatabaseHelper.init(MyMeds.getInstance().getApplicationContext());
         this.cart = loadCartFromDatabase();
-        cartApiService = new CartApiService();
-        gson = new Gson();
-        syncCartFromServer(); // Optionally sync on startup.
     }
 
     public static synchronized CartManager getInstance() {
@@ -41,7 +39,6 @@ public class CartManager {
         return instance;
     }
 
-
     // Add a product locally and sync with the server.
     public void addProduct(Product product, int quantity) {
         try {
@@ -49,21 +46,8 @@ public class CartManager {
                     .setCartItems(cart.getCartItems()) // Preserve existing items.
                     .addProduct(product, quantity)
                     .build();
-            // Optionally, persist cart locally.
-            // saveCartToDatabase();
-            // Call backend API.
-            cartApiService.addProduct(product.getId(), quantity, new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    Log.e(TAG, "Error adding product to server: " + e.getMessage());
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    Log.i(TAG, "Product added to server successfully.");
-                    response.close();
-                }
-            });
+            // Persist the updated cart locally.
+            saveCartToDatabase();
         } catch (IllegalArgumentException e) {
             Log.w(TAG, Objects.requireNonNull(e.getMessage()));
         }
@@ -77,18 +61,6 @@ public class CartManager {
                     .updateQuantity(product, quantity)
                     .build();
             saveCartToDatabase();
-            cartApiService.updateProduct(product.getId(), quantity, new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    Log.e(TAG, "Error updating product on server: " + e.getMessage());
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    Log.i(TAG, "Product updated on server successfully.");
-                    response.close();
-                }
-            });
         } catch (IllegalArgumentException e) {
             Log.w(TAG, Objects.requireNonNull(e.getMessage()));
         }
@@ -101,18 +73,6 @@ public class CartManager {
                 .removeProduct(productId)
                 .build();
         saveCartToDatabase();
-        cartApiService.removeProduct(productId, new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAG, "Error removing product on server: " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                Log.i(TAG, "Product removed on server successfully.");
-                response.close();
-            }
-        });
     }
 
     public List<ProductItem> getCartItems() {
@@ -132,18 +92,6 @@ public class CartManager {
         cart.clearCart();
         cart = new Cart.Builder().build(); // Reset cart.
         deleteCartFromDatabase();
-        cartApiService.clearCart(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAG, "Error clearing cart on server: " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                Log.i(TAG, "Cart cleared on server successfully.");
-                response.close();
-            }
-        });
     }
 
     public Cart getCart() {
@@ -164,33 +112,4 @@ public class CartManager {
         DatabaseHelper.deleteCart();
     }
 
-    // Sync the local cart with the backend.
-    public void syncCartFromServer() {
-        cartApiService.getCart(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAG, "Error fetching cart from server: " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    String jsonResponse = response.body().string();
-                    Log.i(TAG, "Fetched cart from server: " + jsonResponse);
-                    // Assuming the backend returns a JSON matching your Cart model.
-                    Cart serverCart = gson.fromJson(jsonResponse, Cart.class);
-                    Log.i(TAG, "Fetched cart from server: " + serverCart);
-                    if (serverCart != null) {
-                        cart = serverCart;
-                        //saveCartToDatabase();
-                        Log.i(TAG, "Cart synchronized from server.");
-                    }
-                } else {
-                    Log.e(TAG, "Failed to fetch cart from server, HTTP code: " + response.code());
-                }
-                response.close();
-            }
-        });
-    }
 }

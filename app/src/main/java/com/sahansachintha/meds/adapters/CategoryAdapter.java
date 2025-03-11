@@ -2,6 +2,7 @@ package com.sahansachintha.meds.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.card.MaterialCardView;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.model.Category;
@@ -54,10 +56,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.categoryTitle.setText(category.getName());
-        if (category.getImgId() != -1) {
+        if (category.getImgId() > 0 && category.getImage() == null) {
             holder.categoryImage.setImageResource(category.getImgId());
         } else if (category.getImage() != null) {
-            Glide.with(context).load(category.getImage()).placeholder(R.drawable.ic_medication).into(holder.categoryImage);
+            Glide.with(context)
+                    .load(category.getImage())
+                    .placeholder(R.drawable.ic_medication)
+                    .centerCrop()
+                    //.skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(holder.categoryImage);
         }
 
         if (position == selectedItem) {

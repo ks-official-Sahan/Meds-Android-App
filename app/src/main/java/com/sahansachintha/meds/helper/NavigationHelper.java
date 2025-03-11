@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.home.HomeActivity;
+import com.sahansachintha.meds.activity.store.CheckoutActivity;
 import com.sahansachintha.meds.activity.store.OrderCompleteActivity;
 import com.sahansachintha.meds.activity.store.OrderViewActivity;
 import com.sahansachintha.meds.activity.store.ProductViewActivity;
@@ -29,6 +30,7 @@ import com.sahansachintha.meds.fragment.navigation.SettingFragment;
 import com.sahansachintha.meds.fragment.navigation.StoreFragment;
 import com.sahansachintha.meds.model.Order;
 import com.sahansachintha.meds.model.Product;
+import com.sahansachintha.meds.model.ProductItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +41,7 @@ public class NavigationHelper {
     public static final String FRAGMENT_ID_EXTRA = "FRAGMENT_ID";
     public static final String ORDER_EXTRA = "order";
     public static final String PRODUCT_EXTRA = "product";
+    public static final String PRODUCT_ITEM_EXTRA = "product_item";
     public static final String TAG = "MyMedsNavigation";
     private static NavigationHelper navigationHelper;
 
@@ -83,6 +86,12 @@ public class NavigationHelper {
     public void viewProduct(@NonNull Context context, @NonNull Product product) {
         Intent intent = new Intent(context, ProductViewActivity.class);
         intent.putExtra(PRODUCT_EXTRA, product);
+        context.startActivity(intent);
+    }
+
+    public void buyProduct(@NonNull Context context, @NonNull ProductItem productItem) {
+        Intent intent = new Intent(context, CheckoutActivity.class);
+        intent.putExtra(PRODUCT_ITEM_EXTRA, productItem);
         context.startActivity(intent);
     }
 

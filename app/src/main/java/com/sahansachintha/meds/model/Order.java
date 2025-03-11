@@ -9,19 +9,29 @@ import java.util.List;
 
 public class Order implements Serializable {
     private final String orderId;
-    private final List<ProductItem> orderItems;
+    private List<ProductItem> orderItems = new ArrayList<>();
     private final double totalPrice;
     private final double delivery;
     private final String status;
     private final long timestamp;
+    private final User customer;
+    private String id;
 
     private Order(Builder builder) {
         this.orderId = builder.orderId;
-        this.orderItems = builder.orderItems;
+        this.orderItems = (builder.orderItems != null) ? builder.orderItems : new ArrayList<>();
         this.totalPrice = builder.totalPrice;
         this.delivery = builder.delivery;
         this.status = builder.status;
         this.timestamp = builder.timestamp;
+        this.customer = builder.customer;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getId() {
+        return id;
     }
 
     public String getOrderId() {
@@ -29,7 +39,15 @@ public class Order implements Serializable {
     }
 
     public List<ProductItem> getOrderItems() {
-        return orderItems;
+        return (orderItems != null) ? orderItems : new ArrayList<>();
+    }
+
+    public void setOrderItems(List<ProductItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public User getCustomer() {
+        return customer;
     }
 
     public double getTotalPrice() {
@@ -57,6 +75,7 @@ public class Order implements Serializable {
         //private long timestamp = System.currentTimeMillis();
         private long timestamp = Calendar.getInstance().getTimeInMillis();
         private double delivery = 0;
+        private User customer;
 
         public Builder setOrderId(String orderId) {
             this.orderId = orderId;
@@ -65,6 +84,11 @@ public class Order implements Serializable {
 
         public Builder setDelivery(double delivery) {
             this.delivery = delivery;
+            return this;
+        }
+
+        public Builder setCustomer(User user) {
+            this.customer = user;
             return this;
         }
 

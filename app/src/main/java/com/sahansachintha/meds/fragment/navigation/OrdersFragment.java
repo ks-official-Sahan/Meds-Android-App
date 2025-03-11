@@ -43,6 +43,7 @@ public class OrdersFragment extends Fragment {
         ordersRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         ordersRecycler.setHasFixedSize(true);
 
+        OrderManager.getInstance().loadOrdersFromServer();
         List<Order> orderList = OrderManager.getInstance().getAllOrders();
         view.findViewById(R.id.orders_empty_view).setVisibility(orderList.isEmpty() ? View.VISIBLE : View.GONE);
 

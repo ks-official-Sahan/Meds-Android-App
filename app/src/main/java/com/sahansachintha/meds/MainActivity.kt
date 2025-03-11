@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
     private fun sqliteInsert() {
         Thread {
             try {
@@ -64,4 +65,5 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
     }
+    */
 }

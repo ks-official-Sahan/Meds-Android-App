@@ -10,7 +10,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class ApiService {
-    private static final String DOMAIN = "https://2fae-2402-d000-8128-197c-6452-e649-aa9-6840.ngrok-free.app";
+    private static final String DOMAIN = "https://8d96-103-21-166-123.ngrok-free.app";
     private static final String BASE_URL = DOMAIN + "/api";
     private final OkHttpClient client;
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");

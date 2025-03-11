@@ -10,8 +10,15 @@ public class UpdateProfileRequest implements Serializable {
     private String city;
     private String country;
     private String profileImage;
-
+    private String location;
+    
     // Getters and Setters
+    public String getLocation() {
+        return location;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
     public String getName() {
         return name;
     }

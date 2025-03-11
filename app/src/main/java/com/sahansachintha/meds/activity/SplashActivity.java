@@ -49,6 +49,7 @@ import com.sahansachintha.meds.activity.home.HomeActivity;
 import com.sahansachintha.meds.helper.SQLiteHelper;
 import com.sahansachintha.meds.helper.data.MedicationManager;
 import com.sahansachintha.meds.helper.data.ReminderManager;
+import com.sahansachintha.meds.network.ProfileService;
 import com.sahansachintha.meds.utils.TokenRefresher;
 import com.sahansachintha.meds.helper.data.CategoryManager;
 import com.sahansachintha.meds.helper.data.ProductManager;
@@ -190,6 +191,7 @@ public class SplashActivity extends AppCompatActivity {
     /* Pending Intent */
 
     /* SQLite */
+    /*
     private void sqliteInsert() {
         new Thread(() -> {
             try {
@@ -317,6 +319,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }).start();
     }
+    */
     /* SQLite */
 
     /* Runtime Permissions */
@@ -441,6 +444,8 @@ public class SplashActivity extends AppCompatActivity {
         if (currentUser != null) {
             tokenRefresher = new TokenRefresher();
             tokenRefresher.start();
+
+            new ProfileService().fetchUser();
 
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
         } else {

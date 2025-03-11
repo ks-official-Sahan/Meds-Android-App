@@ -21,6 +21,8 @@ import com.sahansachintha.meds.activity.home.HomeActivity;
 import com.sahansachintha.meds.fragment.navigation.ProfileFragment;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.PermissionHelper;
+import com.sahansachintha.meds.helper.data.CartManager;
+import com.sahansachintha.meds.helper.data.OrderManager;
 
 public class StoreActivity extends AppCompatActivity {
 
@@ -45,6 +47,8 @@ public class StoreActivity extends AppCompatActivity {
         requestPermissions();
 
         getOnBackPressedDispatcher().addCallback(this, new StoreOnBackPressedCallback());
+        CartManager.getInstance();
+        OrderManager.getInstance();
     }
 
     private void setupEdgeToEdgeInsets() {

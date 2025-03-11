@@ -32,6 +32,19 @@ public class ProfileService {
         void onFailure(String errorMessage);
     }
 
+    public void fetchUser() {
+        loadProfile(new ProfileCallback() {
+            @Override
+            public void onSuccess(User user) {
+                if (user != null) AppHelper.getInstance().setUser(user);
+            }
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.w(TAG, "Fetching user failed: "+ errorMessage);
+            }
+        });
+    }
+
     public void loadProfile(ProfileCallback callback) {
         if (token == null) {
             callback.onFailure("No Firebase token found.");
@@ -72,7 +85,7 @@ public class ProfileService {
     }
 
     public void updateProfile(String name, String mobile, String address,
-                              String city, String country, String profileImage,
+                              String city, String country, String profileImage, String location,
                               UpdateProfileCallback callback) {
         if (token == null) {
             callback.onFailure("No Firebase token found.");
@@ -87,6 +100,7 @@ public class ProfileService {
         updateRequest.setCity(city);
         updateRequest.setCountry(country);
         updateRequest.setProfileImage(profileImage);
+        updateRequest.setLocation(location);
 
         Gson gson = new Gson();
         String jsonBody = gson.toJson(updateRequest);
@@ -103,6 +117,9 @@ public class ProfileService {
                     assert response.body() != null;
                     String jsonResponse = response.body().string();
                     User updatedUser = gson.fromJson(jsonResponse, User.class);
+
+                    AppHelper.getInstance().setUser(updatedUser);
+
                     callback.onSuccess(updatedUser);
                 } else {
                     callback.onFailure("Error: " + response.code());

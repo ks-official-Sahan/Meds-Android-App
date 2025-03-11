@@ -9,7 +9,7 @@ import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.network.ApiService;
 
 public class TokenRefresher {
-    private static final long INTERVAL = 59 * 60 * 1000; // 1 hour in milliseconds
+    private static final long INTERVAL = 50 * 60 * 1000; // 1 hour in milliseconds
     public final String TAG = "MyMedsTokenRefresher";
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable runnable = new Runnable() {

@@ -78,7 +78,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         }
 
         public void bind(Order order) {
-            orderIdText.setText(String.format(Locale.US, "Order ID: %s", order.getOrderId()));
+            orderIdText.setText(String.format(Locale.US, "Order ID: %s", (order.getId() != null) ? order.getId() : order.getOrderId()));
             orderTotalText.setText(String.format(Locale.US, "LKR %.2f", order.getTotalPrice()));
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);

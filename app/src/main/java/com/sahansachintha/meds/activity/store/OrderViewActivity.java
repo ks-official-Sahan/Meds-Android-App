@@ -1,5 +1,6 @@
 package com.sahansachintha.meds.activity.store;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.OrderItemAdapter;
+import com.sahansachintha.meds.helper.AppHelper;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.model.Order;
+import com.sahansachintha.meds.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,13 +47,13 @@ public class OrderViewActivity extends AppCompatActivity {
 
         setOrder();
 
-
         if (order != null) {
             initOrderRecycler();
         }
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setOrder() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             order = getIntent().getSerializableExtra(NavigationHelper.ORDER_EXTRA, Order.class);
@@ -61,7 +64,7 @@ public class OrderViewActivity extends AppCompatActivity {
         if (order != null) {
             // Toast.makeText(this, order.getOrderId(), Toast.LENGTH_SHORT).show();
             TextView orderID = findViewById(R.id.order_view_order_id);
-            orderID.setText(order.getOrderId());
+            orderID.setText((order.getId() != null) ? order.getId() : order.getOrderId());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
             Calendar calendar = Calendar.getInstance();
@@ -84,9 +87,11 @@ public class OrderViewActivity extends AppCompatActivity {
             TextView customerMobile = findViewById(R.id.order_view_customer_mobile);
             TextView customerAddress = findViewById(R.id.order_view_address);
 
-            //customerName.setText(order.getCustomer().getName());
-            //customerMobile.setText(order.getCustomer().getMobile());
-            //customerAddress.setText(order.getCustomer().getAddress());
+            //User user = order.getCustomer();
+            User user = AppHelper.getInstance().getUserModel();
+            customerName.setText(user.getName());
+            customerMobile.setText(user.getMobile());
+            customerAddress.setText(user.getAddress() + ", " + user.getCity() + ", " + user.getCountry());
         }
     }
 

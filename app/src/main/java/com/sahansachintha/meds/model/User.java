@@ -11,13 +11,14 @@ public class User implements Serializable {
     private String city;
     private String country;
     private String profileImage;
+    private String location;
 
     public User(String firebaseUid, String email) {
         this.firebaseUid = firebaseUid;
         this.email = email;
     }
 
-    public User(String firebaseUid, String email, String name, String mobile, String address, String city, String country, String profileImage) {
+    public User(String firebaseUid, String email, String name, String mobile, String address, String city, String country, String profileImage, String location) {
         this.firebaseUid = firebaseUid;
         this.email = email;
         this.name = name;
@@ -26,6 +27,7 @@ public class User implements Serializable {
         this.city = city;
         this.country = country;
         this.profileImage = profileImage;
+        this.location = location;
     }
 
     public String getFirebaseUid() {
@@ -34,6 +36,14 @@ public class User implements Serializable {
 
     public void setFirebaseUid(String firebaseUid) {
         this.firebaseUid = firebaseUid;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getEmail() {

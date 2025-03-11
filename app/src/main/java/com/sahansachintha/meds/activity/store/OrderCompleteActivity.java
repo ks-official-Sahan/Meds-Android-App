@@ -45,10 +45,9 @@ public class OrderCompleteActivity extends AppCompatActivity {
         }
 
         if (order != null) {
-            //Toast.makeText(this, order.getOrderId(), Toast.LENGTH_SHORT).show();
-            TextView orderID = findViewById(R.id.order_confirm_order_id);
-            orderID.setText(order.getOrderId());
-            TextView orderTotal = findViewById(R.id.order_confirm_order_total);
+            TextView orderID = findViewById(R.id.tvOrderId);
+            orderID.setText((order.getId() != null) ? order.getId() : order.getOrderId());
+            TextView orderTotal = findViewById(R.id.tvOrderTotal);
             orderTotal.setText(String.format(Locale.US, "LKR %.2f", order.getTotalPrice()));
         }
     }

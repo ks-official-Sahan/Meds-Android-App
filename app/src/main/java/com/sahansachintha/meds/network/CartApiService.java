@@ -13,7 +13,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class CartApiService {
-    // Base URL points to your NestJS cart endpoint (adjust as needed)
     private static final String BASE_URL = ApiService.getBaseUrl() + "/cart";
     public static final MediaType JSON_MEDIA_TYPE = ApiService.getTypeJSON();
 
@@ -21,7 +20,6 @@ public class CartApiService {
 
     private final OkHttpClient client;
     private final Gson gson;
-
     private final String token;
 
     public CartApiService() {
@@ -33,7 +31,6 @@ public class CartApiService {
         }
     }
 
-    // GET /cart: Fetch the current cart for the user.
     public void getCart(Callback callback) {
         Request request = new Request.Builder()
                 .url(BASE_URL)
@@ -43,7 +40,6 @@ public class CartApiService {
         client.newCall(request).enqueue(callback);
     }
 
-    // POST /cart/add: Add a product to the cart.
     public void addProduct(String productId, int quantity, Callback callback) {
         String url = BASE_URL + "/add";
         CartProductPayload payload = new CartProductPayload(productId, quantity);
@@ -57,7 +53,6 @@ public class CartApiService {
         client.newCall(request).enqueue(callback);
     }
 
-    // PUT /cart/update: Update the quantity of a product in the cart.
     public void updateProduct(String productId, int quantity, Callback callback) {
         String url = BASE_URL + "/update";
         CartProductPayload payload = new CartProductPayload(productId, quantity);
@@ -71,10 +66,8 @@ public class CartApiService {
         client.newCall(request).enqueue(callback);
     }
 
-    // DELETE /cart/remove: Remove a product from the cart.
     public void removeProduct(String productId, Callback callback) {
         String url = BASE_URL + "/remove";
-        // Sending payload to identify the product.
         CartProductPayload payload = new CartProductPayload(productId, 0);
         String json = gson.toJson(payload);
         RequestBody body = RequestBody.create(json, JSON_MEDIA_TYPE);
@@ -86,7 +79,6 @@ public class CartApiService {
         client.newCall(request).enqueue(callback);
     }
 
-    // DELETE /cart/clear: Remove all products from the cart.
     public void clearCart(Callback callback) {
         String url = BASE_URL + "/clear";
         Request request = new Request.Builder()
@@ -97,7 +89,6 @@ public class CartApiService {
         client.newCall(request).enqueue(callback);
     }
 
-    // Inner class representing the API payload for cart operations.
     private static class CartProductPayload {
         private String productId;
         private int quantity;

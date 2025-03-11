@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -59,13 +60,13 @@ public class StoreFragment extends Fragment implements SensorEventListener {
         view.findViewById(R.id.store_container).setAlpha(0);
         view.findViewById(R.id.store_container).setScaleX(0.1f);
         view.findViewById(R.id.store_container).setScaleY(0.1f);
-        view.findViewById(R.id.store_container).animate().alpha(1f).scaleY(1f).scaleX(1f).setDuration(1500).start();
+        view.findViewById(R.id.store_container).animate().alpha(1f).scaleY(1f).scaleX(1f).setDuration(500).start();
 
         initUI();
         setupSearchListener();
         setupSensor();
 
-        //new Handler().postDelayed(this::viewAll, 2000);
+        new Handler().postDelayed(this::viewAll, 1500);
 
         return view;
     }

@@ -2,6 +2,8 @@ package com.sahansachintha.meds.activity.store;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,12 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.adapters.ProductAdapter;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
 import com.sahansachintha.meds.helper.data.ProductManager;
 import com.sahansachintha.meds.model.Product;
+import com.sahansachintha.meds.model.ProductItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +66,22 @@ public class ProductViewActivity extends AppCompatActivity {
         setProduct();
         setupQuantity();
 
+        findViewById(R.id.product_view_add_cart_btn).setOnClickListener(v -> {
+            if (product != null) {
+                int quantity = Integer.parseInt(quantityField.getText().toString());
+                CartManager.getInstance().addProduct(product, quantity);
+
+                viewCustomSnackbar(v);
+                //Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         findViewById(R.id.product_view_buy_btn).setOnClickListener(v -> {
             if (product != null) {
                 int quantity = Integer.parseInt(quantityField.getText().toString());
                 CartManager.getInstance().addProduct(product, quantity);
-                Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show();
+
+                NavigationHelper.getInstance().buyProduct(this, new ProductItem(product, quantity));
             }
         });
 
@@ -74,6 +89,18 @@ public class ProductViewActivity extends AppCompatActivity {
 
         initProductRecycler();
     }
+
+    private void viewCustomSnackbar(View v) {
+        View layoutView = findViewById(R.id.product_view_container);
+        Snackbar.make(layoutView, "Added to Cart", Snackbar.LENGTH_LONG)
+                .setAction("View Cart", view -> {
+                    Log.i("MyMedsProductView", "View Cart");
+                    NavigationHelper.getInstance().viewCart(this);
+                })
+                .setAnchorView(v)
+                .show();
+    }
+
 
     private void setUpToolbar() {
         findViewById(R.id.product_view_back_btn).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());

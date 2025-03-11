@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cart implements Serializable {
-    private final List<ProductItem> cartItems;
+    private List<ProductItem> cartItems = new ArrayList<>();
 
     private Cart(Builder builder) {
-        this.cartItems = builder.productItems;
+        this.cartItems = (builder.productItems != null) ? builder.productItems : new ArrayList<>();
     }
 
     public List<ProductItem> getCartItems() {
-        return cartItems;
+        return (cartItems != null) ? cartItems : new ArrayList<>();
+    }
+
+    public void setCartItems(List<ProductItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     public double calculateTotal() {
@@ -30,10 +34,12 @@ public class Cart implements Serializable {
     public static class Builder {
         private List<ProductItem> productItems = new ArrayList<>();
 
-        // ✅ New method to retain existing cart items
+        // method to retain existing cart items
         public Builder setCartItems(List<ProductItem> existingItems) {
             if (existingItems != null) {
                 this.productItems = new ArrayList<>(existingItems);
+            } else {
+                this.productItems = new ArrayList<>();
             }
             return this;
         }

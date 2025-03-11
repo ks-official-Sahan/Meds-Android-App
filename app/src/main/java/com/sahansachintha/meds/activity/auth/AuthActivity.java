@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.home.HomeActivity;
 import com.sahansachintha.meds.helper.AppHelper;
+import com.sahansachintha.meds.model.User;
 import com.sahansachintha.meds.network.AuthService;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -82,7 +83,8 @@ public class AuthActivity extends AppCompatActivity {
                 authService.signUp(email, password, new AuthService.AuthCallback() {
                     @Override
                     public void onSuccess(FirebaseUser user) {
-                        //Toast.makeText(AuthActivity.this, "Signup successful!", Toast.LENGTH_SHORT).show();
+                        AppHelper.getInstance().setUser(AuthActivity.this, new User(user.getUid(), user.getEmail()));
+
                         openIntent(HomeActivity.class);
                         finish();
                     }
@@ -105,6 +107,8 @@ public class AuthActivity extends AppCompatActivity {
                             @Override
                             public void onTokenReceived(String token) {
                                 // Token is sent to backend automatically via AuthService.
+                                AppHelper.getInstance().setUser(AuthActivity.this, new User(user.getUid(), user.getEmail()));
+
                                 openIntent(HomeActivity.class);
                                 finish();
                             }
