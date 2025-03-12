@@ -46,6 +46,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orders.get(position);
         holder.bind(order);
+
+        holder.itemView.setAlpha(0f);
+        holder.itemView.animate().alpha(1f).setDuration(300).start();
+
+        holder.orderDateChip.setTranslationX(-20f);
+        holder.orderDateChip.animate().translationX(0f).setDuration(300).start();
     }
 
     @Override
@@ -61,12 +67,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     public class OrderViewHolder extends RecyclerView.ViewHolder {
-        private final TextView orderIdText, orderDateText, orderTotalText, orderStatusText;
+        private final TextView orderIdText, orderTotalText, orderStatusText;
+        private final com.google.android.material.chip.Chip orderDateChip;
+
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             orderIdText = itemView.findViewById(R.id.order_id);
-            orderDateText = itemView.findViewById(R.id.order_date);
+            orderDateChip = itemView.findViewById(R.id.order_date);
             orderTotalText = itemView.findViewById(R.id.order_total);
             orderStatusText = itemView.findViewById(R.id.order_status);
 
@@ -81,10 +89,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderIdText.setText(String.format(Locale.US, "Order ID: %s", (order.getId() != null) ? order.getId() : order.getOrderId()));
             orderTotalText.setText(String.format(Locale.US, "LKR %.2f", order.getTotalPrice()));
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault());
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(order.getTimestamp());
-            orderDateText.setText(dateFormat.format(calendar.getTime()));
+            String formattedDate = dateFormat.format(calendar.getTime());
+            orderDateChip.setText(formattedDate);
 
             orderStatusText.setText(order.getStatus());
             orderStatusText.setTextColor(getStatusColor(order.getStatus()));
@@ -92,8 +101,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         private int getStatusColor(String status) {
             if (status.equalsIgnoreCase("Paid")) return getThemeColor(context, R.attr.colorSuccess);
-            if (status.equalsIgnoreCase("Pending")) return getThemeColor(context, R.attr.colorAccent);
-            if (status.equalsIgnoreCase("Cancelled")) return getThemeColor(context, com.google.android.material.R.attr.colorError);
+            if (status.equalsIgnoreCase("Pending"))
+                return getThemeColor(context, R.attr.colorAccent);
+            if (status.equalsIgnoreCase("Cancelled"))
+                return getThemeColor(context, com.google.android.material.R.attr.colorError);
             return getThemeColor(context, R.attr.colorNeutral500);
         }
 

@@ -1,84 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/order_item_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="4dp"
+    android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
-    android:clipChildren="false"
-    android:clipToPadding="false"
+    app:cardElevation="4dp"
     app:strokeColor="?attr/colorNeutral100"
-    app:strokeWidth="1dp">
+    app:strokeWidth="1dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="6dp">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
+        <!-- Product Image -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardOrderImage"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_gravity="start|center_vertical"
             app:cardCornerRadius="10dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
                 android:id="@+id/order_item_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="top|center"
+                android:scaleType="centerCrop"
                 android:contentDescription="@string/title_medications"
-                android:importantForAccessibility="no"
-                android:scaleType="fitXY"
-                android:src="@drawable/med_asset_01" />
+                tools:srcCompat="@drawable/med_asset_01" />
         </com.google.android.material.card.MaterialCardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <!-- Order Title -->
+        <TextView
+            android:id="@+id/order_item_title"
+            style="?attr/textAppearanceTitleSmall"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="4dp"
-            android:paddingTop="0dp">
+            android:gravity="start"
+            android:maxLines="2"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/cardOrderImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            tools:text="@string/title" />
 
-            <TextView
-                android:id="@+id/order_item_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:maxLines="2"
-                tools:text="@string/title"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <!-- Order Price -->
+        <TextView
+            android:id="@+id/order_item_price"
+            style="?attr/textAppearanceBodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/order_item_title"
+            app:layout_constraintTop_toBottomOf="@id/order_item_title"
+            tools:text="@string/price" />
 
-            <TextView
-                android:id="@+id/order_item_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="@string/price"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_item_title" />
+        <!-- Order Quantity as a Chip -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/order_item_quantity_chip"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="12sp"
+            app:chipBackgroundColor="?attr/colorSurfaceVariant"
+            app:chipCornerRadius="8dp"
+            app:layout_constraintStart_toEndOf="@id/order_item_price"
+            app:layout_constraintBaseline_toBaselineOf="@id/order_item_price"
+            tools:text="× 1" />
 
-            <TextView
-                android:id="@+id/order_item_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="@string/_1"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/order_item_price" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

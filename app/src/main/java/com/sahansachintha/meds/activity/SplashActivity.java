@@ -5,14 +5,11 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,7 +43,6 @@ import com.sahansachintha.meds.MainActivity;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.auth.AuthActivity;
 import com.sahansachintha.meds.activity.home.HomeActivity;
-import com.sahansachintha.meds.helper.SQLiteHelper;
 import com.sahansachintha.meds.helper.data.MedicationManager;
 import com.sahansachintha.meds.helper.data.ReminderManager;
 import com.sahansachintha.meds.network.ProfileService;
@@ -369,7 +365,7 @@ public class SplashActivity extends AppCompatActivity {
 
     /* Static Animations */
     private void runAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.animation_1);
+        Animation animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.item_animation);
         findViewById(R.id.imageView).startAnimation(animation);
     }
     /* Static Animations */

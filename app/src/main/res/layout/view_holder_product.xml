@@ -1,95 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cart_item__holder"
     android:layout_width="160dp"
-    android:layout_height="230dp"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="12dp"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:foreground="?attr/selectableItemBackground"
     app:strokeColor="?attr/colorNeutral100"
-    app:strokeWidth="1dp">
+    app:strokeWidth="1dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp">
 
-    <com.google.android.material.card.MaterialCardView
+    <!-- Wrap children in a vertical LinearLayout for better stacking -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        app:cardElevation="8dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/cart_item_img"
+        <!-- Image Card (kept unchanged in size) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cart_item_img_card"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_gravity="top|center"
-            android:contentDescription="@string/title_medications"
-            android:importantForAccessibility="no"
-            android:scaleType="fitXY"
-            android:src="@drawable/med_asset_01" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            android:layout_marginBottom="4dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:cardElevation="8dp"
-        app:strokeColor="?attr/colorNeutral100"
-        app:strokeWidth="0.5dp">
+            <ImageView
+                android:id="@+id/cart_item_img"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:contentDescription="@string/title_medications"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY"
+                android:src="@drawable/med_asset_01" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- Text Information Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cart_item_text_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginVertical="4dp"
-            android:paddingTop="0dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-12dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:cardElevation="8dp"
+            app:strokeColor="?attr/colorNeutral100"
+            app:strokeWidth="0.5dp">
 
-            <TextView
-                android:id="@+id/cart_item_title"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="6dp"
-                android:gravity="start"
-                android:maxLines="2"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/cart_item_price"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Title" />
+                android:layout_margin="4dp">
 
-            <TextView
-                android:id="@+id/cart_item_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Price" />
+                <!-- Title taking full available width -->
+                <TextView
+                    android:id="@+id/cart_item_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/cart_item_price"
+                    tools:text="Title" />
 
-            <TextView
-                android:id="@+id/cart_item_category"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:maxLines="1"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/cart_item_price"
-                app:layout_constraintEnd_toStartOf="@+id/cart_item_price"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cart_item_price"
-                tools:text="Category" />
+                <!-- Price Text aligned to bottom end -->
+                <TextView
+                    android:id="@+id/cart_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Price" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <!-- Category Text taking remaining space beside price -->
+                <TextView
+                    android:id="@+id/cart_item_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:maxLines="1"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cart_item_price"
+                    app:layout_constraintBottom_toBottomOf="@id/cart_item_price"
+                    app:layout_constraintEnd_toStartOf="@id/cart_item_price"
+                    tools:text="Category" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

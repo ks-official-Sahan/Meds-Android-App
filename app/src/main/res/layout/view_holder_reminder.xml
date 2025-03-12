@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reminder_holder_card"
     android:layout_width="match_parent"
     android:layout_height="85dp"
-    android:layout_marginHorizontal="4dp"
+    android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="4dp"
+    android:foreground="?attr/selectableItemBackground"
     android:clipChildren="false"
     android:clipToPadding="false"
     app:cardCornerRadius="24dp"
@@ -14,6 +16,7 @@
     app:strokeColor="?attr/colorNeutral100"
     app:strokeWidth="1.5dp">
 
+    <!-- Invisible ID, useful for animation tracking -->
     <TextView
         android:id="@+id/reminder_id"
         android:layout_width="wrap_content"
@@ -24,7 +27,6 @@
         android:textStyle="bold"
         android:visibility="invisible" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,17 +34,15 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:paddingHorizontal="6dp"
+        android:paddingHorizontal="12dp"
         android:paddingVertical="8dp">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
-            android:outlineAmbientShadowColor="?attr/colorNeutral200"
-            android:outlineSpotShadowColor="?attr/colorNeutral200"
-            app:cardElevation="1dp"
-            app:cardCornerRadius="20dp">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/reminder_img"
@@ -74,7 +74,6 @@
                 app:layout_constraintEnd_toStartOf="@+id/reminder_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
             <TextView
                 android:id="@+id/reminder_note"

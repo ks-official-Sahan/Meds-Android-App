@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.Chip;
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.model.ProductItem;
 
@@ -45,16 +46,27 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         ProductItem orderItem = orderItems.get(position);
 
         holder.orderTitle.setText(orderItem.getProduct().getTitle());
-        holder.orderQuantity.setText(String.format(Locale.US, "%d", orderItem.getQuantity()));
-        holder.orderPrice.setText(String.format(Locale.US, "LKR %.2f", (Double.parseDouble(orderItem.getProduct().getPrice()) * orderItem.getQuantity())));
+        holder.orderPrice.setText(String.format(Locale.US, "LKR %.2f",
+                (Double.parseDouble(orderItem.getProduct().getPrice()) * orderItem.getQuantity())));
+        holder.orderQuantityChip.setText(String.format(Locale.US, "× %d", orderItem.getQuantity()));
 
         Glide.with(context)
                 .load(orderItem.getProduct().getImage())
-                .placeholder(R.drawable.placeholder_image) // Use a default placeholder
+                .placeholder(R.drawable.placeholder_image)
                 .into(holder.orderImage);
 
         holder.orderHolder.setOnClickListener(v -> listener.onOderItemClick(orderItem));
 
+        // Apply a fade-in and scale animation for a dynamic appearance
+        holder.itemView.setAlpha(0f);
+        holder.itemView.setScaleX(0.95f);
+        holder.itemView.setScaleY(0.95f);
+        holder.itemView.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(300)
+                .start();
     }
 
     @Override
@@ -62,9 +74,9 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         return orderItems.size();
     }
 
-    // ViewHolder
     public static class OrderItemViewHolder extends RecyclerView.ViewHolder {
-        TextView orderTitle, orderPrice, orderQuantity;
+        TextView orderTitle, orderPrice;
+        Chip orderQuantityChip;
         ImageView orderImage;
         MaterialCardView orderHolder;
 
@@ -72,7 +84,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
             super(itemView);
             orderTitle = itemView.findViewById(R.id.order_item_title);
             orderPrice = itemView.findViewById(R.id.order_item_price);
-            orderQuantity = itemView.findViewById(R.id.order_item_quantity);
+            orderQuantityChip = itemView.findViewById(R.id.order_item_quantity_chip);
             orderImage = itemView.findViewById(R.id.order_item_img);
             orderHolder = itemView.findViewById(R.id.order_item_holder);
         }

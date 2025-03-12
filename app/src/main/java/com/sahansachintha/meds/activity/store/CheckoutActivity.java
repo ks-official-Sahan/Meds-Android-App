@@ -34,7 +34,6 @@ import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.CartManager;
 import com.sahansachintha.meds.helper.data.OrderManager;
 import com.sahansachintha.meds.model.Order;
-import com.sahansachintha.meds.model.Product;
 import com.sahansachintha.meds.model.ProductItem;
 import com.sahansachintha.meds.model.User;
 import com.sahansachintha.meds.utils.TokenRefresher;
@@ -47,7 +46,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import lk.payhere.androidsdk.PHConfigs;
 import lk.payhere.androidsdk.PHConstants;

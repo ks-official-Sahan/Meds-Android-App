@@ -6,6 +6,8 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +73,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             holder.reminderImg.setImageResource(R.drawable.ic_reminder);
             holder.reminderImg.setImageTintMode(PorterDuff.Mode.SRC_IN);
         }
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.item_animation);
+        holder.itemView.startAnimation(animation);
+
         holder.reminderHolderCard.setOnClickListener(v -> {
             Toast.makeText(context, reminder.getTitle(), Toast.LENGTH_SHORT).show();
             if (listener != null) {
@@ -88,6 +94,12 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     public void updateData(List<Reminder> newReminders) {
         this.reminderList = newReminders;
         notifyDataSetChanged();
+    }
+
+    // Helper method for swipe-to-delete
+    public void removeItem(int position) {
+        reminderList.remove(position);
+        notifyItemRemoved(position);
     }
 
     private String getFormattedTime(Date date) {

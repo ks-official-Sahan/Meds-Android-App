@@ -5,93 +5,91 @@
     android:id="@+id/order_item_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="4dp"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="12dp"
-    android:clipChildren="false"
-    android:clipToPadding="false"
+    app:cardElevation="2dp"
     app:strokeColor="?attr/colorNeutral100"
     app:strokeWidth="1dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="6dp">
+        android:layout_height="wrap_content"
+        android:padding="12dp">
 
+        <!-- Order Image Card -->
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="60dp"
-            android:layout_height="76dp"
-            android:layout_gravity="start|center_vertical"
+            android:id="@+id/cardOrderImage"
+            android:layout_width="70dp"
+            android:layout_height="80dp"
             app:cardCornerRadius="10dp"
-            app:cardElevation="1dp">
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/order_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="top|center"
                 android:contentDescription="@string/title_medications"
-                android:importantForAccessibility="no"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_orders" />
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_orders" />
         </com.google.android.material.card.MaterialCardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <!-- Order Date as a Chip (Eye-Catching) -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/order_date"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="12sp"
+            app:chipBackgroundColor="?attr/colorSurfaceVariant"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/order_status"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/cardOrderImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Feb 21, 2025 14:30" />
+
+        <!-- Order Status (Top Right) -->
+        <TextView
+            android:id="@+id/order_status"
+            style="?attr/textAppearanceCaption"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="4dp"
-            android:paddingTop="0dp">
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Paid" />
 
-            <TextView
-                android:id="@+id/order_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_date"
-                tools:text="Order ID: #12345" />
+        <!-- Order ID (Bottom Left) -->
+        <TextView
+            android:id="@+id/order_id"
+            style="?attr/textAppearanceSubtitle1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/order_total"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/order_date"
+            app:layout_constraintTop_toBottomOf="@id/order_date"
+            tools:text="Order ID: #12345" />
 
-            <TextView
-                android:id="@+id/order_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/order_id"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Date: 2025-02-21 14:30" />
+        <!-- Order Total (Bottom Right) -->
+        <TextView
+            android:id="@+id/order_total"
+            style="?attr/textAppearanceSubtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_status"
+            tools:text="LKR 3500.00" />
 
-            <TextView
-                android:id="@+id/order_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                tools:text="Total: LKR 3500.00"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/order_status"
-                app:layout_constraintTop_toBottomOf="@+id/order_status" />
-
-            <TextView
-                android:id="@+id/order_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                tools:text="Status: Paid"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

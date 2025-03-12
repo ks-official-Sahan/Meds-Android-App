@@ -6,53 +6,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:padding="2dp"
-    android:paddingBottom="0dp"
+    android:clipToPadding="false"
+    android:padding="8dp"
     tools:context=".fragment.navigation.HomeFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
-        android:fillViewport="true"> <!-- Ensures the scroll view fills the available space -->
+        android:clipToPadding="false"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
-            android:paddingBottom="4dp">
+            android:clipToPadding="false"
+            android:paddingBottom="8dp">
 
-            <EditText
-                android:id="@+id/home_search"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="16dp"
+            <!-- Search Bar with TextInputLayout -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/home_search_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:autofillHints="Reminder name, time, date | Medication name"
-                android:background="@drawable/background_rounded"
+                android:layout_marginEnd="16dp"
                 android:hint="@string/search_home"
-                android:inputType="text"
-                android:paddingHorizontal="24dp"
-                android:paddingBottom="1dp"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:hintEnabled="true"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <!--  Dates  -->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/home_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:inputType="text"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Dates RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/date_recycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_search" />
-            <!--  Dates  -->
+                app:layout_constraintTop_toBottomOf="@id/home_search_layout" />
 
-            <!--  Reminders  -->
+            <!-- Reminders Section Header -->
             <TextView
                 android:id="@+id/reminder_text"
                 android:layout_width="wrap_content"
@@ -63,8 +80,9 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date_recycler" />
+                app:layout_constraintTop_toBottomOf="@id/date_recycler" />
 
+            <!-- View All for Reminders -->
             <TextView
                 android:id="@+id/reminder_view_all_home"
                 android:layout_width="wrap_content"
@@ -74,46 +92,50 @@
                 android:textColor="?attr/colorTintHigh"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/reminder_refresh_home"
+                app:layout_constraintBottom_toBottomOf="@+id/reminder_text"
                 app:layout_constraintEnd_toStartOf="@+id/reminder_refresh_home"
-                app:layout_constraintTop_toTopOf="@+id/reminder_refresh_home" />
+                app:layout_constraintTop_toTopOf="@id/reminder_text" />
 
+            <!-- Reminders Refresh Icon -->
             <ImageView
                 android:id="@+id/reminder_refresh_home"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/refresh"
-                android:importantForAccessibility="no"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_refresh"
                 app:layout_constraintBottom_toBottomOf="@+id/reminder_text"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/reminder_text"
+                app:layout_constraintTop_toTopOf="@id/reminder_text"
                 app:tint="?attr/colorTintMid" />
 
+            <!-- Reminders Container -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/reminder_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:clipChildren="false"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reminder_text">
+                app:layout_constraintTop_toBottomOf="@id/reminder_text">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/reminder_recycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:visibility="gone" />
 
-                <!--  No Reminders  -->
+                <!-- No Reminders View -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/reminder_empty_view_home"
                     android:layout_width="250dp"
@@ -123,42 +145,38 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:id="@+id/empty_reminders_img_home"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginBottom="20dp"
                         android:contentDescription="@string/no_reminders"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_reminder"
-                        app:tint="?attr/colorTintHigh"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/empty_reminders_text_home"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.5" />
+                        app:layout_constraintVertical_bias="0.5"
+                        app:tint="?attr/colorTintHigh" />
 
                     <TextView
+                        android:id="@+id/empty_reminders_text_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/no_reminders"
+                        android:textColor="?attr/colorTintHigh"
                         android:textSize="25sp"
                         android:textStyle="italic"
-                        android:textColor="?attr/colorTintHigh"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/empty_reminders_img_home" />
-
+                        app:layout_constraintTop_toBottomOf="@id/empty_reminders_img_home" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <!--  No Reminders  -->
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <!--  Reminders  -->
+            <!-- End Reminders Section -->
 
-            <!--  Medications  -->
+            <!-- Medications Section Header -->
             <TextView
                 android:id="@+id/medication_text"
                 android:layout_width="wrap_content"
@@ -169,8 +187,9 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reminder_container" />
+                app:layout_constraintTop_toBottomOf="@id/reminder_container" />
 
+            <!-- View All for Medications -->
             <TextView
                 android:id="@+id/medication_view_all_home"
                 android:layout_width="wrap_content"
@@ -180,46 +199,50 @@
                 android:textColor="?attr/colorTintHigh"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/medication_refresh_home"
-                app:layout_constraintEnd_toStartOf="@+id/medication_refresh_home"
-                app:layout_constraintTop_toTopOf="@+id/medication_refresh_home" />
+                app:layout_constraintBottom_toBottomOf="@+id/medication_text"
+                app:layout_constraintEnd_toStartOf="@id/medication_refresh_home"
+                app:layout_constraintTop_toTopOf="@id/medication_text" />
 
+            <!-- Medications Refresh Icon -->
             <ImageView
                 android:id="@+id/medication_refresh_home"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/refresh"
-                android:importantForAccessibility="no"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_refresh"
                 app:layout_constraintBottom_toBottomOf="@+id/medication_text"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/medication_text"
+                app:layout_constraintTop_toTopOf="@id/medication_text"
                 app:tint="?attr/colorTintMid" />
 
+            <!-- Medications Container -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/medication_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:clipChildren="false"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/medication_text">
+                app:layout_constraintTop_toBottomOf="@id/medication_text">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/medication_recycler"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     tools:visibility="gone" />
 
-                <!--  No Medications  -->
+                <!-- No Medications View -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/medication_empty_view_home"
                     android:layout_width="250dp"
@@ -229,123 +252,64 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:id="@+id/empty_medications_img_home"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginBottom="20dp"
                         android:contentDescription="@string/no_medications"
-                        app:tint="?attr/colorTintHigh"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_medication"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/empty_medications_text_home"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.5" />
+                        app:layout_constraintVertical_bias="0.5"
+                        app:tint="?attr/colorTintHigh" />
 
                     <TextView
+                        android:id="@+id/empty_medications_text_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/no_medications"
+                        android:textColor="?attr/colorTintHigh"
                         android:textSize="25sp"
                         android:textStyle="italic"
-                        android:textColor="?attr/colorTintHigh"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/empty_medications_img_home" />
-
+                        app:layout_constraintTop_toBottomOf="@id/empty_medications_img_home" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <!--  No Medications  -->
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <!--  Medications  -->
+            <!-- End Medications Section -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!--  Today Btn  -->
+    <!-- Floating Action Button for Today -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_today"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="76dp"
         android:backgroundTint="?attr/colorTint"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitXY"
-        android:visibility="visible"
         app:srcCompat="@drawable/ic_today"
-        app:tint="?attr/colorTintHigh"
-        tools:visibility="visible" />
+        app:tint="?attr/colorTintHigh" />
 
-    <!--    <com.google.android.material.card.MaterialCardView-->
-    <!--        android:id="@+id/btn_today"-->
-    <!--        android:layout_width="60dp"-->
-    <!--        android:layout_height="60dp"-->
-    <!--        android:layout_gravity="bottom|end"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:layout_marginBottom="78dp"-->
-    <!--        android:visibility="gone"-->
-    <!--        app:cardBackgroundColor="?attr/colorTint"-->
-    <!--        app:cardCornerRadius="16dp"-->
-    <!--        app:strokeColor="?attr/colorNeutral300"-->
-    <!--        app:strokeWidth="2dp"-->
-    <!--        tools:visibility="visible">-->
-
-    <!--        <ImageView-->
-    <!--            android:layout_width="32dp"-->
-    <!--            android:layout_height="32dp"-->
-    <!--            android:layout_gravity="center"-->
-    <!--            android:importantForAccessibility="no"-->
-    <!--            android:src="@drawable/ic_today"-->
-    <!--            android:tintMode="src_in"-->
-    <!--            app:tint="?attr/colorTintHigh" />-->
-    <!--    </com.google.android.material.card.MaterialCardView>-->
-    <!--  Today Btn  -->
-
-
-    <!--  Shop Btn  -->
+    <!-- Floating Action Button for Shop -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="?attr/colorTint"
         android:contentDescription="@string/app_name"
-        android:visibility="visible"
         app:srcCompat="@drawable/ic_shop"
-        app:tint="?attr/colorTintHigh"
-        tools:visibility="visible" />
+        app:tint="?attr/colorTintHigh" />
 
-    <!--        <com.google.android.material.card.MaterialCardView-->
-    <!--            android:id="@+id/btn_shop"-->
-    <!--            android:layout_width="60dp"-->
-    <!--            android:layout_height="60dp"-->
-    <!--            android:layout_gravity="bottom|end"-->
-    <!--            android:layout_marginEnd="8dp"-->
-    <!--            android:layout_marginBottom="12dp"-->
-    <!--            android:visibility="gone"-->
-    <!--            app:cardBackgroundColor="?attr/colorTint"-->
-    <!--            app:cardCornerRadius="16dp"-->
-    <!--            app:strokeColor="?attr/colorNeutral300"-->
-    <!--            tools:visibility="visible"-->
-    <!--            app:strokeWidth="2dp">-->
-
-    <!--            <ImageView-->
-    <!--                android:layout_width="32dp"-->
-    <!--                android:layout_height="32dp"-->
-    <!--                android:layout_gravity="center"-->
-    <!--                android:importantForAccessibility="no"-->
-    <!--                android:src="@drawable/ic_shop"-->
-    <!--                android:tintMode="src_in"-->
-    <!--                app:tint="?attr/colorTint" />-->
-    <!--        </com.google.android.material.card.MaterialCardView>-->
-    <!--  Shop Btn  -->
 </FrameLayout>

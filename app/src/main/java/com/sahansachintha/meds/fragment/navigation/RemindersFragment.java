@@ -1,9 +1,13 @@
 package com.sahansachintha.meds.fragment.navigation;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
 
 import com.sahansachintha.meds.R;
 import com.sahansachintha.meds.activity.home.AddReminderActivity;
@@ -18,6 +25,7 @@ import com.sahansachintha.meds.activity.store.StoreActivity;
 import com.sahansachintha.meds.adapters.DateAdapter;
 import com.sahansachintha.meds.adapters.ReminderAdapter;
 import com.sahansachintha.meds.helper.AlarmHelper;
+import com.sahansachintha.meds.helper.GenericSwipeCallback;
 import com.sahansachintha.meds.helper.NavigationHelper;
 import com.sahansachintha.meds.helper.data.DateManager;
 import com.sahansachintha.meds.helper.data.ReminderManager;
@@ -52,6 +60,8 @@ public class RemindersFragment extends Fragment {
         initDateRecycler();
         initReminderRecycler();
         setUpListeners();
+
+        attachSwipeAction();
 
         /* return view */
         return view;
@@ -107,10 +117,16 @@ public class RemindersFragment extends Fragment {
         LinearLayoutManager reminderLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         reminderRecycler.setLayoutManager(reminderLayoutManager);
 
+        // Apply layout animation for a smooth appearance.
+        LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation_fall_down);
+        reminderRecycler.setLayoutAnimation(controller);
+        reminderRecycler.setItemAnimator(new DefaultItemAnimator());
+
         reminderData = new ArrayList<>(ReminderManager.getInstance().getAllReminders());
         toggleView(R.id.reminders_empty_view, reminderData.isEmpty());
 
-        reminderAdapter = new ReminderAdapter(ReminderManager.getInstance().getAllReminders(), getContext());
+        reminderAdapter = new ReminderAdapter(reminderData, getContext());
         reminderRecycler.setAdapter(reminderAdapter);
     }
 
@@ -164,14 +180,36 @@ public class RemindersFragment extends Fragment {
         updateReminders(getReminderData());
     }
 
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        try {
-//            getActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
-//        } catch (NullPointerException e) {
-//            Log.e("MyMedsReminders", "Cannot Find Resource with ID R.id.fab in RemindersFragment");
-//        }
-//    }
+    private void attachSwipeAction() {
+        // Right swipe: mark as done; left swipe: delete
+        GenericSwipeCallback.SwipeActionListener swipeListener = new GenericSwipeCallback.SwipeActionListener() {
+            @Override
+            public void onSwipeRight(int position) {
+                Reminder reminder = reminderData.get(position);
+                Toast.makeText(getContext(), "Marked as done: " + reminder.getTitle(), Toast.LENGTH_SHORT).show();
+                // In a real app, update the status and persist the change
+                reminderAdapter.notifyItemChanged(position);
+            }
 
+            @Override
+            public void onSwipeLeft(int position) {
+                Reminder reminder = reminderData.get(position);
+                Toast.makeText(getContext(), "Deleted: " + reminder.getTitle(), Toast.LENGTH_SHORT).show();
+                reminderAdapter.removeItem(position);
+            }
+        };
+
+        GenericSwipeCallback swipeCallback = new GenericSwipeCallback(
+                getContext(),
+                swipeListener,
+                ContextCompat.getDrawable(getContext(), R.drawable.ic_delete), // left icon for delete
+                Color.parseColor("#F44336"),                                // left background (red)
+                "Delete",                                                   // left text
+                ContextCompat.getDrawable(getContext(), R.drawable.ic_done),   // right icon for done
+                Color.parseColor("#4CAF50"),                                // right background (green)
+                "Done"                                                      // right text
+        ) {};
+
+        new ItemTouchHelper(swipeCallback).attachToRecyclerView(reminderRecycler);
+    }
 }
